@@ -20,7 +20,7 @@ Versão de produção: `npm run build` gera o site estático em `out/`. Todo pus
 
 | Rota | O que tem |
 | --- | --- |
-| `/` | Hero com foto em shader WebGL (água ondulando, reflexos dourados, parallax e onda que segue o cursor/toque) e barra de reserva, diferenciais, quartos e flats, experiências, galeria em carrossel, como chegar e dúvidas, chamada final e rodapé completo |
+| `/` | Hero com foto em shader WebGL (água ondulando, reflexos dourados, parallax e onda que segue o cursor/toque) e barra de reserva, diferenciais, quartos e flats, experiências, galeria em rolo de filme, como chegar e dúvidas, chamada final e rodapé completo |
 | `/acomodacoes` e `/acomodacoes/[slug]` | As três acomodações com fotos reais e a tabela oficial de diárias |
 | `/pesca` | Pesca esportiva exclusiva para hóspedes (R$ 50 por pessoa/diária, 24 horas), regras e iscas permitidas, link para o Recanto do Pirarucu |
 | `/reservar` | Orçamento em 3 passos (datas e hóspedes, acomodação e pesca, seus dados) com resumo ao vivo, sinal de 50% e envio por WhatsApp. Abaixo, orçamento de day use nas piscinas |
@@ -33,6 +33,7 @@ Cores, logo e tipografia seguem o manual da marca: verde `#364339`, creme `#d6cd
 
 - `components/ShaderFoto.tsx`: shader WebGL leve (sem bibliotecas 3D) aplicado às fotos do hero e da chamada final. Pausa fora da tela, usa resolução menor no celular e volta para a foto estática quando não há WebGL, com economia de dados ou com "reduzir movimento" ligado.
 - `components/VideoDrone.tsx`: seção "Visto do alto" na home com as imagens de drone em loop, sem som (`public/video/drone-loop.mp4`, 27 s, 1,6 MB), que só toca quando aparece na tela. O botão abre o vídeo completo com som (`public/video/tour-completo.mp4`, 1 min, 4,8 MB), carregado só no clique. Com "reduzir movimento" ou economia de dados fica só a capa.
+- `components/GaleriaRolo.tsx` (fotos em `lib/galeria.ts`): galeria em rolo de filme, adaptada do modelo "Shutter Roll" (licença MIT). Fotos reveladas caem numa mesa verde e seguem o ponteiro; a rolagem mergulha numa delas até a tela cheia e passa por seis ambientes com legenda; no fim, o rolo completo com todas as fotos, filtro por ambiente e ampliação.
 - Parallax pela rolagem nas fotos dos cartões e no texto do hero (`Parallax` em `components/Motion.tsx`).
 
 ## Dados oficiais
