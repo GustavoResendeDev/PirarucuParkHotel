@@ -5,7 +5,7 @@ import { Foto } from "@/components/Foto";
 import { Parallax, Reveal } from "@/components/Motion";
 import { ShaderFoto } from "@/components/ShaderFoto";
 import { CabecalhoSecao } from "@/components/Secao";
-import { CarrosselMomentos, type Momento } from "@/components/CarrosselMomentos";
+import { GaleriaRolo } from "@/components/GaleriaRolo";
 import { VideoDrone } from "@/components/VideoDrone";
 import { IconeBanheira, IconeCafe, IconeCama, IconeLago, IconePesca, IconePiscina, IconeSemBebida } from "@/components/Icones";
 import { ACOMODACOES, HOTEL, PESCA } from "@/lib/data";
@@ -32,16 +32,6 @@ const EXPERIENCIAS = [
   { Icone: IconeCafe, src: "/fotos/cafe-001.webp", alt: "Mesa do café da manhã com melancia, mamão, melão e pães", nome: "Café da manhã", texto: "Frutas, pães, bolos e sucos, incluso em toda diária.", href: "/acomodacoes" },
 ];
 
-const MOMENTOS: Momento[] = [
-  { src: "/fotos/recepcao.webp", alt: "Recepção com balcão de mármore verde e o pirarucu dourado na parede", titulo: "Chegada", texto: "Recepção com mármore verde e o pirarucu dourado, símbolo da casa." },
-  { src: "/fotos/lobby.webp", alt: "Lobby com sofá curvo, jardim interno e escada", titulo: "Lobby e jardim interno", texto: "Um respiro verde logo na entrada, para esperar com calma." },
-  { src: "/fotos/lounge-001.webp", alt: "Lounge do mezanino com sofás curvos, mesas e janelas de vidro para o verde", titulo: "Lounge do mezanino", texto: "Sofás, mesas e janelões para ler, conversar ou ver o fim de tarde." },
-  { src: "/fotos/cafe-000.webp", alt: "Pães de coco, sucos e café no buffet da manhã", titulo: "Café da manhã", texto: "Pães, frutas, sucos e bolos para começar o dia sem pressa." },
-  { src: "/fotos/deluxe-004.webp", alt: "Sala do Deluxe Flat com sofá e janela para o lago", titulo: "Espaço para a família", texto: "Flats com sala e quarto separados para ficar mais dias." },
-  { src: "/fotos/peixe-janela.webp", alt: "Escultura do pirarucu em metal dourado numa abertura da parede de pedra", titulo: "Detalhes da marca", texto: "O pirarucu aparece em cada canto, em metal e luz." },
-  { src: "/fotos/bones.webp", alt: "Bonés verdes com o pirarucu e o nome do hotel bordados", titulo: "Lembrança da casa", texto: "O pirarucu bordado para levar a viagem com você." },
-  { src: "/fotos/logo-pedra-noite.webp", alt: "Logo do hotel iluminado na parede de pedra", titulo: "Boa noite", texto: "Fim de dia tranquilo, com o lago logo ali." },
-];
 
 export default function Home() {
   return (
@@ -134,26 +124,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Momentos (galeria) */}
-      <section id="galeria" className="scroll-mt-20 bg-marfim py-24 md:py-32">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <CabecalhoSecao
-            sobre="Por dentro do hotel"
-            titulo="Ambientes que ficam na memória"
-            texto={
-              <>
-                Mais fotos no{" "}
-                <a href={HOTEL.instagramHotel} target="_blank" rel="noopener" className="text-verde underline decoration-dourado underline-offset-4 hover:decoration-2">
-                  @pirarucuparkhotel
-                </a>
-              </>
-            }
-          />
-          <div className="mt-14">
-            <CarrosselMomentos itens={MOMENTOS} />
-          </div>
-        </div>
-      </section>
+      {/* Galeria em rolo de filme */}
+      <GaleriaRolo />
 
       {/* Como chegar + dúvidas */}
       <section id="localizacao" className="scroll-mt-20 bg-areia-clara py-24 md:py-32">
