@@ -1,20 +1,36 @@
 import Link from "next/link";
 import { Hero } from "@/components/Hero";
 import { AcomodacoesHorizontal } from "@/components/AcomodacoesHorizontal";
-import { Experiencias } from "@/components/Experiencias";
 import { Faq } from "@/components/Faq";
 import { Foto } from "@/components/Foto";
-import { Contador, Magnetic, Marquee, Parallax, Reveal, ScrollFillText, SplitText } from "@/components/Motion";
+import { Parallax, Reveal } from "@/components/Motion";
 import { RevelarImagem } from "@/components/RevelarImagem";
-import { HOTEL, NUMEROS } from "@/lib/data";
+import { TituloMarca } from "@/components/TituloMarca";
+import { PalmeiraFachada } from "@/components/Ilustracao";
+import { Padrao } from "@/components/Padrao";
+import { Logo } from "@/components/Logo";
+import { IconeCafe, IconePesca, IconePiscina, IconeRestaurante, IconeSemBebida } from "@/components/Icones";
+import { HOTEL, PESCA } from "@/lib/data";
+import { brl } from "@/lib/reserva";
 
-const GALERIA: { src: string; alt: string; paleta: [string, string]; classe: string }[] = [
-  { src: "/fotos/galeria-1.jpg", alt: "Lago ao amanhecer", paleta: ["#5b7c78", "#1b2b2d"], classe: "md:col-span-2 md:row-span-2" },
-  { src: "/fotos/galeria-2.jpg", alt: "Pescador com pirarucu", paleta: ["#8a6a3c", "#2e2414"], classe: "" },
-  { src: "/fotos/galeria-3.jpg", alt: "Piscina", paleta: ["#6f9fb0", "#24414f"], classe: "" },
-  { src: "/fotos/galeria-4.jpg", alt: "Quarto", paleta: ["#b89f72", "#5b4a2e"], classe: "md:row-span-2" },
-  { src: "/fotos/galeria-5.jpg", alt: "Restaurante", paleta: ["#a0623d", "#3b2416"], classe: "md:row-span-2" },
-  { src: "/fotos/galeria-6.jpg", alt: "Pôr do sol no lago", paleta: ["#c48d5e", "#2a3527"], classe: "col-span-2" },
+const ESTRUTURA = [
+  { Icone: IconeCafe, nome: "Café da manhã", detalhe: "Servido todas as manhãs.", status: "Incluso na diária" },
+  { Icone: IconePiscina, nome: "Piscinas aquecidas", detalhe: "Acesso livre durante a estadia.", status: "Incluso na diária" },
+  { Icone: IconePesca, nome: "Pesca esportiva", detalhe: `${brl(PESCA.preco)} por pessoa/diária, 24 horas.`, status: "Opcional, só hóspedes" },
+  { Icone: IconeRestaurante, nome: "Restaurante", detalhe: "Almoço, petiscos e jantar.", status: "Pago à parte no local" },
+];
+
+const GALERIA = [
+  { src: "/fotos/fachada-noite.webp", alt: "Entrada do hotel à noite, com a marquise iluminada e o logo na parede de pedra", classe: "md:col-span-2 md:row-span-2" },
+  { src: "/fotos/recepcao.webp", alt: "Recepção com balcão de mármore verde e o pirarucu dourado na parede", classe: "md:row-span-2" },
+  { src: "/fotos/peixe-janela.webp", alt: "Escultura do pirarucu em metal dourado numa abertura da parede de pedra", classe: "" },
+  { src: "/fotos/logo-pedra-noite.webp", alt: "Logo do hotel iluminado na parede de pedra", classe: "" },
+  { src: "/fotos/lago-noite.webp", alt: "O hotel visto do outro lado do lago, à noite", classe: "md:col-span-2" },
+  { src: "/fotos/deluxe-banheira-003.webp", alt: "Banheira com vista para o lago ao entardecer", classe: "md:col-span-2" },
+  { src: "/fotos/lobby.webp", alt: "Lobby com sofá curvo, jardim interno e escada", classe: "" },
+  { src: "/fotos/executivo-triplo-000.webp", alt: "Quarto Executivo com o pôr do sol na janela", classe: "" },
+  { src: "/fotos/lavabo.webp", alt: "Lavabo com cubas brancas e espelhos ovais", classe: "" },
+  { src: "/fotos/entrada-luzes.webp", alt: "Pilares da entrada com linhas de luz", classe: "" },
 ];
 
 export default function Home() {
@@ -22,128 +38,134 @@ export default function Home() {
     <>
       <Hero />
 
-      <div className="bg-oliva-950 py-6 text-creme/80">
-        <Marquee itens={["Pesca esportiva", "Piscina", "Hospedagem", "Gastronomia regional", "Day use", "Pôr do sol no lago"]} className="font-display text-3xl italic md:text-5xl" />
-      </div>
+      {/* O hotel */}
+      <section className="relative overflow-hidden bg-creme pt-28 md:pt-36">
+        <div className="mx-auto grid max-w-7xl gap-14 px-5 md:px-8 lg:grid-cols-[1fr_1fr] lg:gap-20">
+          <div>
+            <TituloMarca texto="O HOTEL" letra={3} className="text-[clamp(2.6rem,6vw,4.6rem)] text-salvia" corTraco="#efeadb" />
+            <div className="mt-10 max-w-[34rem] space-y-5 text-lg leading-relaxed text-verde">
+              <p>
+                O Pirarucu Park Hotel nasceu em {HOTEL.cidade}, Goiás, com o compromisso de entregar excelência em hospedagem, a {HOTEL.distancia}.
+              </p>
+              <p>
+                O nome vem do peixe que batiza o grupo Pirarucu e que é a alma do lugar. Aqui, o lago fica a poucos passos do quarto e a pesca esportiva funciona 24 horas para quem está hospedado.
+              </p>
+            </div>
+            <Link href="/acomodacoes" className="pressionavel mt-10 inline-flex h-12 items-center rounded-full border border-verde px-7 text-[15px] text-verde hover:bg-verde hover:text-marfim">
+              Conhecer as acomodações
+            </Link>
+          </div>
+          <RevelarImagem className="relative aspect-[4/5] overflow-hidden lg:aspect-[5/6]">
+            <Parallax className="absolute inset-0" distancia={50}>
+              <Foto src="/fotos/fachada-lago.webp" alt="Fachada do hotel vista do lago, com a estrutura em X e a parede de pedra" className="size-full" />
+            </Parallax>
+          </RevelarImagem>
+        </div>
+        <PalmeiraFachada className="mt-16 block h-auto w-full max-w-none translate-y-1 md:mt-8" />
+      </section>
 
-      {/* Manifesto + números */}
-      <section className="bg-creme-claro py-28 md:py-44">
-        <div className="mx-auto max-w-6xl px-5 md:px-8">
-          <p className="mb-10 text-xs font-bold tracking-[.3em] text-escama uppercase">O Pirarucu</p>
-          <ScrollFillText
-            className="font-display text-[clamp(2rem,4.6vw,4.2rem)] leading-[1.08] font-medium text-oliva-900"
-            text="Um hotel pensado para quem ama a pesca e para quem só quer desacelerar. Acorde com a névoa sobre o lago, passe a tarde na piscina e termine o dia com o sol se pondo sobre a água."
-          />
-          <div className="mt-24 grid grid-cols-2 gap-y-12 border-t border-oliva-900/10 pt-12 md:grid-cols-4">
-            {NUMEROS.map((n, i) => (
-              <Reveal key={n.rotulo} delay={i * 0.08}>
-                <Contador valor={n.valor} sufixo={n.sufixo} className="font-display block text-5xl text-oliva-900 md:text-6xl" />
-                <p className="mt-2 text-sm text-oliva-600">{n.rotulo}</p>
-              </Reveal>
+      {/* Estrutura */}
+      <section id="estrutura" className="scroll-mt-20 bg-areia py-28 md:py-36">
+        <div className="mx-auto max-w-7xl px-5 md:px-8">
+          <div className="flex flex-wrap items-end justify-between gap-8">
+            <TituloMarca texto="ESTRUTURA" letra={4} className="text-[clamp(2.6rem,6vw,4.6rem)] text-salvia" />
+            <p className="max-w-sm text-verde/80">O que está incluso na sua diária e o que você pode contratar à parte.</p>
+          </div>
+          <ul className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-verde/10 bg-verde/10 sm:grid-cols-2 lg:grid-cols-4">
+            {ESTRUTURA.map(({ Icone, nome, detalhe, status }) => (
+              <li key={nome} className="flex flex-col bg-areia-clara p-8">
+                <Icone className="size-12 text-salvia" />
+                <h3 className="font-display mt-8 text-2xl text-verde">{nome}</h3>
+                <p className="mt-2 text-[15px] text-verde/75">{detalhe}</p>
+                <p className={`mt-6 text-sm ${status.startsWith("Incluso") ? "text-verde" : "text-dourado-escuro"}`}>{status}</p>
+              </li>
             ))}
+          </ul>
+          <div className="mt-8 flex items-start gap-4 rounded-2xl border border-verde/10 p-6 text-[15px] text-verde/80">
+            <IconeSemBebida className="size-8 shrink-0 text-salvia" />
+            <p>
+              Não é permitida a entrada de bebidas externas; todas as bebidas devem ser adquiridas no hotel. Para trazer algo específico, como champanhe ou vinho, consulte a gerência antes.
+            </p>
           </div>
         </div>
       </section>
 
-      <Experiencias />
-
       <AcomodacoesHorizontal />
 
-      {/* Pesqueiro */}
-      <section className="grao relative overflow-hidden bg-marinho py-28 text-creme md:py-40">
-        <div className="mx-auto grid max-w-7xl items-center gap-16 px-5 md:px-8 lg:grid-cols-[1fr_1.1fr]">
+      {/* Pesca */}
+      <section className="relative overflow-hidden bg-verde py-28 text-marfim md:py-36">
+        <Padrao cor="#c8b28a" opacidade={0.12} className="absolute inset-0" />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-5 md:px-8 lg:grid-cols-[1.1fr_1fr]">
           <div>
-            <p className="mb-4 text-xs font-bold tracking-[.3em] text-champanhe uppercase">Recanto do Pirarucu</p>
-            <SplitText text="O pesqueiro ao lado do seu quarto" className="font-display text-5xl leading-[0.95] font-medium md:text-7xl" />
-            <Reveal delay={0.2}>
-              <p className="mt-8 max-w-md leading-relaxed text-creme/75">
-                Pesca esportiva, comida boa e ambiente incrível, aberto {HOTEL.pesqueiroFuncionamento.toLowerCase()}. Hóspedes e visitantes de day use são bem-vindos.
-              </p>
-              <div className="mt-10 flex flex-wrap gap-4">
-                <Magnetic>
-                  <Link href="/pesqueiro" className="inline-flex rounded-full bg-creme px-8 py-4 text-sm font-semibold text-marinho transition-colors hover:bg-white">
-                    Conhecer o pesqueiro
-                  </Link>
-                </Magnetic>
-                <Magnetic>
-                  <Link href="/reservar?tipo=dayuse" className="inline-flex rounded-full border border-creme/30 px-8 py-4 text-sm font-semibold transition-colors hover:bg-creme/10">
-                    Orçamento de day use
-                  </Link>
-                </Magnetic>
-              </div>
-            </Reveal>
+            <TituloMarca texto="PESCA" letra={1} className="text-[clamp(2.6rem,6vw,4.6rem)] text-dourado" corTraco="#e9dfcb" />
+            <p className="font-display mt-10 max-w-lg text-3xl leading-snug md:text-4xl">Pescar de madrugada, ao nascer do sol ou depois do jantar. O lago é seu durante toda a estadia.</p>
+            <p className="mt-6 max-w-md text-marfim/75">
+              A pesca esportiva é opcional e exclusiva para hóspedes, com direito a pescar 24 horas. Você inclui no orçamento e paga por pessoa, por diária.
+            </p>
+            <Link href="/pesca" className="pressionavel mt-10 inline-flex h-12 items-center rounded-full border border-dourado/60 px-7 text-[15px] hover:bg-dourado hover:text-verde-noite">
+              Como funciona a pesca
+            </Link>
           </div>
-          <RevelarImagem className="relative aspect-[4/5] overflow-hidden md:aspect-[5/4]">
-            <Parallax className="absolute inset-0" distancia={60}>
-              <Foto src="/fotos/pesqueiro.jpg" alt="Lago do pesqueiro" paleta={["#22345a", "#0b1222"]} rotulo="Pesqueiro" className="size-full" />
-            </Parallax>
-          </RevelarImagem>
+          <div className="flex flex-col items-center gap-6 rounded-[28px] border border-dourado/30 bg-verde-noite/40 p-10 text-center backdrop-blur md:p-14">
+            <Logo somentePeixe className="w-48 md:w-60" />
+            <p className="font-display text-7xl text-dourado-claro md:text-8xl">{brl(PESCA.preco)}</p>
+            <p className="text-marfim/75">por pessoa, por diária · 24 horas</p>
+          </div>
         </div>
       </section>
 
       {/* Galeria */}
-      <section className="bg-creme-claro py-28 md:py-40">
+      <section className="bg-areia py-28 md:py-36">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
-            <SplitText text="Momentos no Pirarucu" className="font-display text-5xl leading-[0.95] font-medium text-oliva-900 md:text-7xl" />
-            <a href={HOTEL.instagramHotel} target="_blank" rel="noopener" className="text-sm font-semibold text-oliva-900 underline decoration-champanhe underline-offset-8">
-              @pirarucuparkhotel →
+            <TituloMarca texto="AMBIENTES" letra={5} className="text-[clamp(2.6rem,6vw,4.6rem)] text-salvia" />
+            <a href={HOTEL.instagramHotel} target="_blank" rel="noopener" className="text-[15px] text-verde underline decoration-dourado underline-offset-8 hover:decoration-2">
+              Mais fotos no @pirarucuparkhotel
             </a>
           </div>
-          <div className="grid auto-rows-[220px] grid-cols-2 gap-3 md:auto-rows-[260px] md:grid-cols-4 md:gap-4">
-            {GALERIA.map((g, i) => (
-              <Reveal key={g.src} delay={(i % 4) * 0.08} className={`group overflow-hidden rounded-3xl ${g.classe}`}>
-                <Foto src={g.src} alt={g.alt} paleta={g.paleta} rotulo={g.alt} className="size-full transition-transform duration-[1.4s] ease-[var(--ease-premium)] group-hover:scale-105" />
+          <div className="grid auto-rows-[200px] grid-cols-2 gap-3 md:auto-rows-[240px] md:grid-cols-4 md:gap-4">
+            {GALERIA.map((g) => (
+              <Reveal key={g.src} y={24} className={`group overflow-hidden rounded-2xl ${g.classe}`}>
+                <Foto src={g.src} alt={g.alt} className="size-full transition-transform duration-700 ease-[var(--ease-premium)] group-hover:scale-[1.03]" />
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Chamada para orçamento */}
-      <section className="relative overflow-hidden bg-oliva-800 py-28 text-creme md:py-36">
-        <div className="mx-auto max-w-5xl px-5 text-center md:px-8">
-          <SplitText text="Monte seu orçamento em um minuto" className="font-display text-5xl leading-[0.95] font-medium md:text-7xl" />
-          <Reveal delay={0.2}>
-            <p className="mx-auto mt-6 max-w-xl text-creme/75">
-              Escolha as datas, a acomodação e quantas pessoas vão pescar. Você vê o valor estimado na hora e envia a solicitação direto para o nosso WhatsApp.
-            </p>
-            <div className="mt-10 flex justify-center">
-              <Magnetic forca={0.5}>
-                <Link href="/reservar" className="group relative inline-flex size-44 items-center justify-center rounded-full bg-escama text-center text-sm font-semibold tracking-wide text-white transition-transform hover:scale-105">
-                  Fazer meu
-                  <br />
-                  orçamento
-                </Link>
-              </Magnetic>
-            </div>
-          </Reveal>
+      {/* Orçamento */}
+      <section className="relative overflow-hidden bg-verde-escuro py-28 text-marfim md:py-36">
+        <Padrao cor="#c8b28a" opacidade={0.18} className="absolute inset-y-0 right-0 w-1/3" />
+        <div className="relative mx-auto max-w-7xl px-5 md:px-8">
+          <h2 className="font-display max-w-3xl text-[clamp(2.4rem,5vw,4.2rem)] leading-[1.05]">Monte seu orçamento e envie direto para o nosso WhatsApp.</h2>
+          <p className="mt-6 max-w-xl text-marfim/75">Escolha as datas, a acomodação e quantas pessoas vão pescar. O valor aparece na hora, sem cadastro.</p>
+          <Link href="/reservar" className="pressionavel mt-10 inline-flex h-14 items-center rounded-full bg-dourado px-9 text-[15px] font-medium text-verde-noite hover:bg-dourado-claro">
+            Fazer orçamento
+          </Link>
         </div>
       </section>
 
       {/* Localização + dúvidas */}
-      <section id="localizacao" className="bg-creme-claro py-28 md:py-40">
+      <section id="localizacao" className="scroll-mt-20 bg-areia py-28 md:py-36">
         <div className="mx-auto grid max-w-7xl gap-16 px-5 md:px-8 lg:grid-cols-2">
           <div>
-            <p className="mb-4 text-xs font-bold tracking-[.3em] text-escama uppercase">Como chegar</p>
-            <SplitText text={`${HOTEL.cidade}, a ${HOTEL.distancia}`} className="font-display text-5xl leading-[0.95] font-medium text-oliva-900 md:text-6xl" />
-            <Reveal delay={0.15}>
-              <p className="mt-6 max-w-md text-oliva-600">Endereço completo e rotas serão confirmados com o hotel. <span className="selo-exemplo text-escama">a confirmar</span></p>
-              <div className="mt-8 aspect-[4/3] overflow-hidden rounded-3xl border border-oliva-900/10 bg-creme">
-                <iframe
-                  title={`Mapa de ${HOTEL.cidade}`}
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(HOTEL.mapsQuery)}&output=embed`}
-                  className="size-full grayscale-[.4] sepia-[.15]"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-            </Reveal>
+            <TituloMarca texto="COMO CHEGAR" letra={6} className="text-[clamp(2.2rem,5vw,3.8rem)] text-salvia" />
+            <p className="mt-8 max-w-md text-lg text-verde">{HOTEL.cidade}, Goiás, a {HOTEL.distancia}.</p>
+            <div className="mt-8 aspect-[4/3] overflow-hidden rounded-2xl border border-verde/10 bg-creme">
+              <iframe
+                title={`Mapa de ${HOTEL.cidade}`}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(HOTEL.mapsQuery)}&output=embed`}
+                className="size-full grayscale-[.5] sepia-[.2]"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
           </div>
           <div>
-            <p className="mb-4 text-xs font-bold tracking-[.3em] text-escama uppercase">Dúvidas frequentes</p>
-            <h2 className="font-display mb-10 text-5xl leading-[0.95] font-medium text-oliva-900 md:text-6xl">Antes de reservar</h2>
-            <Faq />
+            <TituloMarca texto="DÚVIDAS" letra={3} className="text-[clamp(2.2rem,5vw,3.8rem)] text-salvia" />
+            <div className="mt-8">
+              <Faq />
+            </div>
           </div>
         </div>
       </section>

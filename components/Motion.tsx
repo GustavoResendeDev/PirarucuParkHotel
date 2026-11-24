@@ -124,7 +124,7 @@ export function Marquee({ itens, className = "" }: { itens: string[]; className?
         {lista.map((t, i) => (
           <span key={i} className="flex items-center gap-10">
             <span>{t}</span>
-            <span className="text-[0.5em] text-champanhe">✦</span>
+            <span className="text-[0.5em] text-dourado">✦</span>
           </span>
         ))}
       </motion.div>

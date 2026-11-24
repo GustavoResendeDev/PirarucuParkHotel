@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Jost, Marcellus } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Header } from "@/components/Header";
@@ -8,14 +8,8 @@ import { WhatsAppFlutuante } from "@/components/WhatsAppFlutuante";
 import { Preloader } from "@/components/Preloader";
 import { HOTEL } from "@/lib/data";
 
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant",
-  display: "swap",
-});
-const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
+const marcellus = Marcellus({ subsets: ["latin"], weight: "400", variable: "--font-marcellus", display: "swap" });
+const jost = Jost({ subsets: ["latin"], weight: ["300", "400", "500"], variable: "--font-jost", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.pirarucuparkhotel.com.br"), // EXEMPLO: domínio a definir
@@ -23,20 +17,20 @@ export const metadata: Metadata = {
     default: `${HOTEL.nome} · Hotel com pesqueiro em ${HOTEL.cidade} (${HOTEL.uf})`,
     template: `%s · ${HOTEL.nome}`,
   },
-  description: `Hospedagem, pesca esportiva e piscina em ${HOTEL.cidade}, a ${HOTEL.distancia}. Consulte valores, faça seu orçamento e solicite sua reserva.`,
+  description: `Hotel com pesca esportiva e piscinas aquecidas em ${HOTEL.cidade} (${HOTEL.uf}), a ${HOTEL.distancia}. Consulte valores, monte seu orçamento e solicite sua reserva.`,
   openGraph: { type: "website", locale: "pt_BR", siteName: HOTEL.nome },
 };
 
-export const viewport: Viewport = { themeColor: "#1e261d" };
+export const viewport: Viewport = { themeColor: "#364339" };
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Hotel",
   name: HOTEL.nome,
-  description: HOTEL.slogan,
+  description: "Hotel com pesca esportiva e piscinas aquecidas em Itapuranga, Goiás.",
   address: { "@type": "PostalAddress", addressLocality: HOTEL.cidade, addressRegion: HOTEL.uf, addressCountry: "BR" },
   sameAs: [HOTEL.instagramHotel],
-  amenityFeature: ["Pesca esportiva", "Piscina", "Café da manhã", "Restaurante"].map((n) => ({
+  amenityFeature: ["Pesca esportiva", "Piscinas aquecidas", "Café da manhã", "Restaurante"].map((n) => ({
     "@type": "LocationFeatureSpecification",
     name: n,
     value: true,
@@ -45,7 +39,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${cormorant.variable} ${manrope.variable}`}>
+    <html lang="pt-BR" className={`${marcellus.variable} ${jost.variable}`}>
       <body className="min-h-dvh overflow-x-clip">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Preloader />

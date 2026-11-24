@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Foto } from "@/components/Foto";
-import { Parallax, Reveal, SplitText } from "@/components/Motion";
-import { ACOMODACOES, HOTEL } from "@/lib/data";
+import { Parallax, Reveal } from "@/components/Motion";
+import { TabelaPrecos } from "@/components/TabelaPrecos";
+import { ACOMODACOES, HOTEL, INCLUSOS, PESCA } from "@/lib/data";
 import { brl } from "@/lib/reserva";
 
 export function generateStaticParams() {
@@ -13,7 +14,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const ac = ACOMODACOES.find((a) => a.slug === slug);
-  return ac ? { title: ac.nome, description: `${ac.descricao} Até ${ac.capacidade} pessoas.` } : {};
+  return ac ? { title: ac.nome, description: ac.descricao } : {};
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
@@ -22,60 +23,58 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   if (i < 0) notFound();
   const ac = ACOMODACOES[i];
   const prox = ACOMODACOES[(i + 1) % ACOMODACOES.length];
+  const [capa, ...demais] = ac.fotos;
   return (
-    <div className="bg-creme-claro">
-      <section className="relative h-[85svh] min-h-[560px] overflow-hidden text-creme">
-        <Parallax className="absolute inset-0" distancia={90}>
-          <Foto src={ac.fotos[0]} alt={ac.nome} paleta={ac.paleta} className="size-full" prioridade />
+    <div className="bg-areia-clara">
+      <section className="relative h-[80svh] min-h-[520px] overflow-hidden text-marfim">
+        <Parallax className="absolute inset-0" distancia={80}>
+          <Foto src={capa} alt={`${ac.nome}: ${ac.subtitulo.toLowerCase()}`} paleta={ac.paleta} className="size-full" prioridade />
         </Parallax>
-        <div className="absolute inset-0 bg-gradient-to-t from-oliva-950/80 via-oliva-950/20 to-oliva-950/40" />
-        <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-end px-5 pb-16 md:px-8">
-          <Link href="/acomodacoes" className="mb-6 text-sm text-creme/70 hover:text-creme">← Todas as acomodações</Link>
-          <SplitText as="h1" text={ac.nome} className="font-display text-6xl leading-none font-medium md:text-9xl" />
-          <p className="mt-4 max-w-xl text-lg text-creme/80">{ac.chamada}</p>
+        <div className="absolute inset-0 bg-gradient-to-t from-verde-noite/85 via-verde-noite/20 to-verde-noite/45" />
+        <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-end px-5 pb-14 md:px-8">
+          <Link href="/acomodacoes" className="mb-6 inline-flex min-h-11 w-fit items-center text-[15px] text-marfim/75 hover:text-marfim">Todas as acomodações</Link>
+          <p className="text-dourado-claro">{ac.subtitulo}</p>
+          <h1 className="font-display mt-2 text-5xl leading-none md:text-8xl">{ac.nome}</h1>
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-16 px-5 py-24 md:px-8 lg:grid-cols-[1.3fr_1fr]">
-        <Reveal>
-          <p className="font-display text-3xl leading-snug text-oliva-900 md:text-4xl">{ac.descricao}</p>
-          <dl className="mt-12 grid grid-cols-3 gap-6 border-y border-oliva-900/10 py-8">
-            <div><dt className="text-xs tracking-[.2em] text-oliva-600 uppercase">Pessoas</dt><dd className="font-display mt-1 text-4xl text-oliva-900">{ac.capacidade}</dd></div>
-            <div><dt className="text-xs tracking-[.2em] text-oliva-600 uppercase">Área</dt><dd className="font-display mt-1 text-4xl text-oliva-900">{ac.area}</dd></div>
-            <div><dt className="text-xs tracking-[.2em] text-oliva-600 uppercase">Unidades</dt><dd className="font-display mt-1 text-4xl text-oliva-900">{ac.unidades}</dd></div>
-          </dl>
-          <h2 className="mt-12 text-xs font-bold tracking-[.3em] text-escama uppercase">Comodidades</h2>
-          <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-            {ac.comodidades.map((c) => (
-              <li key={c} className="flex items-center gap-3 text-oliva-800"><span className="size-1.5 rounded-full bg-champanhe" />{c}</li>
+      <section className="mx-auto grid max-w-7xl gap-16 px-5 py-20 md:px-8 md:py-28 lg:grid-cols-[1.35fr_1fr]">
+        <div>
+          <p className="font-display text-3xl leading-snug text-verde md:text-4xl">{ac.descricao}</p>
+          <ul className="mt-10 flex flex-wrap gap-2">
+            {ac.destaques.map((c) => (
+              <li key={c} className="rounded-full border border-verde/15 px-4 py-2 text-[15px] text-verde">{c}</li>
             ))}
           </ul>
-          <div className="mt-14 grid gap-4 sm:grid-cols-2">
-            {ac.fotos.map((f, k) => (
-              <Foto key={f} src={f} alt={`${ac.nome}, foto ${k + 1}`} paleta={ac.paleta} rotulo={`${ac.nome} ${k + 1}`} className="aspect-[4/3] rounded-3xl" />
+          <div className="mt-14 grid grid-cols-2 gap-3 md:gap-4">
+            {demais.map((f, k) => (
+              <Reveal key={f} y={24} className={k === 0 && demais.length % 2 === 1 ? "col-span-2" : ""}>
+                <Foto src={f} alt={`${ac.nome}, foto ${k + 2}`} paleta={ac.paleta} className={`rounded-2xl ${k === 0 && demais.length % 2 === 1 ? "aspect-[16/9]" : "aspect-[4/5]"}`} />
+              </Reveal>
             ))}
           </div>
-        </Reveal>
-        <aside className="h-fit rounded-[28px] bg-oliva-900 p-8 text-creme lg:sticky lg:top-28">
-          <p className="text-xs font-bold tracking-[.25em] text-champanhe uppercase">Diária</p>
-          <p className="font-display mt-3 text-6xl">{brl(ac.diaria)}</p>
-          <p className="mt-1 text-sm text-creme/60">domingo a quinta</p>
-          <p className="font-display mt-5 text-3xl">{brl(ac.diariaFimDeSemana)}</p>
-          <p className="mt-1 text-sm text-creme/60">sexta e sábado · <span className="selo-exemplo text-champanhe">exemplo</span></p>
-          <ul className="mt-6 space-y-1 text-sm text-creme/75">
-            <li>Café da manhã incluso</li>
-            <li>Check-in {HOTEL.checkin} · Check-out {HOTEL.checkout}</li>
-            <li>Pesca esportiva à parte</li>
+        </div>
+        <aside className="h-fit rounded-[28px] bg-verde p-8 text-marfim lg:sticky lg:top-28">
+          <h2 className="text-[15px] text-dourado">Diárias</h2>
+          <div className="mt-3">
+            <TabelaPrecos ac={ac} escuro />
+          </div>
+          <h3 className="mt-8 text-[15px] text-dourado">Incluso</h3>
+          <ul className="mt-2 space-y-1 text-marfim/85">
+            {INCLUSOS.map((x) => <li key={x}>{x}</li>)}
           </ul>
-          <Link href={`/reservar?acomodacao=${ac.slug}`} className="mt-8 block rounded-full bg-escama py-4 text-center text-sm font-semibold text-white hover:bg-escama-escuro">
-            Consultar datas e valores
+          <h3 className="mt-6 text-[15px] text-dourado">Opcional</h3>
+          <p className="mt-2 text-marfim/85">Pesca esportiva 24 horas, {brl(PESCA.preco)} por pessoa/diária.</p>
+          <p className="mt-6 text-sm text-marfim/60">Check-in a partir das {HOTEL.checkin}, check-out até as {HOTEL.checkout}.</p>
+          <Link href={`/reservar?acomodacao=${ac.slug}`} className="pressionavel mt-8 flex h-14 items-center justify-center rounded-full bg-dourado text-[15px] font-medium text-verde-noite hover:bg-dourado-claro">
+            Fazer orçamento
           </Link>
         </aside>
       </section>
 
-      <Link href={`/acomodacoes/${prox.slug}`} className="group block border-t border-oliva-900/10 py-20 text-center">
-        <span className="text-xs font-bold tracking-[.3em] text-oliva-600 uppercase">Próxima</span>
-        <span className="font-display mt-3 block text-6xl text-oliva-900 transition-transform duration-700 group-hover:translate-x-4 md:text-8xl">{prox.nome} →</span>
+      <Link href={`/acomodacoes/${prox.slug}`} className="group block border-t border-verde/10 py-20 text-center">
+        <span className="text-[15px] text-salvia-escura">Próxima acomodação</span>
+        <span className="font-display mt-3 block text-5xl text-verde transition-transform duration-500 ease-[var(--ease-premium)] group-hover:translate-x-3 md:text-7xl">{prox.nome}</span>
       </Link>
     </div>
   );

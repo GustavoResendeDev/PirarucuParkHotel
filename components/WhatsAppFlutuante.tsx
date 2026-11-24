@@ -15,8 +15,8 @@ export function IconeWhatsApp({ className = "" }: { className?: string }) {
 export function WhatsAppFlutuante() {
   const path = usePathname();
   const texto =
-    path?.startsWith("/pesqueiro")
-      ? "Olá! Vi o site e quero saber mais sobre o pesqueiro e o day use."
+    path?.startsWith("/pesca")
+      ? "Olá! Vi o site e quero saber mais sobre a pesca esportiva para hóspedes."
       : path?.startsWith("/acomodacoes")
         ? "Olá! Vi as acomodações no site e gostaria de tirar uma dúvida."
         : `Olá! Vi o site do ${HOTEL.nome} e gostaria de informações sobre hospedagem.`;
@@ -27,14 +27,13 @@ export function WhatsAppFlutuante() {
       target="_blank"
       rel="noopener"
       aria-label="Falar com o hotel no WhatsApp"
-      initial={{ scale: 0, opacity: 0 }}
+      initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 2.4, type: "spring", stiffness: 260, damping: 18 }}
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.95 }}
-      className="fixed right-5 bottom-5 z-40 grid size-14 place-items-center rounded-full bg-[#1f9d55] text-white shadow-[0_10px_30px_rgba(0,0,0,.3)]"
+      className="fixed right-5 bottom-5 z-40 grid size-14 cursor-pointer place-items-center rounded-full bg-[#1f9d55] text-white shadow-[0_10px_30px_rgba(0,0,0,.3)]"
     >
-      <span className="absolute inset-0 animate-ping rounded-full bg-[#1f9d55] opacity-20" />
       <IconeWhatsApp className="relative size-7" />
     </motion.a>
   );

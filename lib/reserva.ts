@@ -1,4 +1,4 @@
-import { ACOMODACOES, HOTEL, SERVICOS_PESCA, type Acomodacao } from "./data";
+import { ACOMODACOES, HOTEL, PESCA, type Acomodacao } from "./data";
 
 export const brl = (v: number) =>
   v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
@@ -28,64 +28,64 @@ export function proximaSexta(base = new Date()) {
   return addDias(d, delta);
 }
 
-/** Noites entre entrada e saída. Sexta e sábado usam a tarifa de fim de semana (EXEMPLO). */
-export function cotarHospedagem(ac: Acomodacao, entrada: string, saida: string) {
-  let semana = 0;
-  let fimDeSemana = 0;
-  for (let d = parseISO(entrada); d < parseISO(saida); d = addDias(d, 1)) {
-    if (d.getDay() === 5 || d.getDay() === 6) fimDeSemana++;
-    else semana++;
-  }
-  const noites = semana + fimDeSemana;
-  return {
-    noites,
-    semana,
-    fimDeSemana,
-    total: semana * ac.diaria + fimDeSemana * ac.diariaFimDeSemana,
-  };
+export function contarNoites(entrada: string, saida: string) {
+  return Math.max(0, Math.round((parseISO(saida).getTime() - parseISO(entrada).getTime()) / 864e5));
+}
+
+/** Diária de um quarto com `pessoas` hóspedes. */
+export function diaria(ac: Acomodacao, pessoas: number) {
+  const t = ac.tarifa;
+  if (t.tipo === "por-ocupacao") return t.valores[Math.min(Math.max(1, pessoas), ac.capacidade)];
+  return t.casal + Math.max(0, pessoas - 2) * t.adicional;
+}
+
+/** Menor diária possível (para "a partir de"). */
+export function aPartirDe(ac: Acomodacao) {
+  return ac.tarifa.tipo === "por-ocupacao" ? Math.min(...Object.values(ac.tarifa.valores)) : ac.tarifa.casal;
+}
+
+/** Distribui as pessoas entre os quartos necessários, o mais equilibrado possível. */
+export function distribuir(ac: Acomodacao, pessoas: number) {
+  const quartos = Math.max(1, Math.ceil(pessoas / ac.capacidade));
+  const base = Math.floor(pessoas / quartos);
+  const resto = pessoas % quartos;
+  return Array.from({ length: quartos }, (_, i) => base + (i < resto ? 1 : 0));
 }
 
 export type Pedido = {
-  tipo: "hospedagem" | "dayuse";
   entrada: string;
   saida: string;
   adultos: number;
   criancas: number;
   acomodacao?: string;
-  quartos: number;
-  pescadores: number; // pessoas que vão pescar
+  pescadores: number;
   diasPesca: number;
-  acompanhantes: number; // day use lazer (só no tipo dayuse)
   nome: string;
   telefone: string;
   obs: string;
   codigo: string;
 };
 
-export function totalHospedes(p: Pick<Pedido, "adultos" | "criancas">) {
-  return p.adultos + p.criancas;
-}
+export const totalHospedes = (p: Pick<Pedido, "adultos" | "criancas">) => p.adultos + p.criancas;
 
 export function calcular(p: Pedido) {
   const linhas: { rotulo: string; valor: number }[] = [];
-  if (p.tipo === "hospedagem") {
-    const ac = ACOMODACOES.find((a) => a.slug === p.acomodacao);
-    if (ac) {
-      const c = cotarHospedagem(ac, p.entrada, p.saida);
-      if (c.semana)
-        linhas.push({ rotulo: `${c.semana} diária${c.semana > 1 ? "s" : ""} × ${brl(ac.diaria)}${p.quartos > 1 ? ` × ${p.quartos} quartos` : ""}`, valor: c.semana * ac.diaria * p.quartos });
-      if (c.fimDeSemana)
-        linhas.push({ rotulo: `${c.fimDeSemana} diária${c.fimDeSemana > 1 ? "s" : ""} fim de semana × ${brl(ac.diariaFimDeSemana)}${p.quartos > 1 ? ` × ${p.quartos} quartos` : ""}`, valor: c.fimDeSemana * ac.diariaFimDeSemana * p.quartos });
-    }
+  const noites = contarNoites(p.entrada, p.saida);
+  const ac = ACOMODACOES.find((a) => a.slug === p.acomodacao);
+  if (ac && noites > 0) {
+    const quartos = distribuir(ac, totalHospedes(p));
+    quartos.forEach((pessoas, i) => {
+      const d = diaria(ac, pessoas);
+      const nome = quartos.length > 1 ? `Quarto ${i + 1}` : ac.nome;
+      linhas.push({ rotulo: `${nome}, ${pessoas} pessoa${pessoas > 1 ? "s" : ""}: ${noites} × ${brl(d)}`, valor: d * noites });
+    });
   }
-  const pesca = SERVICOS_PESCA.find((s) => s.id === "pesque-solte")!;
-  const lazer = SERVICOS_PESCA.find((s) => s.id === "day-use")!;
   if (p.pescadores > 0 && p.diasPesca > 0)
-    linhas.push({ rotulo: `Pesca esportiva: ${p.pescadores} pescador${p.pescadores > 1 ? "es" : ""} × ${p.diasPesca} dia${p.diasPesca > 1 ? "s" : ""}`, valor: p.pescadores * p.diasPesca * pesca.preco });
-  if (p.tipo === "dayuse" && p.acompanhantes > 0)
-    linhas.push({ rotulo: `Day use lazer: ${p.acompanhantes} pessoa${p.acompanhantes > 1 ? "s" : ""}`, valor: p.acompanhantes * lazer.preco });
-  const total = linhas.reduce((s, l) => s + l.valor, 0);
-  return { linhas, total };
+    linhas.push({
+      rotulo: `Pesca esportiva: ${p.pescadores} × ${p.diasPesca} diária${p.diasPesca > 1 ? "s" : ""}`,
+      valor: p.pescadores * p.diasPesca * PESCA.preco,
+    });
+  return { linhas, total: linhas.reduce((s, l) => s + l.valor, 0), noites };
 }
 
 export function gerarCodigo() {
@@ -105,24 +105,19 @@ export function mensagemWhatsApp(p: Pedido) {
   const { linhas, total } = calcular(p);
   const ac = ACOMODACOES.find((a) => a.slug === p.acomodacao);
   const partes = [
-    p.tipo === "hospedagem"
-      ? `Olá! Quero solicitar uma reserva no ${HOTEL.nome}.`
-      : `Olá! Quero um orçamento de day use no Recanto do Pirarucu.`,
+    `Olá! Quero solicitar uma reserva no ${HOTEL.nome}.`,
     "",
     `Solicitação: ${p.codigo}`,
     `Nome: ${p.nome}`,
+    `Acomodação: ${ac?.nome ?? "-"}`,
+    `Entrada: ${fmtData(p.entrada)} (a partir das ${HOTEL.checkin})`,
+    `Saída: ${fmtData(p.saida)} (até ${HOTEL.checkout})`,
+    `Hóspedes: ${hospedesTexto(p.adultos, p.criancas)}`,
+    "",
+    "Orçamento feito no site:",
+    ...linhas.map((l) => `• ${l.rotulo} = ${brl(l.valor)}`),
+    `Total estimado: ${brl(total)}`,
   ];
-  if (p.tipo === "hospedagem") {
-    partes.push(
-      `Acomodação: ${ac?.nome ?? "-"}${p.quartos > 1 ? ` (${p.quartos} quartos)` : ""}`,
-      `Entrada: ${fmtData(p.entrada)} (a partir das ${HOTEL.checkin})`,
-      `Saída: ${fmtData(p.saida)} (até ${HOTEL.checkout})`,
-      `Hóspedes: ${hospedesTexto(p.adultos, p.criancas)}`,
-    );
-  } else {
-    partes.push(`Data: ${fmtData(p.entrada)}`, `Pescadores: ${p.pescadores}`, `Acompanhantes (lazer): ${p.acompanhantes}`);
-  }
-  partes.push("", "Orçamento estimado pelo site:", ...linhas.map((l) => `• ${l.rotulo}: ${brl(l.valor)}`), `Total estimado: ${brl(total)}`);
   if (p.obs) partes.push("", `Observações: ${p.obs}`);
   partes.push("", "Aguardo a confirmação. Obrigado!");
   return partes.join("\n");
