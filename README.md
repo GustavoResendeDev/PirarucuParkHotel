@@ -14,7 +14,7 @@ cp .env.example .env.local   # coloque o WhatsApp oficial do hotel
 npm run dev                  # abre em http://localhost:3000
 ```
 
-Versão de produção: `npm run build && npm start`.
+Versão de produção: `npm run build` gera o site estático em `out/`. Todo push na `main` publica no GitHub Pages (`.github/workflows/pages.yml`).
 
 ## Páginas
 

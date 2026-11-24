@@ -34,7 +34,7 @@ export function Foto({
         // eslint-disable-next-line @next/next/no-img-element
         <img
           ref={img}
-          src={src}
+          src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${src}`}
           alt={alt}
           loading={prioridade ? "eager" : "lazy"}
           decoding="async"
