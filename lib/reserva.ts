@@ -1,4 +1,4 @@
-import { ACOMODACOES, HOTEL, PESCA, type Acomodacao } from "./data";
+import { ACOMODACOES, DAY_USE, FERIADOS, HOTEL, PESCA, type Acomodacao } from "./data";
 
 export const brl = (v: number) =>
   v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
@@ -32,11 +32,22 @@ export function contarNoites(entrada: string, saida: string) {
   return Math.max(0, Math.round((parseISO(saida).getTime() - parseISO(entrada).getTime()) / 864e5));
 }
 
-/** Diária de um quarto com `pessoas` hóspedes. */
-export function diaria(ac: Acomodacao, pessoas: number) {
+/** Diária de um quarto com `pessoas` hóspedes, dos quais `pagantes` pagam (crianças até 7 anos não pagam). */
+export function diaria(ac: Acomodacao, pessoas: number, pagantes = pessoas) {
   const t = ac.tarifa;
-  if (t.tipo === "por-ocupacao") return t.valores[Math.min(Math.max(1, pessoas), ac.capacidade)];
-  return t.casal + Math.max(0, pessoas - 2) * t.adicional;
+  if (t.tipo === "por-ocupacao") {
+    const maxTabela = Math.max(...Object.keys(t.valores).map(Number));
+    const base = t.valores[Math.min(Math.max(1, pagantes), maxTabela)];
+    return base + (pessoas > maxTabela ? (t.camaExtra ?? 0) : 0);
+  }
+  return t.casal + Math.max(0, pagantes - 2) * t.adicional;
+}
+
+/** Valor da cama extra de um quarto com `pessoas` hóspedes (0 quando não precisa). */
+export function camaExtra(ac: Acomodacao, pessoas: number) {
+  const t = ac.tarifa;
+  if (t.tipo !== "por-ocupacao" || !t.camaExtra) return 0;
+  return pessoas > Math.max(...Object.keys(t.valores).map(Number)) ? t.camaExtra : 0;
 }
 
 /** Menor diária possível (para "a partir de"). */
@@ -44,19 +55,31 @@ export function aPartirDe(ac: Acomodacao) {
   return ac.tarifa.tipo === "por-ocupacao" ? Math.min(...Object.values(ac.tarifa.valores)) : ac.tarifa.casal;
 }
 
+/** Divide `n` em `partes` o mais equilibrado possível. */
+function dividir(n: number, partes: number) {
+  const base = Math.floor(n / partes);
+  const resto = n % partes;
+  return Array.from({ length: partes }, (_, i) => base + (i < resto ? 1 : 0));
+}
+
 /** Distribui as pessoas entre os quartos necessários, o mais equilibrado possível. */
 export function distribuir(ac: Acomodacao, pessoas: number) {
-  const quartos = Math.max(1, Math.ceil(pessoas / ac.capacidade));
-  const base = Math.floor(pessoas / quartos);
-  const resto = pessoas % quartos;
-  return Array.from({ length: quartos }, (_, i) => base + (i < resto ? 1 : 0));
+  return dividir(pessoas, Math.max(1, Math.ceil(pessoas / ac.capacidade)));
+}
+
+/** Quartos de uma acomodação para o grupo: pessoas e pagantes em cada um. */
+export function quartosDoGrupo(ac: Acomodacao, pessoas: number, pagantes: number) {
+  const q = distribuir(ac, pessoas);
+  const pag = dividir(pagantes, q.length);
+  return q.map((n, i) => ({ pessoas: n, pagantes: Math.min(n, pag[i]) }));
 }
 
 export type Pedido = {
   entrada: string;
   saida: string;
   adultos: number;
-  criancas: number;
+  /** Idade de cada criança; -1 enquanto não informada. */
+  idades: number[];
   acomodacao?: string;
   pescadores: number;
   diasPesca: number;
@@ -66,18 +89,38 @@ export type Pedido = {
   codigo: string;
 };
 
-export const totalHospedes = (p: Pick<Pedido, "adultos" | "criancas">) => p.adultos + p.criancas;
+export const totalHospedes = (p: Pick<Pedido, "adultos" | "idades">) => p.adultos + p.idades.length;
+
+/** Crianças até a idade gratuita não pagam; idade não informada conta como pagante. */
+export const criancaGratis = (idade: number) => idade >= 0 && idade <= HOTEL.idadeCriancaGratis;
+export const pagantes = (p: Pick<Pedido, "adultos" | "idades">) => p.adultos + p.idades.filter((i) => !criancaGratis(i)).length;
+
+/** Feriados (do calendário do hotel) entre a entrada e a véspera da saída. */
+export function feriadosNaEstadia(entrada: string, saida: string) {
+  const r: string[] = [];
+  for (let d = parseISO(entrada); toISO(d) < saida; d = addDias(d, 1)) {
+    const nome = FERIADOS[toISO(d)];
+    if (nome) r.push(`${nome} (${fmtData(toISO(d))})`);
+  }
+  return r;
+}
+
+export const valorSinal = (total: number) => Math.round((total * HOTEL.sinalPercentual) / 100);
 
 export function calcular(p: Pedido) {
   const linhas: { rotulo: string; valor: number }[] = [];
   const noites = contarNoites(p.entrada, p.saida);
   const ac = ACOMODACOES.find((a) => a.slug === p.acomodacao);
   if (ac && noites > 0) {
-    const quartos = distribuir(ac, totalHospedes(p));
-    quartos.forEach((pessoas, i) => {
-      const d = diaria(ac, pessoas);
+    const quartos = quartosDoGrupo(ac, totalHospedes(p), pagantes(p));
+    quartos.forEach((q, i) => {
+      const extra = camaExtra(ac, q.pessoas);
+      const d = diaria(ac, q.pessoas, q.pagantes) - extra;
       const nome = quartos.length > 1 ? `Quarto ${i + 1}` : ac.nome;
-      linhas.push({ rotulo: `${nome}, ${pessoas} pessoa${pessoas > 1 ? "s" : ""}: ${noites} × ${brl(d)}`, valor: d * noites });
+      const gratis = q.pessoas - q.pagantes;
+      const quem = `${q.pessoas} pessoa${q.pessoas > 1 ? "s" : ""}${gratis ? ` (${gratis} criança${gratis > 1 ? "s" : ""} grátis)` : ""}`;
+      linhas.push({ rotulo: `${nome}, ${quem}: ${noites} × ${brl(d)}`, valor: d * noites });
+      if (extra) linhas.push({ rotulo: `${nome}, cama extra: ${noites} × ${brl(extra)}`, valor: extra * noites });
     });
   }
   if (p.pescadores > 0 && p.diasPesca > 0)
@@ -85,7 +128,8 @@ export function calcular(p: Pedido) {
       rotulo: `Pesca esportiva: ${p.pescadores} × ${p.diasPesca} diária${p.diasPesca > 1 ? "s" : ""}`,
       valor: p.pescadores * p.diasPesca * PESCA.preco,
     });
-  return { linhas, total: linhas.reduce((s, l) => s + l.valor, 0), noites };
+  const total = linhas.reduce((s, l) => s + l.valor, 0);
+  return { linhas, total, sinal: valorSinal(total), noites };
 }
 
 export function gerarCodigo() {
@@ -95,14 +139,19 @@ export function gerarCodigo() {
   return s;
 }
 
-export function hospedesTexto(adultos: number, criancas: number) {
+export function hospedesTexto(adultos: number, idades: number[]) {
   let t = `${adultos} adulto${adultos > 1 ? "s" : ""}`;
-  if (criancas) t += ` e ${criancas} criança${criancas > 1 ? "s" : ""}`;
+  const n = idades.length;
+  if (n) {
+    const conhecidas = idades.filter((i) => i >= 0);
+    const anos = conhecidas.length === n ? ` (${conhecidas.map((i) => (i === 0 ? "menos de 1 ano" : `${i} ano${i > 1 ? "s" : ""}`)).join(", ")})` : "";
+    t += ` e ${n} criança${n > 1 ? "s" : ""}${anos}`;
+  }
   return t;
 }
 
 export function mensagemWhatsApp(p: Pedido) {
-  const { linhas, total } = calcular(p);
+  const { linhas, total, sinal } = calcular(p);
   const ac = ACOMODACOES.find((a) => a.slug === p.acomodacao);
   const partes = [
     `Olá! Quero solicitar uma reserva no ${HOTEL.nome}.`,
@@ -112,15 +161,28 @@ export function mensagemWhatsApp(p: Pedido) {
     `Acomodação: ${ac?.nome ?? "-"}`,
     `Entrada: ${fmtData(p.entrada)} (a partir das ${HOTEL.checkin})`,
     `Saída: ${fmtData(p.saida)} (até ${HOTEL.checkout})`,
-    `Hóspedes: ${hospedesTexto(p.adultos, p.criancas)}`,
+    `Hóspedes: ${hospedesTexto(p.adultos, p.idades)}`,
     "",
     "Orçamento feito no site:",
     ...linhas.map((l) => `• ${l.rotulo} = ${brl(l.valor)}`),
     `Total estimado: ${brl(total)}`,
+    `Sinal de ${HOTEL.sinalPercentual}% para garantir: ${brl(sinal)}`,
   ];
   if (p.obs) partes.push("", `Observações: ${p.obs}`);
-  partes.push("", "Aguardo a confirmação. Obrigado!");
+  partes.push("", "Aguardo a confirmação da disponibilidade e os dados para o sinal. Obrigado!");
   return partes.join("\n");
 }
 
 export const waLink = (texto: string) => `https://wa.me/${HOTEL.whatsapp}?text=${encodeURIComponent(texto)}`;
+
+export function mensagemDayUse(data: string, pessoas: number) {
+  return [
+    `Olá! Quero fazer um day use na área das piscinas do ${HOTEL.nome}.`,
+    "",
+    `Data: ${fmtData(data)}`,
+    `Pessoas: ${pessoas}`,
+    `Valor estimado: ${pessoas} × ${brl(DAY_USE.preco)} = ${brl(pessoas * DAY_USE.preco)}`,
+    "",
+    "Pode confirmar se há vaga? Obrigado!",
+  ].join("\n");
+}

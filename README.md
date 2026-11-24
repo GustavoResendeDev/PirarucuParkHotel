@@ -10,7 +10,7 @@ Requer Node.js 20 ou mais novo.
 
 ```bash
 npm install
-cp .env.example .env.local   # coloque o WhatsApp oficial do hotel
+cp .env.example .env.local   # opcional: troca o WhatsApp do hotel
 npm run dev                  # abre em http://localhost:3000
 ```
 
@@ -22,8 +22,8 @@ Versão de produção: `npm run build` gera o site estático em `out/`. Todo pus
 | --- | --- |
 | `/` | Hero com foto em shader WebGL (água ondulando, reflexos dourados, parallax e onda que segue o cursor/toque) e barra de reserva, diferenciais, quartos e flats, experiências, galeria em carrossel, como chegar e dúvidas, chamada final e rodapé completo |
 | `/acomodacoes` e `/acomodacoes/[slug]` | As três acomodações com fotos reais e a tabela oficial de diárias |
-| `/pesca` | Pesca esportiva exclusiva para hóspedes: R$ 50 por pessoa/diária, 24 horas |
-| `/reservar` | Orçamento em 3 passos (datas e hóspedes, acomodação e pesca, seus dados) com resumo ao vivo e envio por WhatsApp |
+| `/pesca` | Pesca esportiva exclusiva para hóspedes (R$ 50 por pessoa/diária, 24 horas), regras e iscas permitidas, link para o Recanto do Pirarucu |
+| `/reservar` | Orçamento em 3 passos (datas e hóspedes, acomodação e pesca, seus dados) com resumo ao vivo, sinal de 50% e envio por WhatsApp. Abaixo, orçamento de day use nas piscinas |
 
 ## Identidade visual
 
@@ -36,15 +36,16 @@ Cores, logo e tipografia seguem o manual da marca: verde `#364339`, creme `#d6cd
 
 ## Dados oficiais
 
-Preços, inclusos e regras estão em `lib/data.ts` (tabela do hotel, nov/2026):
+Preços em `lib/data.ts` (tabela do hotel, nov/2026). Regras e capacidades do questionário respondido pela gerente em 24/11/2026:
 
-- Executivo: individual R$ 220, duplo R$ 330, triplo R$ 430.
-- Deluxe Flat: R$ 420 o casal + R$ 120 por pessoa adicional.
-- Deluxe Flat com Banheira: R$ 500 o casal + R$ 150 por pessoa adicional.
-- Pesca esportiva: R$ 50 por pessoa/diária, 24 horas, só para hóspedes.
-- Incluso: café da manhã e piscinas aquecidas. Restaurante pago à parte. Sem bebidas externas.
+- Executivo (18 quartos): individual R$ 220, duplo R$ 330, triplo R$ 430, e 4ª pessoa com cama extra de R$ 100.
+- Deluxe Flat (3) e Deluxe Flat com Banheira (3): até 4 pessoas, R$ 420 + R$ 120 e R$ 500 + R$ 150 por pessoa adicional.
+- Crianças até 7 anos não pagam (o orçamento pede a idade de cada criança).
+- Sinal de 50% garante a reserva. Mínimo de 2 diárias em feriados (lista em `FERIADOS`).
+- Pesca: R$ 50 por pessoa/diária, 24 horas, pesque e solte, só para hóspedes. Day use nas piscinas: R$ 30 por pessoa.
+- WhatsApp oficial: (62) 99622-6450. Também pode vir de `NEXT_PUBLIC_WHATSAPP`.
 
-Ainda a confirmar com o hotel: capacidade máxima dos flats (o site usa 4), se criança paga como pessoa adicional (o site considera que sim), prazo de expiração da solicitação (24h) e o número oficial de WhatsApp (`NEXT_PUBLIC_WHATSAPP` no `.env.local`).
+Ainda a confirmar na visita de 05/12/2026: se a cama extra é por diária, se crianças grátis contam na capacidade do quarto, feriados locais e datas de alta temporada, e o prazo para pagar o sinal.
 
 ## Próximos passos
 

@@ -46,6 +46,21 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               <li key={c} className="rounded-full border border-verde/15 px-4 py-2 text-[15px] text-verde">{c}</li>
             ))}
           </ul>
+          <div className="mt-12 grid gap-10 sm:grid-cols-2">
+            <div>
+              <h2 className="text-[15px] text-salvia-escura">Camas</h2>
+              <ul className="mt-3 space-y-2 text-verde">
+                {ac.camas.map((c) => <li key={c}>{c}</li>)}
+              </ul>
+            </div>
+            <div>
+              <h2 className="text-[15px] text-salvia-escura">No quarto</h2>
+              <ul className="mt-3 space-y-2 text-verde">
+                {ac.comodidades.map((c) => <li key={c}>{c}</li>)}
+              </ul>
+            </div>
+          </div>
+          <p className="mt-8 text-[15px] text-verde/70">Até {ac.capacidade} pessoas. Crianças até {HOTEL.idadeCriancaGratis} anos não pagam. Temos elevador e banheiro adaptado.</p>
           <div className="mt-14 grid grid-cols-2 gap-3 md:gap-4">
             {demais.map((f, k) => (
               <Reveal key={f} y={24} className={k === 0 && demais.length % 2 === 1 ? "col-span-2" : ""}>
@@ -65,6 +80,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           </ul>
           <h3 className="mt-6 text-[15px] text-dourado">Opcional</h3>
           <p className="mt-2 text-marfim/85">Pesca esportiva 24 horas, {brl(PESCA.preco)} por pessoa/diária.</p>
+          <p className="mt-6 text-sm text-marfim/60">Reserva garantida com sinal de {HOTEL.sinalPercentual}%. Mínimo de {HOTEL.minimoDiariasFeriado} diárias em feriados.</p>
           <p className="mt-6 text-sm text-marfim/60">Check-in a partir das {HOTEL.checkin}, check-out até as {HOTEL.checkout}.</p>
           <Link href={`/reservar?acomodacao=${ac.slug}`} className="pressionavel mt-8 flex h-14 items-center justify-center rounded-full bg-dourado text-[15px] font-medium text-verde-noite hover:bg-dourado-claro">
             Fazer orçamento

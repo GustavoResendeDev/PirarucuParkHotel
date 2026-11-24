@@ -5,11 +5,14 @@ import { brl } from "@/lib/reserva";
 export function linhasPreco(ac: Acomodacao) {
   const t = ac.tarifa;
   if (t.tipo === "por-ocupacao")
-    return Object.entries(t.valores).map(([n, v]) => ({
-      rotulo: Number(n) === 1 ? "Individual" : Number(n) === 2 ? "Duplo" : "Triplo",
-      detalhe: `${n} pessoa${Number(n) > 1 ? "s" : ""}`,
-      valor: brl(v),
-    }));
+    return [
+      ...Object.entries(t.valores).map(([n, v]) => ({
+        rotulo: Number(n) === 1 ? "Individual" : Number(n) === 2 ? "Duplo" : "Triplo",
+        detalhe: `${n} pessoa${Number(n) > 1 ? "s" : ""}`,
+        valor: brl(v),
+      })),
+      ...(t.camaExtra ? [{ rotulo: "Cama extra", detalhe: "4ª pessoa", valor: `+ ${brl(t.camaExtra)}` }] : []),
+    ];
   return [
     { rotulo: "Casal", detalhe: "2 pessoas", valor: brl(t.casal) },
     { rotulo: "Pessoa adicional", detalhe: "por pessoa", valor: `+ ${brl(t.adicional)}` },

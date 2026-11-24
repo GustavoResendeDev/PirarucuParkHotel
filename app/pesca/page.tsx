@@ -5,20 +5,20 @@ import { Logo } from "@/components/Logo";
 import { Padrao } from "@/components/Padrao";
 import { Reveal } from "@/components/Motion";
 import { TituloMarca } from "@/components/TituloMarca";
-import { IconePesca, IconeRelogio, IconePessoa, IconeSemBebida } from "@/components/Icones";
-import { HOTEL, PESCA } from "@/lib/data";
+import { IconeLago, IconePesca, IconeRelogio, IconePessoa } from "@/components/Icones";
+import { HOTEL, PESCA, REGRAS_PESCA } from "@/lib/data";
 import { brl } from "@/lib/reserva";
 
 export const metadata: Metadata = {
   title: "Pesca esportiva",
-  description: `Pesca esportiva 24 horas, exclusiva para hóspedes do ${HOTEL.nome}: ${brl(PESCA.preco)} por pessoa, por diária.`,
+  description: `Pesca esportiva no pesque e solte, 24 horas, exclusiva para hóspedes do ${HOTEL.nome}: ${brl(PESCA.preco)} por pessoa, por diária. Veja as regras e iscas permitidas.`,
 };
 
 const COMO = [
   { Icone: IconePessoa, titulo: "Só para hóspedes", texto: "O direito à pesca é exclusivo de quem está hospedado no hotel." },
   { Icone: IconeRelogio, titulo: "24 horas", texto: "Pesque de madrugada, ao amanhecer ou depois do jantar. O horário é seu." },
   { Icone: IconePesca, titulo: `${brl(PESCA.preco)} por pessoa`, texto: "O valor é por diária. Você escolhe quantas pessoas e quantos dias vão pescar." },
-  { Icone: IconeSemBebida, titulo: "Bebidas do hotel", texto: "Não é permitida a entrada de bebidas externas, inclusive na beira do lago." },
+  { Icone: IconeLago, titulo: "Pesque e solte", texto: "Todo peixe volta para o lago. Para soltar o pirarucu, chame a equipe no quiosque da pesca." },
 ];
 
 export default function Page() {
@@ -65,15 +65,33 @@ export default function Page() {
       </section>
 
       <section className="py-24 md:py-28">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-end justify-between gap-8 px-5 md:px-8">
-          <div className="max-w-xl">
-            <h2 className="font-display text-3xl md:text-4xl">Recanto do Pirarucu</h2>
-            <p className="mt-4 text-marfim/75">
-              O hotel faz parte do grupo Pirarucu. O clube de pesca Recanto do Pirarucu funciona {HOTEL.pesqueiroFuncionamento.toLowerCase()} e publica novidades no Instagram.
-            </p>
+        <div className="mx-auto max-w-7xl px-5 md:px-8">
+          <h2 className="font-display text-4xl md:text-5xl">Regras da pesca</h2>
+          <div className="mt-12 grid gap-10 md:grid-cols-3">
+            <div>
+              <h3 className="text-[15px] text-dourado">Iscas permitidas</h3>
+              <ul className="mt-3 space-y-2 text-marfim/85">{REGRAS_PESCA.iscasPermitidas.map((x) => <li key={x}>{x}</li>)}</ul>
+            </div>
+            <div>
+              <h3 className="text-[15px] text-dourado">Iscas proibidas</h3>
+              <ul className="mt-3 space-y-2 text-marfim/85">{REGRAS_PESCA.iscasProibidas.map((x) => <li key={x}>{x}</li>)}</ul>
+            </div>
+            <div>
+              <h3 className="text-[15px] text-dourado">Equipamentos proibidos</h3>
+              <ul className="mt-3 space-y-2 text-marfim/85">{REGRAS_PESCA.equipamentosProibidos.map((x) => <li key={x}>{x}</li>)}</ul>
+            </div>
           </div>
+          <ul className="mt-12 space-y-3 border-t border-dourado/15 pt-8 text-[15px] text-marfim/75">
+            {REGRAS_PESCA.avisos.map((x) => <li key={x}>{x}</li>)}
+          </ul>
+        </div>
+      </section>
+
+      <section className="border-t border-dourado/15 py-16">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-5 md:px-8">
+          <p className="text-marfim/75">Conheça também o clube de pesca Recanto do Pirarucu.</p>
           <a href={HOTEL.instagramPesqueiro} target="_blank" rel="noopener" className="inline-flex min-h-11 items-center text-[15px] text-dourado-claro underline decoration-dourado underline-offset-8 hover:decoration-2">
-            @clubedepescarecantodopirarucu
+            Recanto do Pirarucu no Instagram
           </a>
         </div>
       </section>
