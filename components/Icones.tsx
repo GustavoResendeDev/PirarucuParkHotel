@@ -60,3 +60,38 @@ export const IconeRelogio = ({ className = "" }: P) => (
     <circle cx="24" cy="24" r="16" /><path d="M24 14v10l7 5" />
   </svg>
 );
+export const IconeCalendario = ({ className = "" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...base} strokeWidth={1.3}>
+    <rect x="3.5" y="5" width="17" height="15.5" rx="1.5" /><path d="M3.5 10h17M8 3v4M16 3v4" /><path d="M8 14h2M14 14h2M8 17h2" />
+  </svg>
+);
+export const IconeHospedes = ({ className = "" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...base} strokeWidth={1.3}>
+    <circle cx="9" cy="8" r="3.2" /><path d="M3 20c.6-3.6 3-5.6 6-5.6s5.4 2 6 5.6" /><path d="M15.5 5.2a3 3 0 0 1 0 5.6M17.5 14.8c1.8.6 3 2.4 3.5 5.2" />
+  </svg>
+);
+export const IconeCama = ({ className = "" }: P) => (
+  <svg viewBox="0 0 48 48" className={className} aria-hidden="true" {...base}>
+    <path d="M6 36V14M6 28h36v8M42 28v-4a6 6 0 0 0-6-6H22v10" /><rect x="10" y="20" width="9" height="6" rx="3" /><path d="M6 36v4M42 36v4" />
+  </svg>
+);
+export const IconeLago = ({ className = "" }: P) => (
+  <svg viewBox="0 0 48 48" className={className} aria-hidden="true" {...base}>
+    <circle cx="33" cy="15" r="5" /><path d="M4 30l10-12 7 8 4-4 9 8" /><path d="M4 36c3 0 3-2 6-2s3 2 6 2 3-2 6-2 3 2 6 2 3-2 6-2 3 2 6 2" /><path d="M8 42c3 0 3-2 6-2s3 2 6 2 3-2 6-2 3 2 6 2 3-2 6-2" />
+  </svg>
+);
+export const IconeLocal = ({ className = "" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...base} strokeWidth={1.3}>
+    <path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z" /><circle cx="12" cy="9.5" r="2.5" />
+  </svg>
+);
+export const IconeInstagram = ({ className = "" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...base} strokeWidth={1.3}>
+    <rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.2" cy="6.8" r=".6" fill="currentColor" />
+  </svg>
+);
+export const IconeSeta = ({ className = "" }: P) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...base} strokeWidth={1.4}>
+    <path d="M5 12h14M13 6l6 6-6 6" />
+  </svg>
+);

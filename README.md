@@ -20,7 +20,7 @@ Versão de produção: `npm run build` gera o site estático em `out/`. Todo pus
 
 | Rota | O que tem |
 | --- | --- |
-| `/` | Hero 3D (lago com o pirarucu em linhas douradas), o hotel, estrutura (incluso x opcional), acomodações em rolagem horizontal, pesca, galeria, orçamento, mapa e dúvidas |
+| `/` | Hero com foto em shader WebGL (água ondulando, reflexos dourados, parallax e onda que segue o cursor/toque) e barra de reserva, diferenciais, quartos e flats, experiências, galeria em carrossel, como chegar e dúvidas, chamada final e rodapé completo |
 | `/acomodacoes` e `/acomodacoes/[slug]` | As três acomodações com fotos reais e a tabela oficial de diárias |
 | `/pesca` | Pesca esportiva exclusiva para hóspedes: R$ 50 por pessoa/diária, 24 horas |
 | `/reservar` | Orçamento em 3 passos (datas e hóspedes, acomodação e pesca, seus dados) com resumo ao vivo e envio por WhatsApp |
@@ -28,6 +28,11 @@ Versão de produção: `npm run build` gera o site estático em `out/`. Todo pus
 ## Identidade visual
 
 Cores, logo e tipografia seguem o manual da marca: verde `#364339`, creme `#d6cdac`, sálvia `#70826a` e dourado `#c8b28a`. Os tokens ficam em `app/globals.css`; o logo oficial em `public/marca/`. Títulos usam o estilo do manual (caixa alta fina com o "X" traçado sobre uma letra), em `components/TituloMarca.tsx`.
+
+## Animações e desempenho
+
+- `components/ShaderFoto.tsx`: shader WebGL leve (sem bibliotecas 3D) aplicado às fotos do hero e da chamada final. Pausa fora da tela, usa resolução menor no celular e volta para a foto estática quando não há WebGL, com economia de dados ou com "reduzir movimento" ligado.
+- Parallax pela rolagem nas fotos dos cartões e no texto do hero (`Parallax` em `components/Motion.tsx`).
 
 ## Dados oficiais
 

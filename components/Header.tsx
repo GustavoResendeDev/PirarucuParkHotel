@@ -7,9 +7,11 @@ import { Logo } from "./Logo";
 import { HOTEL } from "@/lib/data";
 
 const LINKS = [
+  { href: "/", rotulo: "Início" },
   { href: "/acomodacoes", rotulo: "Acomodações" },
+  { href: "/#experiencias", rotulo: "Experiências" },
   { href: "/pesca", rotulo: "Pesca" },
-  { href: "/#estrutura", rotulo: "Estrutura" },
+  { href: "/#galeria", rotulo: "Galeria" },
   { href: "/#localizacao", rotulo: "Como chegar" },
 ];
 
@@ -42,22 +44,25 @@ export function Header() {
           <Link href="/" aria-label="Pirarucu Park Hotel, início" className="relative z-10 block w-24 md:w-28" onClick={() => setAberto(false)}>
             <Logo cor={sobreVerde ? "dourado" : "verde"} className="w-full" />
           </Link>
-          <nav className="hidden items-center gap-10 text-[15px] lg:flex" aria-label="Principal">
-            {LINKS.map((l) => (
-              <Link key={l.href} href={l.href} className="group relative cursor-pointer py-2 tracking-wide">
-                {l.rotulo}
-                <span className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-dourado transition-transform duration-300 ease-[var(--ease-premium)] group-hover:scale-x-100" />
-              </Link>
-            ))}
+          <nav className="hidden items-center gap-8 text-[12px] font-medium tracking-[0.16em] uppercase lg:flex xl:gap-10" aria-label="Principal">
+            {LINKS.map((l) => {
+              const ativo = l.href === path || (l.href !== "/" && !l.href.includes("#") && !!path?.startsWith(l.href));
+              return (
+                <Link key={l.href} href={l.href} aria-current={ativo ? "page" : undefined} className="group relative cursor-pointer py-2">
+                  {l.rotulo}
+                  <span className={`absolute inset-x-0 bottom-0 h-px origin-left bg-dourado transition-transform duration-300 ease-[var(--ease-premium)] group-hover:scale-x-100 ${ativo ? "scale-x-100" : "scale-x-0"}`} />
+                </Link>
+              );
+            })}
           </nav>
           <div className="relative z-10 flex items-center gap-3">
             <Link
               href="/reservar"
-              className={`pressionavel hidden h-11 items-center rounded-full border px-6 text-sm tracking-wide sm:inline-flex ${
-                sobreVerde ? "border-dourado/60 text-marfim hover:bg-dourado hover:text-verde-noite" : "border-verde bg-verde text-marfim hover:bg-verde-claro"
+              className={`pressionavel hidden h-11 items-center rounded-lg px-6 text-[12px] font-medium tracking-[0.16em] uppercase sm:inline-flex ${
+                sobreVerde ? "bg-dourado text-verde-noite hover:bg-dourado-claro" : "bg-verde text-marfim hover:bg-verde-claro"
               }`}
             >
-              Reservar
+              Reservar agora
             </Link>
             <button
               type="button"
@@ -85,7 +90,7 @@ export function Header() {
             className="fixed inset-0 z-40 flex flex-col justify-end bg-verde px-6 pt-28 pb-10 text-marfim lg:hidden"
           >
             <nav className="flex flex-col gap-3" aria-label="Menu">
-              {[...LINKS, { href: "/reservar", rotulo: "Reservar" }].map((l, i) => (
+              {[...LINKS.slice(1), { href: "/reservar", rotulo: "Reservar" }].map((l, i) => (
                 <motion.div key={l.href} initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.15 + i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}>
                   <Link href={l.href} onClick={() => setAberto(false)} className="font-display text-4xl">
                     {l.rotulo}
