@@ -14,12 +14,12 @@ const DIFERENCIAIS = [
   { Icone: IconeLago, nome: "À beira do lago", texto: "Natureza e pôr do sol a poucos passos do quarto" },
   { Icone: IconeCama, nome: "Acomodações confortáveis", texto: "Quartos e flats amplos, silenciosos e modernos" },
   { Icone: IconeCafe, nome: "Café da manhã", texto: "Incluso na diária, todas as manhãs" },
-  { Icone: IconePiscina, nome: "Piscinas aquecidas", texto: "Acesso livre durante toda a estadia" },
+  { Icone: IconePiscina, nome: "Piscinas aquecidas", texto: "Abertas 24 horas para os hóspedes" },
   { Icone: IconePesca, nome: "Pesca 24 horas", texto: `Exclusiva para hóspedes, ${brl(PESCA.preco)} por pessoa/diária` },
 ];
 
 const RESUMO: Record<string, string> = {
-  executivo: "Silencioso e confortável, para uma, duas ou três pessoas.",
+  executivo: "Silencioso e confortável, para até quatro pessoas com cama extra.",
   deluxe: "Sala e quarto separados, com mais espaço para a família.",
   "deluxe-banheira": "Nosso flat mais completo, com banheira para relaxar.",
 };
@@ -154,7 +154,7 @@ export default function Home() {
           <div>
             <p className="text-[12px] font-medium tracking-[0.26em] text-dourado-escuro uppercase">Como chegar</p>
             <h2 className="font-display mt-3 text-[clamp(2rem,4vw,3rem)] leading-[1.1] text-verde">{HOTEL.cidade}, Goiás</h2>
-            <p className="mt-4 max-w-md text-verde/75">A {HOTEL.distancia}. Check-in a partir das {HOTEL.checkin} e check-out até as {HOTEL.checkout}.</p>
+            <p className="mt-4 max-w-md text-verde/75">{HOTEL.endereco}, {HOTEL.cidade} ({HOTEL.uf}), a {HOTEL.distancia}. Check-in a partir das {HOTEL.checkin} e check-out até as {HOTEL.checkout}.</p>
             <div className="mt-8 aspect-[4/3] overflow-hidden rounded-xl border border-verde/10 bg-creme">
               <iframe
                 title={`Mapa de ${HOTEL.cidade}`}

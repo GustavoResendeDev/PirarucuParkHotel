@@ -13,6 +13,7 @@ const LINKS = [
   { href: "/pesca", rotulo: "Pesca esportiva" },
   { href: "/#galeria", rotulo: "Galeria" },
   { href: "/reservar", rotulo: "Fazer orçamento" },
+  { href: "/reservar#day-use", rotulo: "Day use" },
 ];
 
 const titulo = "mb-5 text-[12px] font-medium tracking-[0.2em] text-dourado uppercase";
@@ -54,11 +55,19 @@ export function Footer() {
           <ul className="space-y-4 text-[14px]">
             <li className="flex gap-3">
               <IconeLocal className="mt-0.5 size-[18px] shrink-0 text-dourado" />
-              <span>{HOTEL.cidade}, {HOTEL.uf}<br />a {HOTEL.distancia}</span>
+              <span>{HOTEL.endereco}<br />{HOTEL.cidade}, {HOTEL.uf} · a {HOTEL.distancia}</span>
+            </li>
+            <li className="flex gap-3">
+              <IconeWhatsApp className="mt-0.5 size-[18px] shrink-0 text-dourado" />
+              <a href={waLink(`Olá! Vi o site do ${HOTEL.nome} e gostaria de informações.`)} target="_blank" rel="noopener" className="hover:text-marfim">{HOTEL.whatsappExibicao}</a>
+            </li>
+            <li className="flex gap-3">
+              <span aria-hidden className="mt-0.5 w-[18px] shrink-0 text-center text-dourado">@</span>
+              <a href={`mailto:${HOTEL.email}`} className="break-all hover:text-marfim">{HOTEL.email}</a>
             </li>
             <li className="flex gap-3">
               <IconeInstagram className="mt-0.5 size-[18px] shrink-0 text-dourado" />
-              <a href={HOTEL.instagramHotel} target="_blank" rel="noopener" className="hover:text-marfim">@pirarucuparkhotel</a>
+              <a href={HOTEL.instagramHotel} target="_blank" rel="noopener" className="hover:text-marfim">{HOTEL.instagramUsuario}</a>
             </li>
             <li className="flex gap-3">
               <IconePesca className="mt-0.5 size-[18px] shrink-0 text-dourado" />
@@ -72,7 +81,9 @@ export function Footer() {
           <dl className="space-y-3 text-[14px]">
             <div><dt className="text-marfim">Check-in</dt><dd>a partir das {HOTEL.checkin}</dd></div>
             <div><dt className="text-marfim">Check-out</dt><dd>até as {HOTEL.checkout}</dd></div>
-            <div><dt className="text-marfim">Pesca para hóspedes</dt><dd>24 horas · {brl(PESCA.preco)}/pessoa</dd></div>
+            <div><dt className="text-marfim">Café da manhã</dt><dd>{HOTEL.cafe}</dd></div>
+            <div><dt className="text-marfim">Restaurante</dt><dd>{HOTEL.restaurante}</dd></div>
+            <div><dt className="text-marfim">Piscinas e pesca</dt><dd>24 horas · pesca {brl(PESCA.preco)}/pessoa</dd></div>
           </dl>
         </div>
 

@@ -17,7 +17,7 @@ export default function Page() {
     <div className="bg-areia-clara pt-36 pb-28 md:pt-44">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <TituloMarca as="h1" texto="ACOMODAÇÕES" letra={6} className="text-[clamp(2.6rem,7vw,5.4rem)] text-salvia" />
-        <p className="mt-8 max-w-xl text-lg text-verde/80">Todas as diárias incluem café da manhã e acesso livre às piscinas aquecidas. Escolha as datas para ver o valor da sua estadia.</p>
+        <p className="mt-8 max-w-xl text-lg text-verde/80">Todos os quartos têm vista para o lago, e as diárias incluem café da manhã, piscinas aquecidas abertas 24 horas e estacionamento. Escolha as datas para ver o valor da sua estadia.</p>
         <Reveal delay={0.15} className="mt-10">
           <BuscaRapida variante="claro" />
         </Reveal>

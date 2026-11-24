@@ -8,14 +8,17 @@ import {
   brl,
   calcular,
   contarNoites,
+  criancaGratis,
   diaria,
-  distribuir,
+  feriadosNaEstadia,
   fmtDataCurta,
   gerarCodigo,
   hospedesTexto,
   mensagemWhatsApp,
   parseISO,
+  pagantes,
   proximaSexta,
+  quartosDoGrupo,
   toISO,
   totalHospedes,
   waLink,
@@ -39,7 +42,7 @@ function pedidoInicial(): Pedido {
     entrada: toISO(s),
     saida: toISO(addDias(s, 2)),
     adultos: 2,
-    criancas: 0,
+    idades: [],
     acomodacao: undefined,
     pescadores: 0,
     diasPesca: 2,
@@ -97,6 +100,10 @@ export function Reserva() {
     if (etapa === "estadia") {
       if (!p.entrada || !p.saida || p.saida <= p.entrada) return setErro("Escolha uma saída depois da entrada.");
       if (hoje && p.entrada < hoje) return setErro("A entrada não pode ser uma data que já passou.");
+      if (p.idades.some((i) => i < 0)) return setErro("Informe a idade de cada criança.");
+      const feriados = feriadosNaEstadia(p.entrada, p.saida);
+      if (feriados.length && noites < HOTEL.minimoDiariasFeriado)
+        return setErro(`Para essas datas, escolha pelo menos ${HOTEL.minimoDiariasFeriado} diárias.`);
       // limita pescadores e dias de pesca ao que a nova estadia permite
       setP((x) => ({
         ...x,
@@ -243,6 +250,7 @@ const rotuloCampo = "text-[15px] text-salvia-escura";
 const campoBase = "mt-2 w-full rounded-2xl border border-verde/15 bg-marfim px-5 py-4 text-verde outline-none transition-colors duration-200 focus:border-salvia focus-visible:ring-2 focus-visible:ring-dourado";
 
 function EtapaEstadia({ p, set, hoje, noites }: { p: Pedido; set: Setter; hoje: string; noites: number }) {
+  const feriados = noites > 0 ? feriadosNaEstadia(p.entrada, p.saida) : [];
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
@@ -268,21 +276,53 @@ function EtapaEstadia({ p, set, hoje, noites }: { p: Pedido; set: Setter; hoje: 
         {noites > 0 ? `${noites} diária${noites > 1 ? "s" : ""}, de ${fmtDataCurta(p.entrada)} a ${fmtDataCurta(p.saida)}.` : "Escolha as datas."} Check-in a partir das {HOTEL.checkin}, check-out até as {HOTEL.checkout}.
       </p>
       <Contador rotulo="Adultos" valor={p.adultos} min={1} max={12} onChange={(v) => set("adultos", v)} />
-      <Contador rotulo="Crianças" sub="Contam como pessoa na diária" valor={p.criancas} min={0} max={8} onChange={(v) => set("criancas", v)} />
+      <Contador
+        rotulo="Crianças"
+        sub={`Até ${HOTEL.idadeCriancaGratis} anos não pagam`}
+        valor={p.idades.length}
+        min={0}
+        max={8}
+        onChange={(v) => set("idades", v > p.idades.length ? [...p.idades, -1] : p.idades.slice(0, v))}
+      />
+      {p.idades.length > 0 && (
+        <div className="grid gap-3 sm:grid-cols-2">
+          {p.idades.map((idade, i) => (
+            <label key={i} className="block">
+              <span className={rotuloCampo}>Idade da criança {i + 1}</span>
+              <select
+                value={idade}
+                onChange={(e) => set("idades", p.idades.map((x, k) => (k === i ? Number(e.target.value) : x)))}
+                className={`${campoBase} cursor-pointer`}
+              >
+                <option value={-1} disabled>Escolha a idade</option>
+                {Array.from({ length: 18 }, (_, n) => (
+                  <option key={n} value={n}>{n === 0 ? "Menos de 1 ano" : `${n} ano${n > 1 ? "s" : ""}`}{criancaGratis(n) ? " (não paga)" : ""}</option>
+                ))}
+              </select>
+            </label>
+          ))}
+        </div>
+      )}
+      {feriados.length > 0 && (
+        <p className="rounded-2xl bg-areia px-5 py-3 text-[15px] text-verde/85">
+          Sua estadia inclui {feriados.join(", ")}. Em feriados e alta temporada, o mínimo é de {HOTEL.minimoDiariasFeriado} diárias.
+        </p>
+      )}
     </div>
   );
 }
 
 function EtapaOpcoes({ p, set, noites }: { p: Pedido; set: Setter; noites: number }) {
   const h = totalHospedes(p);
+  const pag = pagantes(p);
   return (
     <div className="space-y-10">
       <fieldset className="space-y-4">
         <legend className="font-display text-3xl text-verde">Acomodação</legend>
-        <p className="text-[15px] text-verde/70">Valores para {hospedesTexto(p.adultos, p.criancas)}, {noites} diária{noites > 1 ? "s" : ""}, com café da manhã e piscinas aquecidas.</p>
+        <p className="text-[15px] text-verde/70">Valores para {hospedesTexto(p.adultos, p.idades)}, {noites} diária{noites > 1 ? "s" : ""}, com café da manhã, piscinas aquecidas e estacionamento.</p>
         {ACOMODACOES.map((ac) => {
-          const quartos = distribuir(ac, h);
-          const total = quartos.reduce((s, n) => s + diaria(ac, n), 0) * noites;
+          const quartos = quartosDoGrupo(ac, h, pag);
+          const total = quartos.reduce((s, q) => s + diaria(ac, q.pessoas, q.pagantes), 0) * noites;
           const sel = p.acomodacao === ac.slug;
           return (
             <button
@@ -303,7 +343,8 @@ function EtapaOpcoes({ p, set, noites }: { p: Pedido; set: Setter; noites: numbe
                     <li key={x} className="rounded-full bg-areia px-3 py-1 text-[13px] text-verde">{x}</li>
                   ))}
                 </ul>
-                {quartos.length > 1 && <p className="mt-3 text-sm text-dourado-escuro">Para {h} pessoas: {quartos.length} quartos ({quartos.join(" + ")})</p>}
+                {quartos.length > 1 && <p className="mt-3 text-sm text-dourado-escuro">Para {h} pessoas: {quartos.length} quartos ({quartos.map((q) => q.pessoas).join(" + ")})</p>}
+                {quartos.some((q) => q.pessoas > 3) && ac.tarifa.tipo === "por-ocupacao" && <p className="mt-3 text-sm text-dourado-escuro">Inclui cama extra para a 4ª pessoa</p>}
               </div>
               <div className="flex flex-row items-center justify-between gap-1 border-t border-verde/5 bg-areia-clara p-6 sm:flex-col sm:items-end sm:justify-center sm:border-t-0 sm:border-l">
                 <span className="text-sm text-verde/65">total da hospedagem</span>
@@ -317,7 +358,7 @@ function EtapaOpcoes({ p, set, noites }: { p: Pedido; set: Setter; noites: numbe
 
       <fieldset className="space-y-4">
         <legend className="font-display text-3xl text-verde">Pesca esportiva</legend>
-        <p className="text-[15px] text-verde/70">Opcional e exclusiva para hóspedes: {brl(PESCA.preco)} por pessoa, por diária, com direito a pescar 24 horas.</p>
+        <p className="text-[15px] text-verde/70">Opcional e exclusiva para hóspedes: {brl(PESCA.preco)} por pessoa, por diária, com direito a pescar 24 horas no pesque e solte. Traga seu equipamento.</p>
         <Contador rotulo="Pessoas que vão pescar" valor={p.pescadores} min={0} max={h} onChange={(v) => set("pescadores", v)} />
         {p.pescadores > 0 && (
           <Contador rotulo="Diárias de pesca" sub={`Sua estadia tem ${noites} diária${noites > 1 ? "s" : ""}`} valor={Math.min(p.diasPesca, Math.max(1, noites))} min={1} max={Math.max(1, noites)} onChange={(v) => set("diasPesca", v)} />
@@ -357,8 +398,9 @@ function EtapaDados({ p, set, aceite, setAceite }: { p: Pedido; set: Setter; ace
         <p className="text-verde">Como funciona</p>
         <ul className="mt-2 list-disc space-y-1 pl-5">
           <li>Você envia a solicitação e nossa equipe confirma a disponibilidade pelo WhatsApp.</li>
-          <li>A reserva só é garantida após a confirmação e o pagamento combinado.</li>
-          <li>Não é permitida a entrada de bebidas externas. Para trazer algo específico, consulte a gerência.</li>
+          <li>A reserva fica garantida com o sinal de {HOTEL.sinalPercentual}%, por PIX, transferência ou cartão. O restante é pago no hotel.</li>
+          <li>Mudança de data sem custo. Se cancelar, o valor pago vira crédito para usar em até 3 meses, exceto em feriados.</li>
+          <li>Não aceitamos animais. Não é permitida a entrada de bebidas externas; para champanhe ou vinho, peça autorização à gerência.</li>
         </ul>
       </div>
       <label className="flex cursor-pointer items-start gap-3 text-[15px] text-verde/85">
@@ -377,7 +419,7 @@ function Resumo({ p, orc, copiado, onCopiar }: { p: Pedido; orc: ReturnType<type
       <dl className="mt-5 space-y-3 text-[15px]">
         <Linha k="Período" v={`${fmtDataCurta(p.entrada)} a ${fmtDataCurta(p.saida)}`} />
         <Linha k="Diárias" v={String(orc.noites)} />
-        <Linha k="Hóspedes" v={hospedesTexto(p.adultos, p.criancas)} />
+        <Linha k="Hóspedes" v={hospedesTexto(p.adultos, p.idades)} />
         <Linha k="Acomodação" v={ac ? ac.nome : "a escolher"} />
       </dl>
       <div className="my-6 h-px bg-marfim/10" />
@@ -396,6 +438,12 @@ function Resumo({ p, orc, copiado, onCopiar }: { p: Pedido; orc: ReturnType<type
         <span className="text-[15px] text-marfim/70">Total estimado</span>
         <span className="font-display text-4xl text-dourado-claro">{brl(orc.total)}</span>
       </div>
+      {orc.total > 0 && (
+        <div className="mt-3 flex items-baseline justify-between text-[15px]">
+          <span className="text-marfim/70">Sinal de {HOTEL.sinalPercentual}% para garantir</span>
+          <span className="text-marfim">{brl(orc.sinal)}</span>
+        </div>
+      )}
       <p className="mt-3 text-sm text-marfim/55">Restaurante e bebidas são pagos à parte, no local.</p>
       <button type="button" onClick={onCopiar} className="pressionavel mt-6 h-12 w-full cursor-pointer rounded-full border border-marfim/20 text-[15px] hover:bg-marfim/10">
         {copiado ? "Orçamento copiado" : "Copiar orçamento"}
