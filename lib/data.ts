@@ -83,7 +83,7 @@ export const ACOMODACOES: Acomodacao[] = [
     camas: ["Individual: cama de casal ou de solteiro", "Duplo: 2 camas de solteiro", "Triplo: 1 casal + 1 solteiro, ou 3 de solteiro", "4ª pessoa: cama extra"],
     comodidades: ["Ar-condicionado", "TV", "Frigobar", "Wi-Fi", "Varanda", "Vista para o lago"],
     destaques: ["Vista para o lago", "Café da manhã incluso", "Até 4 pessoas"],
-    fotos: ["/fotos/executivo-casal-000.webp", "/fotos/executivo-triplo-000.webp", "/fotos/executivo-triplo-003.webp", "/fotos/executivo-casal-003.webp", "/fotos/executivo-casal-004.webp", "/fotos/executivo-casal-005.webp"],
+    fotos: ["/fotos/executivo-triplo-por-do-sol.webp", "/fotos/executivo-triplo-lago.webp", "/fotos/executivo-casal-000.webp", "/fotos/executivo-casal-006.webp", "/fotos/executivo-triplo-009.webp", "/fotos/executivo-triplo-008.webp", "/fotos/executivo-triplo-003.webp", "/fotos/executivo-casal-003.webp", "/fotos/executivo-casal-004.webp", "/fotos/executivo-casal-005.webp"],
     paleta: ["#56664f", "#222c25"],
   },
   {
@@ -97,7 +97,7 @@ export const ACOMODACOES: Acomodacao[] = [
     camas: ["Quarto: 1 cama de casal + 1 de solteiro", "Sala: 1 sofá-cama de casal"],
     comodidades: ["Ar-condicionado", "TV", "Frigobar", "Wi-Fi", "Varanda", "Sala separada", "Balcão com pia", "Vista para o lago"],
     destaques: ["Sala e quarto", "Vista para o lago", "Até 4 pessoas"],
-    fotos: ["/fotos/deluxe-000.webp", "/fotos/deluxe-004.webp", "/fotos/deluxe-001.webp", "/fotos/deluxe-003.webp", "/fotos/deluxe-002.webp"],
+    fotos: ["/fotos/deluxe-000.webp", "/fotos/deluxe-005.webp", "/fotos/deluxe-004.webp", "/fotos/deluxe-001.webp", "/fotos/deluxe-003.webp", "/fotos/deluxe-002.webp"],
     paleta: ["#9c8660", "#364339"],
   },
   {
@@ -111,7 +111,7 @@ export const ACOMODACOES: Acomodacao[] = [
     camas: ["Quarto: 1 cama de casal + 1 de solteiro", "Sala: 1 sofá-cama de casal"],
     comodidades: ["Banheira", "Ar-condicionado", "TV", "Frigobar", "Wi-Fi", "Varanda", "Sala separada", "Balcão com pia", "Vista para o lago"],
     destaques: ["Banheira", "Sala e quarto", "Vista para o lago", "Até 4 pessoas"],
-    fotos: ["/fotos/deluxe-banheira-004.webp", "/fotos/deluxe-banheira-003.webp", "/fotos/deluxe-banheira-000.webp", "/fotos/deluxe-banheira-006.webp", "/fotos/deluxe-banheira-007.webp"],
+    fotos: ["/fotos/deluxe-banheira-008.webp", "/fotos/deluxe-banheira-009.webp", "/fotos/deluxe-banheira-003.webp", "/fotos/deluxe-banheira-010.webp", "/fotos/deluxe-banheira-004.webp", "/fotos/deluxe-banheira-000.webp", "/fotos/deluxe-banheira-006.webp", "/fotos/deluxe-banheira-007.webp"],
     paleta: ["#70826a", "#1f2a22"],
   },
 ];

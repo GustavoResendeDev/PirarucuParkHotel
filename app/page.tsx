@@ -6,7 +6,8 @@ import { Parallax, Reveal } from "@/components/Motion";
 import { ShaderFoto } from "@/components/ShaderFoto";
 import { CabecalhoSecao } from "@/components/Secao";
 import { CarrosselMomentos, type Momento } from "@/components/CarrosselMomentos";
-import { IconeBanheira, IconeCafe, IconeCama, IconeLago, IconePesca, IconePiscina, IconeSemBebida, IconeServico } from "@/components/Icones";
+import { VideoDrone } from "@/components/VideoDrone";
+import { IconeBanheira, IconeCafe, IconeCama, IconeLago, IconePesca, IconePiscina, IconeSemBebida } from "@/components/Icones";
 import { ACOMODACOES, HOTEL, PESCA } from "@/lib/data";
 import { aPartirDe, brl } from "@/lib/reserva";
 
@@ -27,15 +28,18 @@ const RESUMO: Record<string, string> = {
 const EXPERIENCIAS = [
   { Icone: IconePesca, src: "/fotos/lago-noite.webp", alt: "O hotel visto do outro lado do lago, à noite", nome: "Pesca esportiva", texto: "Pesque de madrugada, ao nascer do sol ou depois do jantar.", href: "/pesca" },
   { Icone: IconeBanheira, src: "/fotos/deluxe-banheira-003.webp", alt: "Banheira com vista para o lago ao entardecer", nome: "Banheira com vista", texto: "Relaxe com o lago na janela no flat com banheira.", href: "/acomodacoes/deluxe-banheira" },
-  { Icone: IconeLago, src: "/fotos/executivo-triplo-000.webp", alt: "Quarto Executivo com o pôr do sol na janela", nome: "Pôr do sol no quarto", texto: "Janelas amplas voltadas para o fim de tarde goiano.", href: "/acomodacoes/executivo" },
-  { Icone: IconeServico, src: "/fotos/fachada-noite.webp", alt: "Entrada do hotel à noite, com a marquise iluminada", nome: "Noites iluminadas", texto: "Pedra natural, luz dourada e o silêncio do interior.", href: "/acomodacoes" },
+  { Icone: IconeLago, src: "/fotos/executivo-triplo-por-do-sol.webp", alt: "Quarto Executivo com o pôr do sol entrando pela porta da varanda", nome: "Pôr do sol no quarto", texto: "Janelas amplas voltadas para o fim de tarde goiano.", href: "/acomodacoes/executivo" },
+  { Icone: IconeCafe, src: "/fotos/cafe-001.webp", alt: "Mesa do café da manhã com melancia, mamão, melão e pães", nome: "Café da manhã", texto: "Frutas, pães, bolos e sucos, incluso em toda diária.", href: "/acomodacoes" },
 ];
 
 const MOMENTOS: Momento[] = [
   { src: "/fotos/recepcao.webp", alt: "Recepção com balcão de mármore verde e o pirarucu dourado na parede", titulo: "Chegada", texto: "Recepção com mármore verde e o pirarucu dourado, símbolo da casa." },
   { src: "/fotos/lobby.webp", alt: "Lobby com sofá curvo, jardim interno e escada", titulo: "Lobby e jardim interno", texto: "Um respiro verde logo na entrada, para esperar com calma." },
+  { src: "/fotos/lounge-001.webp", alt: "Lounge do mezanino com sofás curvos, mesas e janelas de vidro para o verde", titulo: "Lounge do mezanino", texto: "Sofás, mesas e janelões para ler, conversar ou ver o fim de tarde." },
+  { src: "/fotos/cafe-000.webp", alt: "Pães de coco, sucos e café no buffet da manhã", titulo: "Café da manhã", texto: "Pães, frutas, sucos e bolos para começar o dia sem pressa." },
   { src: "/fotos/deluxe-004.webp", alt: "Sala do Deluxe Flat com sofá e janela para o lago", titulo: "Espaço para a família", texto: "Flats com sala e quarto separados para ficar mais dias." },
   { src: "/fotos/peixe-janela.webp", alt: "Escultura do pirarucu em metal dourado numa abertura da parede de pedra", titulo: "Detalhes da marca", texto: "O pirarucu aparece em cada canto, em metal e luz." },
+  { src: "/fotos/bones.webp", alt: "Bonés verdes com o pirarucu e o nome do hotel bordados", titulo: "Lembrança da casa", texto: "O pirarucu bordado para levar a viagem com você." },
   { src: "/fotos/logo-pedra-noite.webp", alt: "Logo do hotel iluminado na parede de pedra", titulo: "Boa noite", texto: "Fim de dia tranquilo, com o lago logo ali." },
 ];
 
@@ -96,6 +100,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Vídeo de drone */}
+      <VideoDrone />
 
       {/* Experiências */}
       <section id="experiencias" className="scroll-mt-20 bg-areia py-24 md:py-32">
