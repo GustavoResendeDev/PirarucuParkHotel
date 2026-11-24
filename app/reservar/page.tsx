@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { DayUse } from "@/components/reserva/DayUse";
-import { Reserva } from "@/components/reserva/Reserva";
+import { LivroReserva } from "@/components/reserva/LivroReserva";
 
 export const metadata: Metadata = {
   title: "Reserva e orçamento",
@@ -12,7 +12,7 @@ export default function Page() {
   return (
     <div className="bg-areia-clara">
       <Suspense>
-        <Reserva />
+        <LivroReserva />
       </Suspense>
       <DayUse />
     </div>

@@ -63,6 +63,8 @@ export type Acomodacao = {
   subtitulo: string;
   descricao: string;
   capacidade: number;
+  /** Quantos quartos desse tipo o hotel tem (questionário de 24/11/2026). */
+  unidades: number;
   camas: string[];
   comodidades: string[];
   tarifa: Tarifa;
@@ -74,6 +76,7 @@ export type Acomodacao = {
 export const ACOMODACOES: Acomodacao[] = [
   {
     slug: "executivo",
+    unidades: 18,
     nome: "Executivo",
     subtitulo: "Individual, duplo ou triplo",
     descricao:
@@ -88,6 +91,7 @@ export const ACOMODACOES: Acomodacao[] = [
   },
   {
     slug: "deluxe",
+    unidades: 3,
     nome: "Deluxe Flat",
     subtitulo: "Sala e quarto",
     descricao:
@@ -102,6 +106,7 @@ export const ACOMODACOES: Acomodacao[] = [
   },
   {
     slug: "deluxe-banheira",
+    unidades: 3,
     nome: "Deluxe Flat com Banheira",
     subtitulo: "Sala, quarto e banheira",
     descricao:

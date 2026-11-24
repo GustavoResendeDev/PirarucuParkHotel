@@ -21,6 +21,7 @@ export function Preloader() {
     <AnimatePresence>
       {vis && (
         <motion.div
+          data-preloader
           className="fixed inset-0 z-[100] grid place-items-center bg-verde"
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
