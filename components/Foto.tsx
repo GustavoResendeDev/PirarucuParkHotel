@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from "react";
 export function Foto({
   src,
   alt,
-  paleta = ["#4f5e49", "#1e261d"],
+  paleta = ["#56664f", "#222c25"],
   rotulo,
   className = "",
   prioridade = false,
@@ -29,7 +29,7 @@ export function Foto({
     if (el && el.complete && el.naturalWidth === 0) setFalhou(true);
   }, []);
   return (
-    <div className={`relative overflow-hidden bg-oliva-800 ${className}`}>
+    <div className={`relative overflow-hidden bg-verde-escuro ${className}`}>
       {!falhou && src ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -46,14 +46,14 @@ export function Foto({
           <svg className="absolute inset-0 size-full opacity-[.18]" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <defs>
               <pattern id="ondas" width="40" height="14" patternUnits="userSpaceOnUse">
-                <path d="M0 7 Q10 0 20 7 T40 7" fill="none" stroke="#efe8d8" strokeWidth="1" />
+                <path d="M0 7 Q10 0 20 7 T40 7" fill="none" stroke="#e9dfcb" strokeWidth="1" />
               </pattern>
             </defs>
             <rect y="170" width="400" height="130" fill="url(#ondas)" />
-            <circle cx="300" cy="80" r="46" fill="#efe8d8" opacity=".5" />
+            <circle cx="300" cy="80" r="46" fill="#e9dfcb" opacity=".5" />
           </svg>
           {rotulo && (
-            <span className="absolute bottom-4 left-4 rounded-full bg-black/25 px-3 py-1 text-[11px] font-semibold tracking-wider text-creme uppercase backdrop-blur">
+            <span className="absolute bottom-4 left-4 rounded-full bg-black/25 px-3 py-1 text-[11px] font-semibold tracking-wider text-marfim uppercase backdrop-blur">
               {rotulo} · foto em breve
             </span>
           )}

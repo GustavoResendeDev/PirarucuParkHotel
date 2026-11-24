@@ -4,8 +4,9 @@ import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
 /**
- * Cena 3D do hero: lago ao pôr do sol com um pirarucu que nada e salta.
- * Tudo é gerado por código (sem modelos externos) para carregar rápido.
+ * Cena 3D do hero: lago verde ao anoitecer e um pirarucu desenhado em linhas
+ * douradas, como o traço do logo, nadando, mergulhando e saltando.
+ * Tudo gerado por código, sem modelos externos.
  */
 
 const AGUA_VERT = /* glsl */ `
@@ -17,9 +18,9 @@ const AGUA_VERT = /* glsl */ `
   }
   void main(){
     vec3 p = position;
-    float h = onda(p.xy, normalize(vec2(1.0,0.3)), 0.35, 0.9, 0.18)
-            + onda(p.xy, normalize(vec2(-0.4,1.0)), 0.6, 1.3, 0.09)
-            + onda(p.xy, normalize(vec2(0.7,-0.8)), 1.4, 2.1, 0.035);
+    float h = onda(p.xy, normalize(vec2(1.0,0.3)), 0.32, 0.7, 0.16)
+            + onda(p.xy, normalize(vec2(-0.4,1.0)), 0.55, 1.1, 0.08)
+            + onda(p.xy, normalize(vec2(0.7,-0.8)), 1.3, 1.8, 0.03);
     p.z += h;
     vAltura = h;
     vec4 mundo = modelMatrix * vec4(p, 1.0);
@@ -31,8 +32,8 @@ const AGUA_VERT = /* glsl */ `
 const AGUA_FRAG = /* glsl */ `
   uniform vec3 uRaso;
   uniform vec3 uFundo;
-  uniform vec3 uSol;
-  uniform vec3 uCeu;
+  uniform vec3 uOuro;
+  uniform vec3 uHorizonte;
   uniform vec3 uCamera;
   varying vec3 vPos;
   varying float vAltura;
@@ -40,41 +41,40 @@ const AGUA_FRAG = /* glsl */ `
     vec3 n = normalize(cross(dFdx(vPos), dFdy(vPos)));
     vec3 v = normalize(uCamera - vPos);
     float fresnel = pow(1.0 - max(dot(n, v), 0.0), 3.0);
-    vec3 base = mix(uFundo, uRaso, smoothstep(-0.2, 0.25, vAltura));
-    vec3 cor = mix(base, uCeu, fresnel * 0.85);
-    // reflexo do sol numa faixa
-    vec3 dirSol = normalize(vec3(0.0, 0.18, -1.0));
+    vec3 cor = mix(uFundo, uRaso, smoothstep(-0.2, 0.22, vAltura));
+    cor = mix(cor, uHorizonte, fresnel * 0.7);
+    vec3 dirLua = normalize(vec3(0.0, 0.2, -1.0));
     vec3 r = reflect(-v, n);
-    float brilho = pow(max(dot(r, dirSol), 0.0), 120.0) * 2.2 + pow(max(dot(r, dirSol), 0.0), 14.0) * 0.25;
-    cor += uSol * brilho;
-    // névoa para o horizonte
+    float s = max(dot(r, dirLua), 0.0);
+    cor += uOuro * (pow(s, 160.0) * 1.6 + pow(s, 18.0) * 0.18);
     float dist = length(vPos.xz - uCamera.xz);
-    cor = mix(cor, uCeu, smoothstep(14.0, 38.0, dist));
+    cor = mix(cor, uHorizonte, smoothstep(16.0, 40.0, dist));
     gl_FragColor = vec4(cor, 1.0);
   }
 `;
 
-const CEU_FRAG = /* glsl */ `
-  varying vec3 vDir;
-  void main(){
-    float y = normalize(vDir).y;
-    vec3 alto = vec3(0.16, 0.21, 0.17);
-    vec3 meio = vec3(0.78, 0.55, 0.34);
-    vec3 horizonte = vec3(0.98, 0.80, 0.55);
-    vec3 cor = mix(horizonte, meio, smoothstep(0.0, 0.18, y));
-    cor = mix(cor, alto, smoothstep(0.15, 0.6, y));
-    // disco do sol
-    float sol = smoothstep(0.9975, 0.9992, dot(normalize(vDir), normalize(vec3(0.0, 0.07, -1.0))));
-    float halo = pow(max(dot(normalize(vDir), normalize(vec3(0.0, 0.07, -1.0))), 0.0), 40.0);
-    cor += vec3(1.0, 0.9, 0.7) * sol + vec3(1.0, 0.7, 0.4) * halo * 0.35;
-    gl_FragColor = vec4(cor, 1.0);
-  }
-`;
 const CEU_VERT = /* glsl */ `
   varying vec3 vDir;
   void main(){
     vDir = position;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+const CEU_FRAG = /* glsl */ `
+  varying vec3 vDir;
+  void main(){
+    vec3 d = normalize(vDir);
+    float y = d.y;
+    vec3 alto = vec3(0.106, 0.133, 0.114);      // verde noite
+    vec3 meio = vec3(0.212, 0.263, 0.224);      // verde da marca
+    vec3 horizonte = vec3(0.48, 0.46, 0.36);    // creme apagado
+    vec3 cor = mix(horizonte, meio, smoothstep(0.0, 0.14, y));
+    cor = mix(cor, alto, smoothstep(0.12, 0.55, y));
+    vec3 dirLua = normalize(vec3(0.0, 0.12, -1.0));
+    float c = dot(d, dirLua);
+    cor += vec3(0.95, 0.88, 0.74) * smoothstep(0.99955, 0.99975, c);
+    cor += vec3(0.78, 0.70, 0.54) * pow(max(c, 0.0), 60.0) * 0.4;
+    gl_FragColor = vec4(cor, 1.0);
   }
 `;
 
@@ -84,10 +84,10 @@ function Agua() {
   const uniforms = useMemo(
     () => ({
       uTempo: { value: 0 },
-      uRaso: { value: new THREE.Color("#4d6a5a") },
-      uFundo: { value: new THREE.Color("#132320") },
-      uSol: { value: new THREE.Color("#ffd9a0") },
-      uCeu: { value: new THREE.Color("#d9a874") },
+      uRaso: { value: new THREE.Color("#3a4a3e") },
+      uFundo: { value: new THREE.Color("#141b16") },
+      uOuro: { value: new THREE.Color("#e9dfcb") },
+      uHorizonte: { value: new THREE.Color("#4a5446") },
       uCamera: { value: new THREE.Vector3() },
     }),
     [],
@@ -99,7 +99,7 @@ function Agua() {
   });
   return (
     <mesh rotation-x={-Math.PI / 2} position={[0, 0, -8]}>
-      <planeGeometry args={[90, 70, 220, 170]} />
+      <planeGeometry args={[90, 70, 200, 160]} />
       <shaderMaterial ref={mat} vertexShader={AGUA_VERT} fragmentShader={AGUA_FRAG} uniforms={uniforms} />
     </mesh>
   );
@@ -114,20 +114,20 @@ function Ceu() {
   );
 }
 
-/** Silhuetas de mata no horizonte. */
+/** Mata e palmeiras no horizonte. */
 function Mata() {
   const geo = useMemo(() => {
     const s = new THREE.Shape();
     s.moveTo(-50, 0);
     let x = -50;
-    let seed = 3;
+    let seed = 7;
     const rnd = () => {
       seed = (seed * 9301 + 49297) % 233280;
       return seed / 233280;
     };
     while (x < 50) {
       x += 0.35 + rnd() * 0.6;
-      s.lineTo(x, 1.1 + rnd() * 0.9 + Math.sin(x * 0.12) * 0.7 + Math.sin(x * 0.5) * 0.25);
+      s.lineTo(x, 1.0 + rnd() * 0.7 + Math.sin(x * 0.12) * 0.6 + Math.sin(x * 0.5) * 0.2);
     }
     s.lineTo(50, 0);
     s.lineTo(-50, 0);
@@ -136,171 +136,168 @@ function Mata() {
   return (
     <group position={[0, -0.05, -36]}>
       <mesh geometry={geo}>
-        <meshBasicMaterial color="#2d3a2b" fog />
-      </mesh>
-      <mesh geometry={geo} position={[6, -0.4, 3]} scale={[1.1, 0.8, 1]}>
-        <meshBasicMaterial color="#1d281c" />
+        <meshBasicMaterial color="#222b24" />
       </mesh>
     </group>
   );
 }
 
-/** Corpo do pirarucu: perfil lateral extrudado, com ondulação no vertex shader. */
+/* ---------------------------------------------------------------------------
+ * Pirarucu em linhas: contorno + costelas verticais (como no logo).
+ * Perfil: raio do corpo ao longo do comprimento (cabeça em u=0, cauda em u=1).
+ * ------------------------------------------------------------------------- */
+const COSTELAS = 30;
+const SEG_ANEL = 28;
+const LONGITUDINAIS = 6;
+const COMPRIMENTO = 4.2;
+
+function raio(u: number) {
+  // cabeça afilada, corpo alongado, pedúnculo fino e cauda em leque
+  const corpo = Math.sin(Math.min(u / 0.82, 1) * Math.PI) ** 0.75 * 0.42;
+  const cauda = u > 0.82 ? Math.sin(((u - 0.82) / 0.18) * Math.PI) * 0.3 : 0;
+  return Math.max(0.03, corpo + cauda);
+}
+
 function Pirarucu() {
   const grupo = useRef<THREE.Group>(null);
-  const mat = useRef<THREE.ShaderMaterial>(null);
+  const linhas = useRef<THREE.LineSegments>(null);
   const respingos = useRef<THREE.Points>(null);
 
-  const geo = useMemo(() => {
-    const s = new THREE.Shape();
-    // perfil: cabeça à esquerda (x=0), cauda à direita (x=4)
-    s.moveTo(0, 0);
-    s.bezierCurveTo(0.2, 0.32, 1.1, 0.46, 2.2, 0.36);
-    s.bezierCurveTo(2.9, 0.3, 3.3, 0.2, 3.5, 0.12);
-    s.lineTo(4.1, 0.42);
-    s.bezierCurveTo(4.0, 0.15, 4.0, -0.15, 4.1, -0.38);
-    s.lineTo(3.5, -0.1);
-    s.bezierCurveTo(3.2, -0.2, 2.6, -0.3, 2.0, -0.3);
-    s.bezierCurveTo(1.0, -0.3, 0.25, -0.22, 0, 0);
-    const g = new THREE.ExtrudeGeometry(s, { depth: 0.22, bevelEnabled: true, bevelThickness: 0.14, bevelSize: 0.08, bevelSegments: 6, curveSegments: 40 });
-    g.translate(-2, 0, -0.11);
-    g.computeVertexNormals();
-    return g;
+  // pares de vértices (segmentos) para anéis + linhas longitudinais
+  const { posicoes, base } = useMemo(() => {
+    const segs: number[] = [];
+    for (let i = 0; i <= COSTELAS; i++) {
+      const u = i / COSTELAS;
+      for (let k = 0; k < SEG_ANEL; k++) {
+        const a0 = (k / SEG_ANEL) * Math.PI * 2;
+        const a1 = ((k + 1) / SEG_ANEL) * Math.PI * 2;
+        segs.push(u, a0, u, a1);
+      }
+    }
+    const passos = 60;
+    for (let l = 0; l < LONGITUDINAIS; l++) {
+      const a = (l / LONGITUDINAIS) * Math.PI * 2;
+      for (let s = 0; s < passos; s++) segs.push(s / passos, a, (s + 1) / passos, a);
+    }
+    const n = segs.length / 2;
+    return { posicoes: new Float32Array(n * 3), base: new Float32Array(segs) };
   }, []);
 
-  const uniforms = useMemo(() => ({ uTempo: { value: 0 } }), []);
-
-  const nRespingos = 60;
-  const posRespingos = useMemo(() => new Float32Array(nRespingos * 3), []);
-  const velRespingos = useMemo(() => new Float32Array(nRespingos * 3), []);
-  const ultimoSalto = useRef(-1);
+  const nResp = 70;
+  const posResp = useMemo(() => new Float32Array(nResp * 3).fill(-50), []);
+  const velResp = useMemo(() => new Float32Array(nResp * 3), []);
+  const ultimo = useRef(-1);
 
   useFrame((state, dt) => {
     const t = state.clock.elapsedTime;
-    if (mat.current) mat.current.uniforms.uTempo.value = t;
+    // ondulação do corpo
+    for (let i = 0; i < base.length / 2; i++) {
+      const u = base[i * 2];
+      const a = base[i * 2 + 1];
+      const r = raio(u);
+      const x = (u - 0.5) * COMPRIMENTO;
+      const onda = Math.sin(t * 4.5 - u * 6) * 0.28 * u * u;
+      posicoes[i * 3] = x;
+      posicoes[i * 3 + 1] = Math.sin(a) * r * 0.85;
+      posicoes[i * 3 + 2] = Math.cos(a) * r * 0.55 + onda;
+    }
+    if (linhas.current) linhas.current.geometry.attributes.position.needsUpdate = true;
+
+    // trajetória: nada perto da superfície e salta a cada ciclo
     const g = grupo.current;
     if (!g) return;
-    // ciclo de 9s: nada sob a superfície e salta
-    const ciclo = 7;
+    const ciclo = 8;
     const c = (t % ciclo) / ciclo;
-    const salto = c > 0.62 && c < 0.82 ? (c - 0.62) / 0.2 : -1;
-    const x = THREE.MathUtils.lerp(-5, 13, c);
-    let y = -0.55 + Math.sin(t * 2) * 0.05;
-    let inclinacao = 0;
+    const x = THREE.MathUtils.lerp(-7, 11, c);
+    const salto = c > 0.55 && c < 0.8 ? (c - 0.55) / 0.25 : -1;
+    let y = 0.45 + Math.sin(t * 1.6) * 0.12;
+    let incl = Math.cos(t * 1.6) * 0.08;
     if (salto >= 0) {
-      y = -0.3 + Math.sin(salto * Math.PI) * 2.3;
-      inclinacao = Math.cos(salto * Math.PI) * 0.9;
+      y = 0.2 + Math.sin(salto * Math.PI) * 2.0;
+      incl = Math.cos(salto * Math.PI) * 0.75;
     }
-    g.position.set(x, y, -7 + Math.sin(c * Math.PI * 2) * 1.2);
-    g.rotation.set(0, Math.PI, -inclinacao);
+    g.position.set(x, y, -7.5 + Math.sin(c * Math.PI * 2) * 1.0);
+    g.rotation.set(0, Math.PI, -incl);
 
-    // dispara respingos na saída e na volta
-    const ciclos = Math.floor(t / ciclo);
-    const marca = salto >= 0 ? (salto < 0.1 ? ciclos * 2 : salto > 0.9 ? ciclos * 2 + 1 : -1) : -1;
-    if (marca >= 0 && marca !== ultimoSalto.current) {
-      ultimoSalto.current = marca;
-      for (let i = 0; i < nRespingos; i++) {
-        posRespingos[i * 3] = x + (Math.random() - 0.5) * 0.6;
-        posRespingos[i * 3 + 1] = 0;
-        posRespingos[i * 3 + 2] = g.position.z + (Math.random() - 0.5) * 0.6;
-        const a = Math.random() * Math.PI * 2;
-        const v = 0.6 + Math.random() * 1.4;
-        velRespingos[i * 3] = Math.cos(a) * v;
-        velRespingos[i * 3 + 1] = 2 + Math.random() * 2.5;
-        velRespingos[i * 3 + 2] = Math.sin(a) * v;
+    const marca = salto >= 0 && salto < 0.08 ? Math.floor(t / ciclo) : -1;
+    if (marca >= 0 && marca !== ultimo.current) {
+      ultimo.current = marca;
+      for (let i = 0; i < nResp; i++) {
+        posResp[i * 3] = x + (Math.random() - 0.5) * 0.8;
+        posResp[i * 3 + 1] = 0.05;
+        posResp[i * 3 + 2] = g.position.z + (Math.random() - 0.5) * 0.6;
+        const ang = Math.random() * Math.PI * 2;
+        const v = 0.5 + Math.random() * 1.2;
+        velResp[i * 3] = Math.cos(ang) * v;
+        velResp[i * 3 + 1] = 1.8 + Math.random() * 2.2;
+        velResp[i * 3 + 2] = Math.sin(ang) * v;
       }
     }
-    for (let i = 0; i < nRespingos; i++) {
-      velRespingos[i * 3 + 1] -= 9.8 * dt;
-      posRespingos[i * 3] += velRespingos[i * 3] * dt;
-      posRespingos[i * 3 + 1] = Math.max(-2, posRespingos[i * 3 + 1] + velRespingos[i * 3 + 1] * dt);
-      posRespingos[i * 3 + 2] += velRespingos[i * 3 + 2] * dt;
+    for (let i = 0; i < nResp; i++) {
+      velResp[i * 3 + 1] -= 9.8 * dt;
+      posResp[i * 3] += velResp[i * 3] * dt;
+      posResp[i * 3 + 1] = Math.max(-3, posResp[i * 3 + 1] + velResp[i * 3 + 1] * dt);
+      posResp[i * 3 + 2] += velResp[i * 3 + 2] * dt;
     }
     if (respingos.current) respingos.current.geometry.attributes.position.needsUpdate = true;
   });
 
   return (
     <>
-      <group ref={grupo} scale={0.75}>
-        <mesh geometry={geo}>
-          <shaderMaterial
-            ref={mat}
-            uniforms={uniforms}
-            vertexShader={/* glsl */ `
-              uniform float uTempo;
-              varying float vX;
-              varying vec3 vN;
-              void main(){
-                vec3 p = position;
-                float k = smoothstep(-1.6, 2.1, p.x);
-                p.z += sin(uTempo * 6.0 - p.x * 1.6) * 0.22 * k;
-                vX = position.x;
-                vN = normalize(normalMatrix * normal);
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
-              }`}
-            fragmentShader={/* glsl */ `
-              varying float vX;
-              varying vec3 vN;
-              void main(){
-                vec3 corpo = vec3(0.22, 0.27, 0.21);
-                vec3 escama = vec3(0.72, 0.24, 0.12);
-                vec3 cor = mix(corpo, escama, smoothstep(0.2, 1.9, vX));
-                float luz = 0.45 + 0.55 * max(dot(vN, normalize(vec3(0.2, 0.6, 0.8))), 0.0);
-                float borda = pow(1.0 - abs(vN.z), 2.0) * 0.35;
-                gl_FragColor = vec4(cor * luz + vec3(1.0, 0.8, 0.55) * borda, 1.0);
-              }`}
-          />
-        </mesh>
+      <group ref={grupo} scale={0.8}>
+        <lineSegments ref={linhas} frustumCulled={false}>
+          <bufferGeometry>
+            <bufferAttribute attach="attributes-position" args={[posicoes, 3]} />
+          </bufferGeometry>
+          <lineBasicMaterial color="#e2d4b4" transparent opacity={0.9} />
+        </lineSegments>
       </group>
-      <points ref={respingos}>
+      <points ref={respingos} frustumCulled={false}>
         <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[posRespingos, 3]} />
+          <bufferAttribute attach="attributes-position" args={[posResp, 3]} />
         </bufferGeometry>
-        <pointsMaterial color="#fff1d6" size={0.07} transparent opacity={0.85} depthWrite={false} />
+        <pointsMaterial color="#e9dfcb" size={0.06} transparent opacity={0.8} depthWrite={false} />
       </points>
     </>
   );
 }
 
-/** Partículas de luz flutuando (pólen ao pôr do sol). */
-function Polen() {
+/** Pontos de luz dourados (vaga-lumes). */
+function VagaLumes() {
   const ref = useRef<THREE.Points>(null);
-  const n = 220;
+  const n = 160;
   const pos = useMemo(() => {
     const a = new Float32Array(n * 3);
     for (let i = 0; i < n; i++) {
       a[i * 3] = (Math.random() - 0.5) * 30;
-      a[i * 3 + 1] = Math.random() * 6 + 0.3;
+      a[i * 3 + 1] = Math.random() * 5 + 0.3;
       a[i * 3 + 2] = -Math.random() * 22;
     }
     return a;
   }, []);
   useFrame((s) => {
     if (!ref.current) return;
-    ref.current.rotation.y = Math.sin(s.clock.elapsedTime * 0.05) * 0.1;
-    ref.current.position.y = Math.sin(s.clock.elapsedTime * 0.4) * 0.15;
+    ref.current.rotation.y = Math.sin(s.clock.elapsedTime * 0.05) * 0.08;
+    ref.current.position.y = Math.sin(s.clock.elapsedTime * 0.4) * 0.12;
   });
   return (
     <points ref={ref}>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[pos, 3]} />
       </bufferGeometry>
-      <pointsMaterial color="#ffe2a8" size={0.05} transparent opacity={0.7} depthWrite={false} blending={THREE.AdditiveBlending} />
+      <pointsMaterial color="#e9dfcb" size={0.045} transparent opacity={0.55} depthWrite={false} blending={THREE.AdditiveBlending} />
     </points>
   );
 }
 
-/** Câmera segue o mouse e desce/avança com a rolagem. */
 function Camera({ progresso }: { progresso: React.RefObject<number> }) {
   const { camera, pointer } = useThree();
   useFrame(() => {
     const p = progresso.current ?? 0;
-    const alvoX = pointer.x * 0.8;
-    const alvoY = 1.6 + pointer.y * 0.25 - p * 1.0;
-    camera.position.x += (alvoX - camera.position.x) * 0.04;
-    camera.position.y += (alvoY - camera.position.y) * 0.04;
+    camera.position.x += (pointer.x * 0.7 - camera.position.x) * 0.04;
+    camera.position.y += (1.7 + pointer.y * 0.2 - p * 1.0 - camera.position.y) * 0.04;
     camera.position.z += (6 - p * 3 - camera.position.z) * 0.06;
-    camera.lookAt(0, 0.9 - p * 0.6, -14);
+    camera.lookAt(0, 1.0 - p * 0.6, -14);
   });
   return null;
 }
@@ -308,18 +305,17 @@ function Camera({ progresso }: { progresso: React.RefObject<number> }) {
 export default function CenaLago({ progresso, pausado }: { progresso: React.RefObject<number>; pausado?: boolean }) {
   return (
     <Canvas
-      camera={{ position: [0, 1.6, 6], fov: 50, near: 0.1, far: 200 }}
+      camera={{ position: [0, 1.7, 6], fov: 50, near: 0.1, far: 200 }}
       dpr={[1, 1.75]}
       gl={{ antialias: true, powerPreference: "high-performance" }}
       frameloop={pausado ? "demand" : "always"}
       aria-hidden="true"
     >
-      <fog attach="fog" args={["#d9a874", 18, 55]} />
       <Ceu />
       <Mata />
       <Agua />
       <Pirarucu />
-      <Polen />
+      <VagaLumes />
       <Camera progresso={progresso} />
     </Canvas>
   );

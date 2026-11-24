@@ -1,48 +1,47 @@
 @import "tailwindcss";
 
-/* Identidade visual: verde oliva + creme do logo do hotel, azul marinho do pesqueiro,
-   e o vermelho das escamas do pirarucu como acento. */
+/* Identidade visual oficial: verde, creme e dourado (manual da marca). */
 @theme {
-  --color-oliva-950: #151b14;
-  --color-oliva-900: #1e261d;
-  --color-oliva-800: #2a3427;
-  --color-oliva-700: #3a4836;
-  --color-oliva-600: #4f5e49;
-  --color-oliva-400: #8a967f;
-  --color-creme: #efe8d8;
-  --color-creme-claro: #f7f3ea;
-  --color-champanhe: #c8b38a;
-  --color-champanhe-escuro: #a08a5e;
-  --color-marinho: #14203a;
-  --color-marinho-claro: #22345a;
-  --color-escama: #c0532f;
-  --color-escama-escuro: #9e3f20;
-  --color-tinta: #1a1f19;
+  --color-verde-noite: #1b221d;
+  --color-verde-escuro: #263028;
+  --color-verde: #364339;
+  --color-verde-claro: #46554a;
+  --color-salvia: #70826a;
+  --color-salvia-escura: #4b5946;
+  --color-creme: #d6cdac;
+  --color-areia: #e7e1cc;
+  --color-areia-clara: #efeadb;
+  --color-dourado: #c8b28a;
+  --color-dourado-claro: #e9dfcb;
+  --color-dourado-escuro: #8f7a55;
+  --color-marfim: #f1f5ef;
 
-  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-sans: var(--font-manrope), "Manrope", system-ui, sans-serif;
+  --font-display: var(--font-marcellus), "Marcellus", Georgia, serif;
+  --font-sans: var(--font-jost), "Jost", system-ui, sans-serif;
 
   --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
   html {
-    background: var(--color-creme-claro);
-    color: var(--color-tinta);
+    background: var(--color-areia);
+    color: var(--color-verde);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
   body {
     font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.6;
   }
   ::selection {
-    background: var(--color-champanhe);
-    color: var(--color-oliva-950);
+    background: var(--color-dourado);
+    color: var(--color-verde-noite);
   }
   :focus-visible {
-    outline: 2px solid var(--color-champanhe);
+    outline: 2px solid var(--color-dourado);
     outline-offset: 3px;
-    border-radius: 6px;
+    border-radius: 4px;
   }
   input[type="date"]::-webkit-calendar-picker-indicator {
     opacity: 0.6;
@@ -50,7 +49,30 @@
   }
 }
 
-/* Lenis (scroll suave) */
+/* dourado em gradiente, como o traço do logo */
+.texto-dourado {
+  background: linear-gradient(100deg, #b79d72 0%, #efe6d6 45%, #c8b28a 70%, #a58c63 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* título da marca: sans fino em caixa alta, com tracking aberto */
+.titulo-marca {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.pressionavel {
+  transition: transform 160ms var(--ease-premium), background-color 200ms, color 200ms;
+}
+.pressionavel:active {
+  transform: scale(0.97);
+}
+
 html.lenis,
 html.lenis body {
   height: auto;
@@ -60,31 +82,6 @@ html.lenis body {
 }
 .lenis.lenis-stopped {
   overflow: hidden;
-}
-
-/* granulado sutil sobre seções escuras, dá textura de foto analógica */
-.grao::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.07;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-}
-
-.selo-exemplo {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 2px 8px;
-  border-radius: 999px;
-  border: 1px dashed currentColor;
-  opacity: 0.8;
 }
 
 @media (prefers-reduced-motion: reduce) {

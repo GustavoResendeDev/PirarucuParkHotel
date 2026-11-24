@@ -20,40 +20,29 @@ Versão de produção: `npm run build && npm start`.
 
 | Rota | O que tem |
 | --- | --- |
-| `/` | Hero 3D (lago ao pôr do sol com pirarucu saltando), experiências, acomodações em rolagem horizontal, pesqueiro, galeria, chamada de orçamento, mapa e dúvidas |
-| `/acomodacoes` e `/acomodacoes/[slug]` | Catálogo e detalhe de cada acomodação, com diária e comodidades |
-| `/pesqueiro` | Recanto do Pirarucu: regras, valores de pesca e day use |
-| `/reservar` | Orçamento em etapas (datas, acomodação, pesca, dados) com resumo ao vivo e envio por WhatsApp. `?tipo=dayuse` abre o orçamento só do pesqueiro |
+| `/` | Hero 3D (lago com o pirarucu em linhas douradas), o hotel, estrutura (incluso x opcional), acomodações em rolagem horizontal, pesca, galeria, orçamento, mapa e dúvidas |
+| `/acomodacoes` e `/acomodacoes/[slug]` | As três acomodações com fotos reais e a tabela oficial de diárias |
+| `/pesca` | Pesca esportiva exclusiva para hóspedes: R$ 50 por pessoa/diária, 24 horas |
+| `/reservar` | Orçamento em 3 passos (datas e hóspedes, acomodação e pesca, seus dados) com resumo ao vivo e envio por WhatsApp |
 
-## Movimento e 3D
+## Identidade visual
 
-- Cena 3D feita com Three.js / React Three Fiber, sem modelos externos (água com shader, céu, mata, pirarucu com ondulação e respingos). Pausa quando sai da tela e fica estática para quem prefere menos movimento.
-- Scroll suave (Lenis), títulos revelados palavra por palavra, texto que acende com a rolagem, cartões empilhados, parallax, botões magnéticos, contadores e abertura com o peixe do logo sendo desenhado.
+Cores, logo e tipografia seguem o manual da marca: verde `#364339`, creme `#d6cdac`, sálvia `#70826a` e dourado `#c8b28a`. Os tokens ficam em `app/globals.css`; o logo oficial em `public/marca/`. Títulos usam o estilo do manual (caixa alta fina com o "X" traçado sobre uma letra), em `components/TituloMarca.tsx`.
 
-## O que ainda é exemplo
+## Dados oficiais
 
-Tudo o que é suposição está marcado no site com o selo **exemplo** e concentrado em `lib/data.ts`:
+Preços, inclusos e regras estão em `lib/data.ts` (tabela do hotel, nov/2026):
 
-- Preços das diárias, da pesca e do day use.
-- Acomodações "Standard" e "Família" (as categorias "Executivo" e "Suíte Master" aparecem no Instagram do hotel), capacidades, áreas e quantidade de unidades.
-- WhatsApp, e-mail, horários de check-in/out, prazo de expiração da solicitação, regras do pesqueiro e endereço exato.
-- Logo: releitura em SVG (`components/Logo.tsx`). Trocar pelo arquivo oficial.
+- Executivo: individual R$ 220, duplo R$ 330, triplo R$ 430.
+- Deluxe Flat: R$ 420 o casal + R$ 120 por pessoa adicional.
+- Deluxe Flat com Banheira: R$ 500 o casal + R$ 150 por pessoa adicional.
+- Pesca esportiva: R$ 50 por pessoa/diária, 24 horas, só para hóspedes.
+- Incluso: café da manhã e piscinas aquecidas. Restaurante pago à parte. Sem bebidas externas.
 
-Confirmados pelo Instagram: Itapuranga (GO), 164 km de Goiânia, pesca esportiva + piscina + hospedagem, complexo com o Recanto do Pirarucu, pesqueiro aberto de terça a domingo e feriados.
-
-## Fotos
-
-Coloque as fotos em `public/fotos/` com estes nomes (JPG, de preferência 2000 px de largura). Enquanto um arquivo não existir, o site mostra uma arte em degradê no lugar.
-
-```
-standard-1.jpg  standard-2.jpg      executivo-1.jpg   executivo-2.jpg
-suite-master-1.jpg suite-master-2.jpg familia-1.jpg   familia-2.jpg
-pesca.jpg  piscina.jpg  gastronomia.jpg  pesqueiro.jpg  pesqueiro-hero.jpg  pescador.jpg
-galeria-1.jpg … galeria-6.jpg
-```
+Ainda a confirmar com o hotel: capacidade máxima dos flats (o site usa 4), se criança paga como pessoa adicional (o site considera que sim), prazo de expiração da solicitação (24h) e o número oficial de WhatsApp (`NEXT_PUBLIC_WHATSAPP` no `.env.local`).
 
 ## Próximos passos
 
-1. Validar dados na visita de 05/12/2026 e atualizar `lib/data.ts`.
+1. Validar os pontos acima na visita de 05/12/2026.
 2. API NestJS para gravar as solicitações (estado `PENDING`) e checar disponibilidade real.
 3. Painel administrativo, analytics (GA4/PostHog) e pagamento.

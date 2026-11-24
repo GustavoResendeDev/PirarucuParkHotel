@@ -4,11 +4,12 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { useState } from "react";
 import { Logo } from "./Logo";
+import { HOTEL } from "@/lib/data";
 
 const LINKS = [
   { href: "/acomodacoes", rotulo: "Acomodações" },
-  { href: "/pesqueiro", rotulo: "Pesqueiro" },
-  { href: "/#experiencias", rotulo: "Experiências" },
+  { href: "/pesca", rotulo: "Pesca" },
+  { href: "/#estrutura", rotulo: "Estrutura" },
   { href: "/#localizacao", rotulo: "Como chegar" },
 ];
 
@@ -18,7 +19,7 @@ export function Header() {
   const [solido, setSolido] = useState(false);
   const [aberto, setAberto] = useState(false);
   const path = usePathname();
-  const escuroNoTopo = path === "/" || path === "/pesqueiro";
+  const escuroNoTopo = path === "/" || path === "/pesca" || /^\/acomodacoes\/.+/.test(path ?? "");
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
@@ -26,34 +27,34 @@ export function Header() {
     setSolido(y > 40);
   });
 
-  const claro = escuroNoTopo && !solido && !aberto;
+  const sobreVerde = (escuroNoTopo && !solido) || aberto;
 
   return (
     <>
       <motion.header
         animate={{ y: oculto ? "-110%" : "0%" }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
-          claro ? "text-creme" : "text-oliva-900"
-        } ${solido && !aberto ? "bg-creme-claro/80 shadow-[0_1px_0_rgba(30,38,29,.08)] backdrop-blur-xl" : ""}`}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${sobreVerde ? "text-marfim" : "text-verde"} ${
+          solido && !aberto ? "bg-areia/85 shadow-[0_1px_0_rgba(54,67,57,.12)] backdrop-blur-xl" : ""
+        }`}
       >
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">
-          <Link href="/" aria-label="Início" className="relative z-10 block w-28 md:w-32" onClick={() => setAberto(false)}>
-            <Logo className="h-auto w-full" />
+          <Link href="/" aria-label="Pirarucu Park Hotel, início" className="relative z-10 block w-24 md:w-28" onClick={() => setAberto(false)}>
+            <Logo cor={sobreVerde ? "dourado" : "verde"} className="w-full" />
           </Link>
-          <nav className="hidden items-center gap-9 text-[15px] font-medium lg:flex" aria-label="Principal">
+          <nav className="hidden items-center gap-10 text-[15px] lg:flex" aria-label="Principal">
             {LINKS.map((l) => (
-              <Link key={l.href} href={l.href} className="group relative py-2">
+              <Link key={l.href} href={l.href} className="group relative cursor-pointer py-2 tracking-wide">
                 {l.rotulo}
-                <span className="absolute inset-x-0 bottom-0 h-px origin-right scale-x-0 bg-current transition-transform duration-500 ease-[var(--ease-premium)] group-hover:origin-left group-hover:scale-x-100" />
+                <span className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-dourado transition-transform duration-300 ease-[var(--ease-premium)] group-hover:scale-x-100" />
               </Link>
             ))}
           </nav>
           <div className="relative z-10 flex items-center gap-3">
             <Link
               href="/reservar"
-              className={`hidden rounded-full px-6 py-3 text-sm font-semibold transition-colors sm:inline-flex ${
-                claro ? "bg-creme text-oliva-900 hover:bg-white" : "bg-oliva-800 text-creme hover:bg-oliva-700"
+              className={`pressionavel hidden h-11 items-center rounded-full border px-6 text-sm tracking-wide sm:inline-flex ${
+                sobreVerde ? "border-dourado/60 text-marfim hover:bg-dourado hover:text-verde-noite" : "border-verde bg-verde text-marfim hover:bg-verde-claro"
               }`}
             >
               Reservar
@@ -63,11 +64,11 @@ export function Header() {
               aria-label={aberto ? "Fechar menu" : "Abrir menu"}
               aria-expanded={aberto}
               onClick={() => setAberto((v) => !v)}
-              className="grid size-11 place-items-center rounded-full border border-current/25 lg:hidden"
+              className="pressionavel grid size-11 cursor-pointer place-items-center rounded-full border border-current/30 lg:hidden"
             >
               <span className="relative block h-3 w-5">
-                <span className={`absolute left-0 h-px w-5 bg-current transition-all duration-300 ${aberto ? "top-1.5 rotate-45" : "top-0"}`} />
-                <span className={`absolute left-0 h-px w-5 bg-current transition-all duration-300 ${aberto ? "top-1.5 -rotate-45" : "top-3"}`} />
+                <span className={`absolute left-0 h-px w-5 bg-current transition-transform duration-300 ${aberto ? "top-1.5 rotate-45" : "top-0"}`} />
+                <span className={`absolute left-0 h-px w-5 bg-current transition-transform duration-300 ${aberto ? "top-1.5 -rotate-45" : "top-3"}`} />
               </span>
             </button>
           </div>
@@ -77,22 +78,24 @@ export function Header() {
       <AnimatePresence>
         {aberto && (
           <motion.div
-            initial={{ clipPath: "circle(0% at 100% 0%)" }}
-            animate={{ clipPath: "circle(150% at 100% 0%)" }}
-            exit={{ clipPath: "circle(0% at 100% 0%)" }}
-            transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-40 flex flex-col justify-end bg-creme px-6 pt-28 pb-10 lg:hidden"
+            initial={{ clipPath: "inset(0 0 100% 0)" }}
+            animate={{ clipPath: "inset(0 0 0% 0)" }}
+            exit={{ clipPath: "inset(0 0 100% 0)" }}
+            transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 z-40 flex flex-col justify-end bg-verde px-6 pt-28 pb-10 text-marfim lg:hidden"
           >
-            <nav className="flex flex-col gap-2" aria-label="Menu">
+            <nav className="flex flex-col gap-3" aria-label="Menu">
               {[...LINKS, { href: "/reservar", rotulo: "Reservar" }].map((l, i) => (
-                <motion.div key={l.href} initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.25 + i * 0.06, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
-                  <Link href={l.href} onClick={() => setAberto(false)} className="font-display text-5xl font-medium text-oliva-900">
+                <motion.div key={l.href} initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.15 + i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}>
+                  <Link href={l.href} onClick={() => setAberto(false)} className="font-display text-4xl">
                     {l.rotulo}
                   </Link>
                 </motion.div>
               ))}
             </nav>
-            <p className="mt-10 text-sm text-oliva-600">Itapuranga · GO · 164 km de Goiânia</p>
+            <p className="mt-10 text-sm text-marfim/70">
+              {HOTEL.cidade}, Goiás. A {HOTEL.distancia}.
+            </p>
           </motion.div>
         )}
       </AnimatePresence>

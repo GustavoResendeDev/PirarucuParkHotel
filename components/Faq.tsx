@@ -6,7 +6,7 @@ import { FAQ } from "@/lib/data";
 export function Faq() {
   const [aberto, setAberto] = useState<number | null>(0);
   return (
-    <div className="divide-y divide-oliva-900/10 border-y border-oliva-900/10">
+    <div className="divide-y divide-verde/10 border-y border-verde/10">
       {FAQ.map((f, i) => {
         const a = aberto === i;
         return (
@@ -15,10 +15,10 @@ export function Faq() {
               type="button"
               aria-expanded={a}
               onClick={() => setAberto(a ? null : i)}
-              className="flex w-full items-center justify-between gap-6 py-6 text-left"
+              className="flex w-full cursor-pointer items-center justify-between gap-6 py-6 text-left"
             >
-              <span className="font-display text-2xl text-oliva-900 md:text-3xl">{f.p}</span>
-              <motion.span animate={{ rotate: a ? 45 : 0 }} className="grid size-10 shrink-0 place-items-center rounded-full border border-oliva-900/20 text-xl text-oliva-900">
+              <span className="font-display text-xl text-verde md:text-2xl">{f.p}</span>
+              <motion.span aria-hidden animate={{ rotate: a ? 45 : 0 }} transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }} className="grid size-11 shrink-0 place-items-center rounded-full border border-verde/20 text-xl text-verde">
                 +
               </motion.span>
             </button>
@@ -28,10 +28,10 @@ export function Faq() {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
-                  <p className="max-w-2xl pb-7 leading-relaxed text-oliva-600">{f.r}</p>
+                  <p className="max-w-2xl pb-7 leading-relaxed text-verde/75">{f.r}</p>
                 </motion.div>
               )}
             </AnimatePresence>
