@@ -18,7 +18,7 @@ export function Header() {
   const [solido, setSolido] = useState(false);
   const [aberto, setAberto] = useState(false);
   const path = usePathname();
-  const escuroNoTopo = path === "/" || path === "/pesqueiro";
+  const escuroNoTopo = path === "/" || path?.startsWith("/pesqueiro");
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
