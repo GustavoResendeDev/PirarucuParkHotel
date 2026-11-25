@@ -463,8 +463,7 @@ html.lenis body {
   inset: 0;
   z-index: 100;
   overflow: hidden;
-  /* cores das bordas do vídeo, para ele "sumir" no fundo quando não cobre a tela toda */
-  background: radial-gradient(120% 70% at 50% 42%, #0b2c2c 0%, #041819 55%, #021213 100%);
+  background: #031516;
   transition: opacity .7s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .7s;
 }
 html[data-intro-visto] [data-preloader] { display: none; }
@@ -474,20 +473,15 @@ html[data-intro] { overflow: hidden; }
 .pph-pre-video,
 .pph-pre-logo {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  /* desktop: cobre a tela; celular em pé: corta só as laterais para o logo ficar grande */
-  width: clamp(100vw, 177.78vh, 190vw);
-  width: clamp(100vw, 177.78dvh, 190vw);
+  inset: 0;
+  width: 100%;
+  height: 100%;
   max-width: none;
-  height: auto;
-  aspect-ratio: 848 / 480;
   object-fit: cover;
-  transform: translate(-50%, -50%);
   transition: transform 1.1s cubic-bezier(.22, 1, .36, 1);
 }
 [data-preloader][data-saindo] .pph-pre-video,
-[data-preloader][data-saindo] .pph-pre-logo { transform: translate(-50%, -50%) scale(1.05); }
+[data-preloader][data-saindo] .pph-pre-logo { transform: scale(1.05); }
 
 .pph-pre-logo { opacity: 0; visibility: hidden; }
 [data-preloader][data-modo="estatico"] .pph-pre-video { visibility: hidden; }
@@ -496,14 +490,6 @@ html[data-intro] { overflow: hidden; }
   animation: pph-pre-surge .6s ease-out forwards;
 }
 @keyframes pph-pre-surge { to { opacity: 1; } }
-
-@media (max-aspect-ratio: 1/1) {
-  .pph-pre-video,
-  .pph-pre-logo {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
-  }
-}
 
 .pph-pre-pular {
   position: absolute;
@@ -530,5 +516,5 @@ html[data-intro] { overflow: hidden; }
   .pph-pre-video,
   .pph-pre-logo { transition: none; }
   [data-preloader][data-saindo] .pph-pre-video,
-  [data-preloader][data-saindo] .pph-pre-logo { transform: translate(-50%, -50%); }
+  [data-preloader][data-saindo] .pph-pre-logo { transform: none; }
 }
