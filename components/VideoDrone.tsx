@@ -89,7 +89,7 @@ export function VideoDrone() {
           <button
             type="button"
             onClick={abrir}
-            className="pressionavel group mt-10 inline-flex items-center gap-4 rounded-full border border-marfim/40 bg-verde-noite/30 py-2 pr-7 pl-2 text-[12px] font-medium tracking-[0.16em] uppercase backdrop-blur-sm hover:border-dourado hover:bg-verde-noite/60"
+            className="pressionavel group mt-10 inline-flex items-center gap-4 rounded-md border border-marfim/40 bg-verde-noite/30 py-2 pr-7 pl-2 text-[12px] font-medium tracking-[0.16em] uppercase backdrop-blur-sm hover:border-dourado hover:bg-verde-noite/60"
           >
             <span className="grid size-12 place-items-center rounded-full bg-dourado text-verde-noite transition-transform duration-300 group-hover:scale-105">
               <svg viewBox="0 0 24 24" className="ml-0.5 size-5" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" /></svg>
@@ -111,7 +111,7 @@ export function VideoDrone() {
             type="button"
             onClick={fechar}
             aria-label="Fechar vídeo"
-            className="pressionavel absolute -top-14 right-0 grid size-11 cursor-pointer place-items-center rounded-full border border-marfim/30 text-marfim hover:bg-marfim hover:text-verde-noite"
+            className="pressionavel absolute -top-14 right-0 grid size-11 cursor-pointer place-items-center rounded-md border border-marfim/30 text-marfim hover:bg-marfim hover:text-verde-noite"
           >
             <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
           </button>

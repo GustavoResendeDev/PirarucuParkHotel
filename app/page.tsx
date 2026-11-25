@@ -75,7 +75,7 @@ export default function Home() {
                     <p className="mt-5 text-[12px] tracking-[0.14em] text-verde/70 uppercase">
                       A partir de <span className="font-display text-2xl tracking-normal text-verde normal-case">{brl(aPartirDe(ac))}</span> / diária
                     </p>
-                    <Link href={`/acomodacoes/${ac.slug}`} className="pressionavel mt-6 inline-flex h-11 items-center rounded-lg bg-verde px-7 text-[12px] font-medium tracking-[0.16em] text-marfim uppercase hover:bg-verde-claro">
+                    <Link href={`/acomodacoes/${ac.slug}`} className="pressionavel mt-6 inline-flex h-11 items-center rounded-md bg-verde px-7 text-[12px] font-medium tracking-[0.16em] text-marfim uppercase hover:bg-verde-claro">
                       Ver detalhes<span className="sr-only"> de {ac.nome}</span>
                     </Link>
                   </div>
@@ -84,7 +84,7 @@ export default function Home() {
             ))}
           </div>
           <div className="mt-12 text-center">
-            <Link href="/acomodacoes" className="pressionavel inline-flex h-11 items-center rounded-lg border border-verde/40 px-7 text-[12px] font-medium tracking-[0.16em] text-verde uppercase hover:border-verde hover:bg-verde hover:text-marfim">
+            <Link href="/acomodacoes" className="pressionavel inline-flex h-11 items-center rounded-md border border-verde/40 px-7 text-[12px] font-medium tracking-[0.16em] text-verde uppercase hover:border-verde hover:bg-verde hover:text-marfim">
               Comparar todas as acomodações
             </Link>
           </div>
@@ -117,7 +117,7 @@ export default function Home() {
             ))}
           </div>
           <div className="mt-14 text-center">
-            <Link href="/pesca" className="pressionavel inline-flex h-11 items-center rounded-lg border border-verde/40 px-7 text-[12px] font-medium tracking-[0.16em] text-verde uppercase hover:border-verde hover:bg-verde hover:text-marfim">
+            <Link href="/pesca" className="pressionavel inline-flex h-11 items-center rounded-md border border-verde/40 px-7 text-[12px] font-medium tracking-[0.16em] text-verde uppercase hover:border-verde hover:bg-verde hover:text-marfim">
               Como funciona a pesca
             </Link>
           </div>
@@ -168,7 +168,7 @@ export default function Home() {
           <Reveal y={24} className="max-w-xl">
             <h2 className="font-display text-[clamp(2.2rem,4.6vw,3.6rem)] leading-[1.06]">Planeje sua escapada perfeita</h2>
             <p className="mt-5 text-marfim/80">Monte seu orçamento em poucos passos e envie direto para o nosso WhatsApp. O valor aparece na hora, sem cadastro.</p>
-            <Link href="/reservar" className="pressionavel mt-9 inline-flex h-12 items-center rounded-lg bg-dourado px-8 text-[13px] font-medium tracking-[0.14em] text-verde-noite uppercase hover:bg-dourado-claro">
+            <Link href="/reservar" className="pressionavel mt-9 inline-flex h-12 items-center rounded-md bg-dourado px-8 text-[13px] font-medium tracking-[0.14em] text-verde-noite uppercase hover:bg-dourado-claro">
               Fazer orçamento
             </Link>
           </Reveal>

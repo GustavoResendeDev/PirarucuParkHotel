@@ -29,13 +29,13 @@ export function Footer() {
             Hotel com pesca esportiva e piscinas aquecidas em {HOTEL.cidade}, Goiás, a {HOTEL.distancia}.
           </p>
           <div className="mt-6 flex gap-3">
-            <a href={HOTEL.instagramHotel} target="_blank" rel="noopener" aria-label="Instagram do hotel" className="pressionavel grid size-10 place-items-center rounded-full border border-marfim/25 hover:border-dourado hover:text-dourado">
+            <a href={HOTEL.instagramHotel} target="_blank" rel="noopener" aria-label="Instagram do hotel" className="pressionavel grid size-10 place-items-center rounded-md border border-marfim/25 hover:border-dourado hover:text-dourado">
               <IconeInstagram className="size-[18px]" />
             </a>
-            <a href={HOTEL.instagramPesqueiro} target="_blank" rel="noopener" aria-label="Instagram do Recanto do Pirarucu" className="pressionavel grid size-10 place-items-center rounded-full border border-marfim/25 hover:border-dourado hover:text-dourado">
+            <a href={HOTEL.instagramPesqueiro} target="_blank" rel="noopener" aria-label="Instagram do Recanto do Pirarucu" className="pressionavel grid size-10 place-items-center rounded-md border border-marfim/25 hover:border-dourado hover:text-dourado">
               <IconePesca className="size-5" />
             </a>
-            <a href={waLink(`Olá! Vi o site do ${HOTEL.nome} e gostaria de informações.`)} target="_blank" rel="noopener" aria-label="WhatsApp do hotel" className="pressionavel grid size-10 place-items-center rounded-full border border-marfim/25 hover:border-dourado hover:text-dourado">
+            <a href={waLink(`Olá! Vi o site do ${HOTEL.nome} e gostaria de informações.`)} target="_blank" rel="noopener" aria-label="WhatsApp do hotel" className="pressionavel grid size-10 place-items-center rounded-md border border-marfim/25 hover:border-dourado hover:text-dourado">
               <IconeWhatsApp className="size-[18px]" />
             </a>
           </div>
@@ -94,7 +94,7 @@ export function Footer() {
             href={waLink(`Olá! Vi o site do ${HOTEL.nome} e gostaria de informações sobre hospedagem.`)}
             target="_blank"
             rel="noopener"
-            className="pressionavel mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-dourado px-4 text-[12px] font-medium tracking-[0.08em] whitespace-nowrap text-verde-noite uppercase hover:bg-dourado-claro"
+            className="pressionavel mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-dourado px-4 text-[12px] font-medium tracking-[0.08em] whitespace-nowrap text-verde-noite uppercase hover:bg-dourado-claro"
           >
             <IconeWhatsApp className="size-4" /> Chamar no WhatsApp
           </a>

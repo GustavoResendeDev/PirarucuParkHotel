@@ -49,6 +49,13 @@ Preços em `lib/data.ts` (tabela do hotel, nov/2026). Regras e capacidades do qu
 
 Ainda a confirmar na visita de 05/12/2026: se a cama extra é por diária, se crianças grátis contam na capacidade do quarto, feriados locais e datas de alta temporada, e o prazo para pagar o sinal.
 
+## Orçamentos (livro de reservas)
+
+- `/reservar` é um livro (`components/reserva/LivroReserva.tsx`). Nenhuma página rola: no celular, os passos maiores viram mais páginas.
+- Ao enviar, o site gera um comprovante com a identidade do hotel (`lib/ticket.ts`, PDF e PNG feitos no navegador) e manda o orçamento com o PDF anexo para o e-mail do hotel pelo FormSubmit (`lib/envio.ts`).
+- **Ativação:** no primeiro orçamento enviado, o FormSubmit manda um e-mail de ativação para pirarucuparkhotel@gmail.com. Alguém do hotel precisa clicar em "Activate Form"; até lá os orçamentos ficam guardados no FormSubmit e não chegam. Depois da ativação, o FormSubmit envia uma sequência aleatória que pode substituir o e-mail no endereço (`NEXT_PUBLIC_ORCAMENTO_ENDPOINT=https://formsubmit.co/ajax/<sequência>`).
+- Se a entrega falhar, o cliente vê o aviso e pode baixar o comprovante e chamar o hotel no WhatsApp.
+
 ## Próximos passos
 
 1. Validar os pontos acima na visita de 05/12/2026.

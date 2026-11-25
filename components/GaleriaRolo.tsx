@@ -211,7 +211,7 @@ export function GaleriaRolo() {
               <h2 className="font-display mt-3 max-w-xl text-[clamp(2.3rem,5.4vw,4.6rem)] leading-[1.04] text-marfim text-balance">Ambientes que ficam na memória</h2>
               <Ornamento className="mt-5 text-dourado" />
               <p className="mt-4 max-w-md text-marfim/75">Role para entrar nas fotos. No fim, o rolo completo com {ROLO.length} fotos do hotel.</p>
-              <a href="#rolo-completo" className="pressionavel pointer-events-auto mt-7 inline-flex h-11 items-center rounded-lg border border-marfim/35 px-6 text-[12px] font-medium tracking-[0.16em] text-marfim uppercase hover:border-dourado hover:bg-dourado hover:text-verde-noite">
+              <a href="#rolo-completo" className="pressionavel pointer-events-auto mt-7 inline-flex h-11 items-center rounded-md border border-marfim/35 px-6 text-[12px] font-medium tracking-[0.16em] text-marfim uppercase hover:border-dourado hover:bg-dourado hover:text-verde-noite">
                 Ver todas as fotos
               </a>
             </div>
@@ -247,10 +247,10 @@ export function GaleriaRolo() {
                   ))}
                 </div>
                 <div className="pointer-events-auto hidden items-center gap-3 md:flex">
-                  <button type="button" onClick={() => irPara(atual - 1)} disabled={atual === 0} aria-label="Foto anterior" className="pressionavel grid size-11 cursor-pointer place-items-center rounded-full border border-marfim/35 text-marfim hover:bg-marfim hover:text-verde-noite disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-marfim">
+                  <button type="button" onClick={() => irPara(atual - 1)} disabled={atual === 0} aria-label="Foto anterior" className="pressionavel grid size-11 cursor-pointer place-items-center rounded-md border border-marfim/35 text-marfim hover:bg-marfim hover:text-verde-noite disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-marfim">
                     <svg viewBox="0 0 24 24" className="size-4 rotate-180" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
                   </button>
-                  <button type="button" onClick={() => irPara(atual + 1)} disabled={atual === N - 1} aria-label="Próxima foto" className="pressionavel grid size-11 cursor-pointer place-items-center rounded-full border border-marfim/35 text-marfim hover:bg-marfim hover:text-verde-noite disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-marfim">
+                  <button type="button" onClick={() => irPara(atual + 1)} disabled={atual === N - 1} aria-label="Próxima foto" className="pressionavel grid size-11 cursor-pointer place-items-center rounded-md border border-marfim/35 text-marfim hover:bg-marfim hover:text-verde-noite disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-marfim">
                     <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
                   </button>
                 </div>
@@ -320,7 +320,7 @@ function RoloCompleto() {
                   type="button"
                   onClick={() => setGrupo(g)}
                   aria-pressed={grupo === g}
-                  className={`pressionavel h-10 cursor-pointer rounded-full border px-4 text-[13px] transition-colors ${grupo === g ? "border-dourado bg-dourado text-verde-noite" : "border-marfim/25 text-marfim/80 hover:border-marfim/60 hover:text-marfim"}`}
+                  className={`pressionavel h-10 cursor-pointer rounded-md border px-4 text-[13px] transition-colors ${grupo === g ? "border-dourado bg-dourado text-verde-noite" : "border-marfim/25 text-marfim/80 hover:border-marfim/60 hover:text-marfim"}`}
                 >
                   {g} <span className="tabular-nums opacity-60">{total}</span>
                 </button>
@@ -365,13 +365,13 @@ function RoloCompleto() {
             </p>
           </div>
         )}
-        <button type="button" onClick={fechar} aria-label="Fechar" className="pressionavel absolute top-4 right-4 grid size-11 cursor-pointer place-items-center rounded-full border border-marfim/30 hover:bg-marfim hover:text-verde-noite">
+        <button type="button" onClick={fechar} aria-label="Fechar" className="pressionavel absolute top-4 right-4 grid size-11 cursor-pointer place-items-center rounded-md border border-marfim/30 hover:bg-marfim hover:text-verde-noite">
           <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
         </button>
-        <button type="button" onClick={() => andar(-1)} aria-label="Foto anterior" className="pressionavel absolute top-1/2 left-3 grid size-11 -translate-y-1/2 cursor-pointer place-items-center rounded-full border border-marfim/30 bg-verde-noite/40 hover:bg-marfim hover:text-verde-noite md:left-6">
+        <button type="button" onClick={() => andar(-1)} aria-label="Foto anterior" className="pressionavel absolute top-1/2 left-3 grid size-11 -translate-y-1/2 cursor-pointer place-items-center rounded-md border border-marfim/30 bg-verde-noite/40 hover:bg-marfim hover:text-verde-noite md:left-6">
           <svg viewBox="0 0 24 24" className="size-4 rotate-180" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
         </button>
-        <button type="button" onClick={() => andar(1)} aria-label="Próxima foto" className="pressionavel absolute top-1/2 right-3 grid size-11 -translate-y-1/2 cursor-pointer place-items-center rounded-full border border-marfim/30 bg-verde-noite/40 hover:bg-marfim hover:text-verde-noite md:right-6">
+        <button type="button" onClick={() => andar(1)} aria-label="Próxima foto" className="pressionavel absolute top-1/2 right-3 grid size-11 -translate-y-1/2 cursor-pointer place-items-center rounded-md border border-marfim/30 bg-verde-noite/40 hover:bg-marfim hover:text-verde-noite md:right-6">
           <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
         </button>
       </dialog>

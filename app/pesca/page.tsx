@@ -32,7 +32,7 @@ export default function Page() {
           <div>
             <TituloMarca as="h1" texto="PESCA" letra={1} className="text-[clamp(3rem,9vw,6.5rem)] text-dourado" corTraco="#e9dfcb" />
             <p className="font-display mt-10 max-w-xl text-3xl leading-snug md:text-4xl">O lago fica a poucos passos do quarto, e a pesca funciona a qualquer hora para quem está hospedado.</p>
-            <Link href="/reservar" className="pressionavel mt-10 inline-flex h-14 items-center rounded-full bg-dourado px-9 text-[15px] font-medium text-verde-noite hover:bg-dourado-claro">
+            <Link href="/reservar" className="pressionavel mt-10 inline-flex h-14 items-center rounded-md bg-dourado px-9 text-[15px] font-medium text-verde-noite hover:bg-dourado-claro">
               Incluir pesca no orçamento
             </Link>
           </div>

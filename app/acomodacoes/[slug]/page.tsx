@@ -82,7 +82,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <p className="mt-2 text-marfim/85">Pesca esportiva 24 horas, {brl(PESCA.preco)} por pessoa/diária.</p>
           <p className="mt-6 text-sm text-marfim/60">Reserva garantida com sinal de {HOTEL.sinalPercentual}%. Mínimo de {HOTEL.minimoDiariasFeriado} diárias em feriados.</p>
           <p className="mt-6 text-sm text-marfim/60">Check-in a partir das {HOTEL.checkin}, check-out até as {HOTEL.checkout}.</p>
-          <Link href={`/reservar?acomodacao=${ac.slug}`} className="pressionavel mt-8 flex h-14 items-center justify-center rounded-full bg-dourado text-[15px] font-medium text-verde-noite hover:bg-dourado-claro">
+          <Link href={`/reservar?acomodacao=${ac.slug}`} className="pressionavel mt-8 flex h-14 items-center justify-center rounded-md bg-dourado text-[15px] font-medium text-verde-noite hover:bg-dourado-claro">
             Fazer orçamento
           </Link>
         </aside>

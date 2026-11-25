@@ -84,7 +84,7 @@ export function BuscaRapida({ variante = "escuro" }: { variante?: "escuro" | "cl
                 type="button"
                 aria-label={d < 0 ? "Menos hóspedes" : "Mais hóspedes"}
                 onClick={() => setHospedes((h) => Math.min(12, Math.max(1, h + d)))}
-                className={`pressionavel grid size-8 shrink-0 cursor-pointer place-items-center rounded-full border leading-none ${escuro ? "border-dourado/40 text-marfim hover:bg-dourado/15" : "border-verde/25 text-verde hover:bg-verde/5"}`}
+                className={`pressionavel grid size-8 shrink-0 cursor-pointer place-items-center rounded-md border leading-none ${escuro ? "border-dourado/40 text-marfim hover:bg-dourado/15" : "border-verde/25 text-verde hover:bg-verde/5"}`}
               >
                 {d < 0 ? "−" : "+"}
               </button>
@@ -107,7 +107,7 @@ export function BuscaRapida({ variante = "escuro" }: { variante?: "escuro" | "cl
       </label>
       <button
         type="submit"
-        className="pressionavel col-span-2 h-12 cursor-pointer rounded-lg bg-dourado px-7 text-[13px] font-medium tracking-[0.14em] text-verde-noite uppercase hover:bg-dourado-claro lg:col-span-1"
+        className="pressionavel col-span-2 h-12 cursor-pointer rounded-md bg-dourado px-7 text-[13px] font-medium tracking-[0.14em] text-verde-noite uppercase hover:bg-dourado-claro lg:col-span-1"
       >
         Ver disponibilidade
       </button>
