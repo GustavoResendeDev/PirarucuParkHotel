@@ -39,7 +39,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${marcellus.variable} ${jost.variable}`}>
+    <html lang="pt-BR" className={`${marcellus.variable} ${jost.variable}`} suppressHydrationWarning>
       <body className="min-h-dvh overflow-x-clip">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Preloader />
