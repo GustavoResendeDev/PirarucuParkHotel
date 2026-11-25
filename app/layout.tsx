@@ -12,7 +12,7 @@ const marcellus = Marcellus({ subsets: ["latin"], weight: "400", variable: "--fo
 const jost = Jost({ subsets: ["latin"], weight: ["300", "400", "500"], variable: "--font-jost", display: "swap" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.pirarucuparkhotel.com.br"), // EXEMPLO: domínio a definir
+  metadataBase: new URL("https://gustavoresendedev.github.io"), // trocar quando houver domínio próprio
   title: {
     default: `${HOTEL.nome} · Hotel com pesqueiro em ${HOTEL.cidade} (${HOTEL.uf})`,
     template: `%s · ${HOTEL.nome}`,

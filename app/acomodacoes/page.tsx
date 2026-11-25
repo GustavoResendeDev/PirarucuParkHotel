@@ -32,12 +32,12 @@ export default function Page() {
           {ACOMODACOES.map((ac, i) => (
             <Reveal key={ac.slug}>
               <article className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${i % 2 ? "lg:[&>*:first-child]:order-2" : ""}`}>
-                <Link href={`/acomodacoes/${ac.slug}`} className="group block overflow-hidden rounded-[28px]" aria-label={`Ver fotos e detalhes do ${ac.nome}`}>
+                <Link href={`/acomodacoes/${ac.slug}`} className="group block overflow-hidden rounded-2xl" aria-label={`Ver fotos e detalhes do ${ac.nome}`}>
                   <Foto src={ac.fotos[0]} alt={`${ac.nome}: ${ac.subtitulo.toLowerCase()}`} paleta={ac.paleta} rotulo={ac.nome} className="aspect-[4/3] transition-transform duration-[1.4s] ease-[var(--ease-premium)] group-hover:scale-[1.04]" />
                 </Link>
                 <div>
-                  <p className="text-[15px] text-salvia-escura">{ac.subtitulo}</p>
-                  <h2 className="font-display mt-2 text-5xl text-verde md:text-6xl">{ac.nome}</h2>
+                  <h2 className="font-display text-5xl text-balance text-verde md:text-6xl">{ac.nome}</h2>
+                  <p className="mt-3 text-[17px] text-salvia-escura">{ac.subtitulo}</p>
                   <p className="mt-5 max-w-lg leading-relaxed text-verde/80">{ac.descricao}</p>
                   <ul className="mt-6 flex max-w-lg flex-wrap gap-2">
                     {ac.destaques.map((c) => (
@@ -46,13 +46,13 @@ export default function Page() {
                   </ul>
                   <div className="mt-8 max-w-md">
                     <TabelaPrecos ac={ac} />
-                    <p className="mt-2 text-sm text-verde/60">Valores por diária.</p>
+                    <p className="mt-2 text-sm text-verde/80">Valores por diária.</p>
                   </div>
                   <div className="mt-8 flex flex-wrap items-center gap-6">
-                    <Link href={`/reservar?acomodacao=${ac.slug}`} className="pressionavel inline-flex h-12 items-center rounded-md bg-verde px-7 text-[15px] text-marfim hover:bg-verde-claro">
+                    <Link href={`/reservar?acomodacao=${ac.slug}`} className="pressionavel inline-flex h-12 items-center rounded-md bg-verde px-7 text-[13px] font-medium tracking-[0.14em] uppercase text-marfim hover:bg-verde-claro">
                       Fazer orçamento
                     </Link>
-                    <Link href={`/acomodacoes/${ac.slug}`} className="text-[15px] text-verde underline decoration-dourado underline-offset-8 hover:decoration-2">
+                    <Link href={`/acomodacoes/${ac.slug}`} className="inline-flex min-h-11 items-center text-[15px] text-verde underline decoration-dourado underline-offset-8 hover:decoration-2">
                       Ver todas as fotos
                     </Link>
                   </div>

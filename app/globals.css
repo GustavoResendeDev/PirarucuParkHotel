@@ -13,7 +13,7 @@
   --color-areia-clara: #efeadb;
   --color-dourado: #c8b28a;
   --color-dourado-claro: #e9dfcb;
-  --color-dourado-escuro: #8f7a55;
+  --color-dourado-escuro: #75633f;
   --color-marfim: #f1f5ef;
 
   --font-display: var(--font-marcellus), "Marcellus", Georgia, serif;
@@ -33,6 +33,12 @@
     font-family: var(--font-sans);
     font-size: 17px;
     line-height: 1.6;
+  }
+  html {
+    scrollbar-color: var(--color-salvia) var(--color-verde-escuro);
+  }
+  body {
+    caret-color: var(--color-dourado);
   }
   ::selection {
     background: var(--color-dourado);
@@ -113,6 +119,7 @@ html.lenis body {
 .fluido-linha[data-on] { opacity: 1; filter: blur(0); transform: none; -webkit-mask-position: 0 0; mask-position: 0 0; }
 
 @media (prefers-reduced-motion: reduce) {
+  .revela { opacity: 1 !important; transform: none !important; }
   .fluido-letra, .fluido-linha { opacity: 1; filter: none; transform: none; transition: none; -webkit-mask: none; mask: none; }
 }
 

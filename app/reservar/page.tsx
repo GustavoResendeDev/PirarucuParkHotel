@@ -5,7 +5,7 @@ import { LivroReserva } from "@/components/reserva/LivroReserva";
 
 export const metadata: Metadata = {
   title: "Reserva e orçamento",
-  description: "Consulte valores, monte seu orçamento de hospedagem com pesca opcional ou de day use nas piscinas e envie sua solicitação pelo WhatsApp.",
+  description: "Consulte valores, monte seu orçamento de hospedagem com pesca opcional ou de day use nas piscinas e envie sua solicitação ao hotel.",
 };
 
 export default function Page() {

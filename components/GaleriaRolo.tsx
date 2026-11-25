@@ -208,8 +208,7 @@ export function GaleriaRolo() {
           {/* título sobre a mesa */}
           <div ref={texto} className="rolo-texto pointer-events-none absolute inset-x-0 bottom-0 z-[3] origin-bottom-left px-5 pb-10 md:px-8 md:pb-14">
             <div className="mx-auto max-w-7xl">
-              <p className="text-[12px] font-medium tracking-[0.26em] text-dourado uppercase">Por dentro do hotel</p>
-              <h2 className="font-display mt-3 max-w-xl text-[clamp(2.3rem,5.4vw,4.6rem)] leading-[1.04] text-marfim text-balance">Ambientes que ficam na memória</h2>
+              <h2 className="font-display max-w-xl text-[clamp(2.3rem,5.4vw,4.6rem)] leading-[1.04] text-marfim text-balance"><TextoFluido texto="Ambientes que ficam na memória" /></h2>
               <Ornamento className="mt-5 text-dourado" />
               <p className="mt-4 max-w-md text-marfim/75">Role para entrar nas fotos. No fim, o rolo completo com {ROLO.length} fotos do hotel.</p>
               <a href="#rolo-completo" className="pressionavel pointer-events-auto mt-7 inline-flex h-11 items-center rounded-md border border-marfim/35 px-6 text-[12px] font-medium tracking-[0.16em] text-marfim uppercase hover:border-dourado hover:bg-dourado hover:text-verde-noite">
@@ -241,8 +240,7 @@ export function GaleriaRolo() {
                 <div className="relative min-h-[9.5rem] flex-1 md:min-h-[11rem]">
                   {SEQUENCIA.map((q, i) => (
                     <div key={q.titulo} className={`rolo-legenda ${i === quadro ? "rolo-ativa" : i < quadro ? "rolo-passou" : ""}`} aria-hidden={i !== quadro}>
-                      <p className="text-[12px] font-medium tracking-[0.26em] text-dourado uppercase">{q.foto.grupo}</p>
-                      <h3 className="font-display mt-2 text-[clamp(2.2rem,6vw,5rem)] leading-[1.02] text-marfim">{q.titulo}</h3>
+                      <h3 className="font-display text-[clamp(2.2rem,6vw,5rem)] leading-[1.02] text-marfim">{q.titulo}</h3>
                       <p className="mt-3 max-w-md text-marfim/80">{q.texto}</p>
                     </div>
                   ))}
@@ -305,8 +303,7 @@ function RoloCompleto() {
       <div className="mx-auto max-w-7xl px-5 md:px-8">
         <div className="flex flex-wrap items-end justify-between gap-8">
           <div>
-            <p className="text-[12px] font-medium tracking-[0.26em] text-dourado uppercase">Rolo completo</p>
-            <h2 className="font-display mt-3 text-[clamp(2rem,4.2vw,3.2rem)] leading-[1.1]"><TextoFluido texto="Todas as fotos do hotel" /></h2>
+            <h2 className="font-display text-[clamp(2rem,4.2vw,3.2rem)] leading-[1.1]"><TextoFluido texto="Todas as fotos do hotel" /></h2>
             <p className="mt-3 text-marfim/70">
               Mais no{" "}
               <a href={HOTEL.instagramHotel} target="_blank" rel="noopener" className="text-marfim underline decoration-dourado underline-offset-4 hover:decoration-2">@pirarucuparkhotel</a>
@@ -321,9 +318,9 @@ function RoloCompleto() {
                   type="button"
                   onClick={() => setGrupo(g)}
                   aria-pressed={grupo === g}
-                  className={`pressionavel h-10 cursor-pointer rounded-md border px-4 text-[13px] transition-colors ${grupo === g ? "border-dourado bg-dourado text-verde-noite" : "border-marfim/25 text-marfim/80 hover:border-marfim/60 hover:text-marfim"}`}
+                  className={`pressionavel h-11 cursor-pointer rounded-md border px-4 text-[13px] transition-colors ${grupo === g ? "border-dourado bg-dourado text-verde-noite" : "border-marfim/25 text-marfim/80 hover:border-marfim/60 hover:text-marfim"}`}
                 >
-                  {g} <span className="tabular-nums opacity-60">{total}</span>
+                  {g} <span className="tabular-nums opacity-85">{total}</span>
                 </button>
               );
             })}
@@ -334,14 +331,15 @@ function RoloCompleto() {
         <ul className="rolo-folha mt-12 grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {lista.map((r, i) => (
             <li key={r.src}>
-              <button type="button" onClick={() => abrir(i)} className="group block w-full cursor-pointer text-left" aria-label={`Ampliar: ${r.alt}`}>
+              <button type="button" onClick={() => abrir(i)} className="group block w-full cursor-pointer text-left">
                 <span className="rolo-quadro">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={url(r.src)} alt="" loading="lazy" decoding="async" className="transition-transform duration-700 ease-[var(--ease-premium)] group-hover:scale-[1.05]" />
                 </span>
-                <span className="mt-2 flex items-center justify-between font-mono text-[11px] tracking-[0.12em] text-dourado/70 uppercase">
+                <span className="sr-only">Ampliar: {r.alt}</span>
+                <span aria-hidden="true" className="mt-2 flex items-center justify-between text-[11px] tracking-[0.12em] text-dourado uppercase tabular-nums">
                   <span>{num(r.src)}A</span>
-                  <span className="truncate pl-3 text-marfim/45">{r.grupo}</span>
+                  <span className="truncate pl-3 text-marfim/75">{r.grupo}</span>
                 </span>
               </button>
             </li>
@@ -361,7 +359,7 @@ function RoloCompleto() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img key={foto.src} src={url(foto.src)} alt={foto.alt} className="rolo-ampliada max-h-[78svh] w-auto max-w-full rounded-md object-contain shadow-2xl" />
             <p className="max-w-2xl text-center text-[15px] text-marfim/80">
-              <span className="mr-3 font-mono text-[12px] text-dourado tabular-nums">{String((aberta ?? 0) + 1).padStart(2, "0")} / {String(lista.length).padStart(2, "0")}</span>
+              <span className="mr-3 text-[12px] text-dourado tabular-nums">{String((aberta ?? 0) + 1).padStart(2, "0")} / {String(lista.length).padStart(2, "0")}</span>
               {foto.alt}
             </p>
           </div>

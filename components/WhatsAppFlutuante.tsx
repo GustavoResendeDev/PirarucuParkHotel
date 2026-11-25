@@ -1,5 +1,6 @@
 "use client";
-import { motion } from "motion/react";
+import { motion, useMotionValueEvent, useScroll } from "motion/react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { waLink } from "@/lib/reserva";
 import { HOTEL } from "@/lib/data";
@@ -14,6 +15,10 @@ export function IconeWhatsApp({ className = "" }: { className?: string }) {
 
 export function WhatsAppFlutuante() {
   const path = usePathname();
+  // na primeira tela ele cobriria o botão da busca; aparece ao rolar
+  const { scrollY } = useScroll();
+  const [vis, setVis] = useState(false);
+  useMotionValueEvent(scrollY, "change", (y) => setVis(y > window.innerHeight * 0.6));
   const texto =
     path?.startsWith("/pesca")
       ? "Olá! Vi o site e quero saber mais sobre a pesca esportiva para hóspedes."
@@ -22,19 +27,22 @@ export function WhatsAppFlutuante() {
         : `Olá! Vi o site do ${HOTEL.nome} e gostaria de informações sobre hospedagem.`;
   if (path?.startsWith("/reservar")) return null;
   return (
+    <aside aria-label="Contato rápido">
     <motion.a
+      inert={!vis}
       href={waLink(texto)}
       target="_blank"
       rel="noopener"
       aria-label="Falar com o hotel no WhatsApp"
       initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ delay: 2.4, type: "spring", stiffness: 260, damping: 18 }}
+      animate={vis ? { scale: 1, opacity: 1 } : { scale: 0.9, opacity: 0 }}
+      transition={{ type: "spring", stiffness: 260, damping: 18 }}
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.95 }}
       className="fixed right-5 bottom-5 z-40 grid size-14 cursor-pointer place-items-center rounded-xl bg-[#1f9d55] text-white shadow-[0_10px_30px_rgba(0,0,0,.3)]"
     >
       <IconeWhatsApp className="relative size-7" />
     </motion.a>
+    </aside>
   );
 }

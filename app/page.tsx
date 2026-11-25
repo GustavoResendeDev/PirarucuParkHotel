@@ -40,7 +40,8 @@ export default function Home() {
       <Hero />
 
       {/* Diferenciais */}
-      <section className="bg-verde text-marfim">
+      <section className="bg-verde text-marfim" aria-labelledby="diferenciais">
+        <h2 id="diferenciais" className="sr-only">O que o hotel oferece</h2>
         <ul className="mx-auto grid max-w-7xl grid-cols-2 px-3 py-10 sm:grid-cols-3 md:px-8 md:py-14 lg:grid-cols-5">
           {DIFERENCIAIS.map(({ Icone, nome, texto }, i) => (
             <li
@@ -60,7 +61,7 @@ export default function Home() {
       {/* Acomodações */}
       <section className="bg-marfim py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <CabecalhoSecao sobre="Hospede-se com estilo" titulo="Quartos e flats pensados para você" />
+          <CabecalhoSecao titulo="Quartos e flats pensados para você" />
           <div className="mt-14 grid gap-6 md:grid-cols-3 md:gap-7">
             {ACOMODACOES.map((ac, i) => (
               <Reveal key={ac.slug} delay={i * 0.1} y={36}>
@@ -98,7 +99,7 @@ export default function Home() {
       {/* Experiências */}
       <section id="experiencias" className="relative scroll-mt-20 overflow-hidden bg-salvia-escura py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <CabecalhoSecao sobre="Momentos inesquecíveis" titulo="Experiências para viver aqui" claro />
+          <CabecalhoSecao titulo="Experiências para viver aqui" claro />
           <div className="mt-14 grid gap-x-5 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
             {EXPERIENCIAS.map(({ Icone, src, alt, nome, texto, href }, i) => (
               <Reveal key={nome} delay={i * 0.08} y={32}>
@@ -132,8 +133,7 @@ export default function Home() {
       <section id="localizacao" className="scroll-mt-20 bg-marfim py-24 md:py-32">
         <div className="mx-auto grid max-w-7xl gap-14 px-5 md:px-8 lg:grid-cols-2 lg:gap-20">
           <div>
-            <p className="text-[12px] font-medium tracking-[0.26em] text-dourado-escuro uppercase">Como chegar</p>
-            <h2 className="font-display mt-3 text-[clamp(2rem,4vw,3rem)] leading-[1.1] text-verde"><TextoFluido texto={`${HOTEL.cidade}, Goiás`} /></h2>
+            <h2 className="font-display text-[clamp(2rem,4vw,3rem)] leading-[1.1] text-verde"><TextoFluido texto="Como chegar" /></h2>
             <p className="mt-4 max-w-md text-verde/75">{HOTEL.endereco}, {HOTEL.cidade} ({HOTEL.uf}), a {HOTEL.distancia}. Check-in a partir das {HOTEL.checkin} e check-out até as {HOTEL.checkout}.</p>
             <div className="mt-8 aspect-[4/3] overflow-hidden rounded-xl border border-verde/10 bg-creme">
               <iframe
@@ -150,8 +150,7 @@ export default function Home() {
             </div>
           </div>
           <div>
-            <p className="text-[12px] font-medium tracking-[0.26em] text-dourado-escuro uppercase">Dúvidas</p>
-            <h2 className="font-display mt-3 text-[clamp(2rem,4vw,3rem)] leading-[1.1] text-verde"><TextoFluido texto="Antes de reservar" /></h2>
+            <h2 className="font-display text-[clamp(2rem,4vw,3rem)] leading-[1.1] text-verde"><TextoFluido texto="Antes de reservar" /></h2>
             <div className="mt-8">
               <Faq />
             </div>
@@ -168,7 +167,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
           <Reveal y={24} className="max-w-xl">
             <h2 className="font-display text-[clamp(2.2rem,4.6vw,3.6rem)] leading-[1.06]"><TextoFluido texto="Planeje sua escapada perfeita" /></h2>
-            <p className="mt-5 text-marfim/80">Monte seu orçamento em poucos passos e envie direto para o nosso WhatsApp. O valor aparece na hora, sem cadastro.</p>
+            <p className="mt-5 text-marfim/80">Monte seu orçamento em poucos passos e envie direto para o hotel. O valor aparece na hora, sem cadastro.</p>
             <Link href="/reservar" className="pressionavel mt-9 inline-flex h-12 items-center rounded-md bg-dourado px-8 text-[13px] font-medium tracking-[0.14em] text-verde-noite uppercase hover:bg-dourado-claro">
               Fazer orçamento
             </Link>

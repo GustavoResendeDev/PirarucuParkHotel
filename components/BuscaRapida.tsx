@@ -27,7 +27,7 @@ export function BuscaRapida({ variante = "escuro" }: { variante?: "escuro" | "cl
   const campo = `w-full min-w-0 bg-transparent text-[15px] outline-none ${escuro ? "text-marfim [color-scheme:dark]" : "text-verde"}`;
   const rotulo = `block text-[11px] font-medium tracking-[0.16em] uppercase ${escuro ? "text-dourado" : "text-salvia-escura"}`;
   const icone = `size-5 shrink-0 ${escuro ? "text-dourado-claro/80" : "text-salvia"}`;
-  const bloco = `flex items-center gap-3 border-b pb-2 ${linha}`;
+  const bloco = `flex h-11 items-center gap-3 border-b ${linha}`;
 
   return (
     <form
@@ -46,7 +46,7 @@ export function BuscaRapida({ variante = "escuro" }: { variante?: "escuro" | "cl
     >
       <label className="cursor-pointer">
         <span className={rotulo}>Entrada</span>
-        <span className={`mt-2 ${bloco}`}>
+        <span className={`mt-1 ${bloco}`}>
           <IconeCalendario className={icone} />
           <input
             type="date"
@@ -63,14 +63,14 @@ export function BuscaRapida({ variante = "escuro" }: { variante?: "escuro" | "cl
       </label>
       <label className="cursor-pointer">
         <span className={rotulo}>Saída</span>
-        <span className={`mt-2 ${bloco}`}>
+        <span className={`mt-1 ${bloco}`}>
           <IconeCalendario className={icone} />
           <input type="date" required value={saida} min={entrada} onChange={(e) => setSaida(e.target.value)} className={campo} />
         </span>
       </label>
       <div>
         <span className={rotulo} id="rot-hospedes">Hóspedes</span>
-        <div className={`mt-2 justify-between ${bloco}`}>
+        <div className={`mt-1 justify-between ${bloco}`}>
           <span className="flex items-center gap-3">
             <IconeHospedes className={`${icone} max-sm:hidden`} />
             <span className={`${campo} whitespace-nowrap`} aria-live="polite" aria-labelledby="rot-hospedes">
@@ -84,7 +84,7 @@ export function BuscaRapida({ variante = "escuro" }: { variante?: "escuro" | "cl
                 type="button"
                 aria-label={d < 0 ? "Menos hóspedes" : "Mais hóspedes"}
                 onClick={() => setHospedes((h) => Math.min(12, Math.max(1, h + d)))}
-                className={`pressionavel grid size-8 shrink-0 cursor-pointer place-items-center rounded-md border leading-none ${escuro ? "border-dourado/40 text-marfim hover:bg-dourado/15" : "border-verde/25 text-verde hover:bg-verde/5"}`}
+                className={`pressionavel grid size-8 shrink-0 sm:size-9 cursor-pointer place-items-center rounded-md border leading-none ${escuro ? "border-dourado/40 text-marfim hover:bg-dourado/15" : "border-verde/25 text-verde hover:bg-verde/5"}`}
               >
                 {d < 0 ? "−" : "+"}
               </button>
@@ -94,7 +94,7 @@ export function BuscaRapida({ variante = "escuro" }: { variante?: "escuro" | "cl
       </div>
       <label className="cursor-pointer">
         <span className={rotulo}>Acomodação</span>
-        <span className={`mt-2 ${bloco}`}>
+        <span className={`mt-1 ${bloco}`}>
           <IconeCama className={icone} />
           <select value={acomodacao} onChange={(e) => setAcomodacao(e.target.value)} className={`${campo} cursor-pointer appearance-none truncate`}>
             <option value="" className="text-verde">Todas</option>
@@ -102,7 +102,7 @@ export function BuscaRapida({ variante = "escuro" }: { variante?: "escuro" | "cl
               <option key={a.slug} value={a.slug} className="text-verde">{a.nome}</option>
             ))}
           </select>
-          <svg viewBox="0 0 24 24" className={`size-4 shrink-0 ${escuro ? "text-marfim/60" : "text-verde/60"}`} fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+          <svg viewBox="0 0 24 24" className={`size-4 shrink-0 ${escuro ? "text-marfim/75" : "text-verde/80"}`} fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
         </span>
       </label>
       <button

@@ -23,7 +23,7 @@ export function DayUse() {
             Não vai se hospedar? Passe o dia na área das piscinas por {brl(DAY_USE.preco)} por pessoa. A pesca esportiva continua exclusiva para hóspedes, e o restaurante abre de {HOTEL.restaurante.toLowerCase()}.
           </p>
         </div>
-        <div className="rounded-[28px] border border-dourado/25 bg-verde-noite/40 p-7 md:p-9">
+        <div className="rounded-2xl border border-dourado/25 bg-verde-noite/40 p-7 md:p-9">
           <div className="grid gap-5 sm:grid-cols-2">
             <label className="block">
               <span className="text-[15px] text-dourado-claro">Data</span>

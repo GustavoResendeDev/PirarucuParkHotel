@@ -393,9 +393,9 @@ export function LivroReserva() {
       {duplo ? null : (
         <div className="mx-auto mt-3 flex max-w-md items-center justify-between gap-4 px-4">
           <BotaoSeta dir={-1} rotulo="Página anterior" disabled={t === 0} onClick={voltar} />
-          <p className="text-center text-[13px] text-verde/70">
+          <p className="text-center text-[13px] text-verde/80">
             {rotuloPosicao}
-            <span className="block text-[12px] text-verde/45">deslize para folhear</span>
+            <span className="block text-[12px] text-verde/80">deslize para folhear</span>
           </p>
           <BotaoSeta dir={1} rotulo={t === 0 ? "Abrir o livro" : "Próxima página"} disabled={t >= ordem.length} onClick={avancar} />
         </div>
@@ -516,9 +516,9 @@ function Sumario({ c }: { c: Ctx }) {
             <li key={cap.n}>
               <button type="button" disabled={!livre} onClick={() => c.irPara(alvo)} className="group flex w-full cursor-pointer items-baseline gap-3 py-[5px] text-left disabled:cursor-default lg:py-1.5">
                 <span className="font-display w-7 shrink-0 text-dourado-escuro">{cap.n}</span>
-                <span className={`text-[15px] ${livre ? "text-verde group-hover:underline group-hover:decoration-dourado group-hover:underline-offset-4" : "text-verde/55"}`}>{cap.nome}</span>
+                <span className={`text-[15px] ${livre ? "text-verde group-hover:underline group-hover:decoration-dourado group-hover:underline-offset-4" : "text-verde/80"}`}>{cap.nome}</span>
                 <span className="livro-leader" aria-hidden />
-                <span className="font-display text-[14px] text-verde/60">{(i + 1) * 2}</span>
+                <span className="font-display text-[14px] text-verde/80">{(i + 1) * 2}</span>
               </button>
             </li>
           );
@@ -644,7 +644,7 @@ const PARTES: Record<Exclude<PagId, "sumario">, (c: Ctx) => Partes> = {
             ))}
           </div>
         )}
-        <p className="text-[14px] text-verde/70">
+        <p className="text-[14px] text-verde/80">
           {h} pessoa{h > 1 ? "s" : ""} no total{h !== pag ? `, ${pag} pagante${pag > 1 ? "s" : ""}` : ""}.
         </p>
       </>
@@ -679,7 +679,7 @@ const PARTES: Record<Exclude<PagId, "sumario">, (c: Ctx) => Partes> = {
     const dias = Math.min(p.diasPesca, Math.max(1, orc.noites));
     const controles = (
       <>
-        <p className="text-[14px] text-verde/70">
+        <p className="text-[14px] text-verde/80">
           Opcional: {brl(PESCA.preco)} por pessoa, por diária, pesque e solte, 24 horas. Se ninguém vai pescar, é só virar a página.
         </p>
         <Contador rotulo="Pessoas que vão pescar" valor={p.pescadores} min={0} max={h} onChange={(v) => set("pescadores", v)} />
@@ -795,7 +795,7 @@ function Item({ children }: { children: ReactNode }) {
 function Ficha({ k, v }: { k: string; v: string }) {
   return (
     <div className="flex items-baseline gap-3">
-      <dt className="text-verde/60">{k}</dt>
+      <dt className="text-verde/80">{k}</dt>
       <span className="livro-leader" aria-hidden />
       <dd className="text-right text-verde">{v}</dd>
     </div>
@@ -807,7 +807,7 @@ function Prancha({ src, alt, legenda }: { src: string; alt: string; legenda: str
   return (
     <figure className="livro-prancha flex min-h-0 flex-1 flex-col">
       <Foto src={src} alt={alt} className="min-h-[90px] w-full flex-1" />
-      <figcaption className="font-display shrink-0 px-1 pt-1.5 text-[13px] text-verde/65 italic">{legenda}</figcaption>
+      <figcaption className="font-display shrink-0 px-1 pt-1.5 text-[13px] text-verde/80 italic">{legenda}</figcaption>
     </figure>
   );
 }
@@ -818,7 +818,7 @@ function Contador({ rotulo, sub, valor, min, max, onChange }: { rotulo: string; 
     <div className="flex shrink-0 items-center justify-between gap-4 rounded-md border border-verde/10 bg-[#fbfaf4] px-4 py-2.5">
       <div>
         <p className="text-verde">{rotulo}</p>
-        {sub && <p className="text-[12px] text-verde/65">{sub}</p>}
+        {sub && <p className="text-[12px] text-verde/80">{sub}</p>}
       </div>
       <div className="flex items-center gap-2">
         <button type="button" aria-label={`Diminuir ${rotulo.toLowerCase()}`} disabled={valor <= min} onClick={() => onChange(valor - 1)} className={botao}>
@@ -906,7 +906,7 @@ function Calendario({ entrada, saida, hoje, onChange }: { entrada: string; saida
           ›
         </button>
       </div>
-      <div className="mt-1 grid grid-cols-7 text-center text-[11px] tracking-[0.18em] text-verde/50" aria-hidden>
+      <div className="mt-1 grid grid-cols-7 text-center text-[11px] tracking-[0.18em] text-verde/80" aria-hidden>
         {SEMANA.map((d, i) => (
           <span key={i} className="py-0.5">
             {d}
@@ -938,7 +938,7 @@ function Calendario({ entrada, saida, hoje, onChange }: { entrada: string; saida
           );
         })}
       </div>
-      <p className="mt-2 flex flex-wrap items-center justify-between gap-2 text-[13px] text-verde/65">
+      <p className="mt-2 flex flex-wrap items-center justify-between gap-2 text-[13px] text-verde/80">
         <span>{fase === "saida" ? "Agora toque no dia da saída." : "Toque no dia da chegada."}</span>
         <span className="inline-flex items-center gap-1.5">
           <span aria-hidden className="size-1.5 rounded-full bg-dourado-escuro" /> feriado
@@ -974,7 +974,7 @@ function GaleriaQuarto({ c }: { c: Ctx }) {
       </figure>
       <div className="shrink-0">
         <p className="font-display text-xl text-verde">{ac.nome}</p>
-        <p className="text-[13px] text-verde/65">
+        <p className="text-[13px] text-verde/80">
           {ac.subtitulo} · {ac.unidades} {ac.unidades > 1 ? "quartos" : "quarto"} como este · {ac.comodidades.slice(0, 4).join(", ")}
         </p>
       </div>
@@ -1018,7 +1018,7 @@ function EscolhaQuarto({ c }: { c: Ctx }) {
                     </span>
                   </span>
                   <span className="flex items-baseline justify-between gap-2">
-                    <span className="min-w-0 text-[12px] leading-tight text-verde/60">
+                    <span className="min-w-0 text-[12px] leading-tight text-verde/80">
                       {nota || `${ac.unidades} unidades · até ${ac.capacidade} pessoas`}
                     </span>
                     <span className="font-display shrink-0 text-[17px] text-verde lg:text-xl">{brl(total)}</span>
@@ -1026,14 +1026,14 @@ function EscolhaQuarto({ c }: { c: Ctx }) {
                 </span>
               </button>
               {/* no celular, as fotos abrem por cima do livro */}
-              <button type="button" onClick={() => c.setGaleria(ac.slug)} aria-label={`Ver fotos do ${ac.nome}`} className="absolute bottom-2.5 left-2.5 rounded-sm bg-verde-noite/75 px-1.5 py-0.5 text-[11px] text-marfim backdrop-blur lg:hidden">
+              <button type="button" onClick={() => c.setGaleria(ac.slug)} aria-label={`Ver fotos do ${ac.nome}`} className="absolute bottom-2.5 left-2.5 min-h-8 rounded-sm bg-verde-noite/75 px-2.5 text-[12px] text-marfim backdrop-blur lg:hidden">
                 Fotos
               </button>
             </div>
           );
         })}
       </div>
-      <p className="hidden shrink-0 text-[12px] text-verde/60 lg:block">Com café da manhã, piscinas aquecidas e estacionamento.</p>
+      <p className="hidden shrink-0 text-[12px] text-verde/80 lg:block">Com café da manhã, piscinas aquecidas e estacionamento.</p>
     </>
   );
 }
@@ -1107,16 +1107,16 @@ function Recibo({ c }: { c: Ctx }) {
         {orc.linhas.length === 0 && <li>Escolha o quarto para ver o valor.</li>}
       </ul>
       <div className="mt-3 flex items-end justify-between border-t border-verde/20 pt-2.5">
-        <span className="text-[14px] text-verde/70">Total estimado</span>
+        <span className="text-[14px] text-verde/80">Total estimado</span>
         <span className="font-display text-3xl text-verde">{brl(orc.total)}</span>
       </div>
       {orc.total > 0 && (
         <div className="flex items-baseline justify-between text-[14px]">
-          <span className="text-verde/70">Sinal de {HOTEL.sinalPercentual}% para garantir</span>
+          <span className="text-verde/80">Sinal de {HOTEL.sinalPercentual}% para garantir</span>
           <span className="text-verde">{brl(orc.sinal)}</span>
         </div>
       )}
-      {c.duplo && <p className="mt-2 text-[12px] text-verde/55">Restaurante e bebidas são pagos à parte, no local.</p>}
+      {c.duplo && <p className="mt-2 text-[12px] text-verde/80">Restaurante e bebidas são pagos à parte, no local.</p>}
     </div>
   );
 }
@@ -1146,7 +1146,7 @@ function Envio({ c }: { c: Ctx }) {
             </a>
           )}
         </div>
-        <button type="button" onClick={c.novo} className="shrink-0 cursor-pointer text-[13px] text-verde/65 underline underline-offset-4 hover:text-verde">
+        <button type="button" onClick={c.novo} className="shrink-0 cursor-pointer text-[13px] text-verde/80 underline underline-offset-4 hover:text-verde">
           Fazer outro orçamento
         </button>
       </div>
@@ -1171,7 +1171,7 @@ function Envio({ c }: { c: Ctx }) {
         <button type="button" onClick={c.voltar} className="pressionavel inline-flex h-11 cursor-pointer items-center rounded-md px-3 text-[14px] text-verde/80 hover:bg-verde/5">
           ← Voltar
         </button>
-        <span className="text-[13px] text-verde/55">Dúvidas: {HOTEL.whatsappExibicao}</span>
+        <span className="text-[13px] text-verde/80">Dúvidas: {HOTEL.whatsappExibicao}</span>
       </div>
     </div>
   );

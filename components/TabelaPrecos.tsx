@@ -26,7 +26,7 @@ export function TabelaPrecos({ ac, escuro = false }: { ac: Acomodacao; escuro?: 
         <div key={l.rotulo} className="flex items-baseline justify-between gap-4 py-3">
           <dt>
             <span className={escuro ? "text-marfim" : "text-verde"}>{l.rotulo}</span>
-            <span className={`ml-2 text-sm ${escuro ? "text-marfim/55" : "text-verde/60"}`}>{l.detalhe}</span>
+            <span className={`ml-2 text-sm ${escuro ? "text-marfim/75" : "text-verde/80"}`}>{l.detalhe}</span>
           </dt>
           <dd className={`font-display text-2xl ${escuro ? "text-dourado-claro" : "text-verde"}`}>{l.valor}</dd>
         </div>

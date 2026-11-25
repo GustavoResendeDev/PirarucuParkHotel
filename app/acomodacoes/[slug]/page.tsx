@@ -34,8 +34,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         <div className="absolute inset-0 bg-gradient-to-t from-verde-noite/85 via-verde-noite/20 to-verde-noite/45" />
         <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-end px-5 pb-14 md:px-8">
           <Link href="/acomodacoes" className="mb-6 inline-flex min-h-11 w-fit items-center text-[15px] text-marfim/75 hover:text-marfim">Todas as acomodações</Link>
-          <p className="text-dourado-claro">{ac.subtitulo}</p>
-          <h1 className="font-display mt-2 text-5xl leading-none md:text-8xl"><TextoFluido texto={ac.nome} passo={34} /></h1>
+          <h1 className="font-display text-5xl leading-none text-balance md:text-8xl"><TextoFluido texto={ac.nome} passo={34} /></h1>
+          <p className="mt-4 text-lg text-dourado-claro">{ac.subtitulo}</p>
         </div>
       </section>
 
@@ -61,7 +61,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               </ul>
             </div>
           </div>
-          <p className="mt-8 text-[15px] text-verde/70">Até {ac.capacidade} pessoas. Crianças até {HOTEL.idadeCriancaGratis} anos não pagam. Temos elevador e banheiro adaptado.</p>
+          <p className="mt-8 text-[15px] text-verde/80">Até {ac.capacidade} pessoas. Crianças até {HOTEL.idadeCriancaGratis} anos não pagam. Temos elevador e banheiro adaptado.</p>
           <div className="mt-14 grid grid-cols-2 gap-3 md:gap-4">
             {demais.map((f, k) => (
               <Reveal key={f} y={24} className={k === 0 && demais.length % 2 === 1 ? "col-span-2" : ""}>
@@ -70,7 +70,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
             ))}
           </div>
         </div>
-        <aside className="h-fit rounded-[28px] bg-verde p-8 text-marfim lg:sticky lg:top-28">
+        <aside className="h-fit rounded-2xl bg-verde p-8 text-marfim lg:sticky lg:top-28">
           <h2 className="text-[15px] text-dourado">Diárias</h2>
           <div className="mt-3">
             <TabelaPrecos ac={ac} escuro />
@@ -81,9 +81,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           </ul>
           <h3 className="mt-6 text-[15px] text-dourado">Opcional</h3>
           <p className="mt-2 text-marfim/85">Pesca esportiva 24 horas, {brl(PESCA.preco)} por pessoa/diária.</p>
-          <p className="mt-6 text-sm text-marfim/60">Reserva garantida com sinal de {HOTEL.sinalPercentual}%. Mínimo de {HOTEL.minimoDiariasFeriado} diárias em feriados.</p>
-          <p className="mt-6 text-sm text-marfim/60">Check-in a partir das {HOTEL.checkin}, check-out até as {HOTEL.checkout}.</p>
-          <Link href={`/reservar?acomodacao=${ac.slug}`} className="pressionavel mt-8 flex h-14 items-center justify-center rounded-md bg-dourado text-[15px] font-medium text-verde-noite hover:bg-dourado-claro">
+          <p className="mt-6 text-sm text-marfim/75">Reserva garantida com sinal de {HOTEL.sinalPercentual}%. Mínimo de {HOTEL.minimoDiariasFeriado} diárias em feriados.</p>
+          <p className="mt-6 text-sm text-marfim/75">Check-in a partir das {HOTEL.checkin}, check-out até as {HOTEL.checkout}.</p>
+          <Link href={`/reservar?acomodacao=${ac.slug}`} className="pressionavel mt-8 flex h-14 items-center justify-center rounded-md bg-dourado text-[13px] font-medium tracking-[0.14em] uppercase text-verde-noite hover:bg-dourado-claro">
             Fazer orçamento
           </Link>
         </aside>

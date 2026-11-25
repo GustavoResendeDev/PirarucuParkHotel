@@ -29,55 +29,55 @@ export function Footer() {
             Hotel com pesca esportiva e piscinas aquecidas em {HOTEL.cidade}, Goiás, a {HOTEL.distancia}.
           </p>
           <div className="mt-6 flex gap-3">
-            <a href={HOTEL.instagramHotel} target="_blank" rel="noopener" aria-label="Instagram do hotel" className="pressionavel grid size-10 place-items-center rounded-md border border-marfim/25 hover:border-dourado hover:text-dourado">
+            <a href={HOTEL.instagramHotel} target="_blank" rel="noopener" aria-label="Instagram do hotel" className="pressionavel grid size-11 place-items-center rounded-md border border-marfim/25 hover:border-dourado hover:text-dourado">
               <IconeInstagram className="size-[18px]" />
             </a>
-            <a href={HOTEL.instagramPesqueiro} target="_blank" rel="noopener" aria-label="Instagram do Recanto do Pirarucu" className="pressionavel grid size-10 place-items-center rounded-md border border-marfim/25 hover:border-dourado hover:text-dourado">
+            <a href={HOTEL.instagramPesqueiro} target="_blank" rel="noopener" aria-label="Instagram do Recanto do Pirarucu" className="pressionavel grid size-11 place-items-center rounded-md border border-marfim/25 hover:border-dourado hover:text-dourado">
               <IconePesca className="size-5" />
             </a>
-            <a href={waLink(`Olá! Vi o site do ${HOTEL.nome} e gostaria de informações.`)} target="_blank" rel="noopener" aria-label="WhatsApp do hotel" className="pressionavel grid size-10 place-items-center rounded-md border border-marfim/25 hover:border-dourado hover:text-dourado">
+            <a href={waLink(`Olá! Vi o site do ${HOTEL.nome} e gostaria de informações.`)} target="_blank" rel="noopener" aria-label="WhatsApp do hotel" className="pressionavel grid size-11 place-items-center rounded-md border border-marfim/25 hover:border-dourado hover:text-dourado">
               <IconeWhatsApp className="size-[18px]" />
             </a>
           </div>
         </div>
 
         <div>
-          <h4 className={titulo}>Links rápidos</h4>
-          <ul className="space-y-2.5 text-[14px]">
+          <h2 className={titulo}>Links rápidos</h2>
+          <ul className="text-[14px]">
             {LINKS.map((l) => (
-              <li key={l.href}><Link href={l.href} className="hover:text-marfim">{l.rotulo}</Link></li>
+              <li key={l.href}><Link href={l.href} className="inline-flex min-h-9 items-center hover:text-marfim">{l.rotulo}</Link></li>
             ))}
           </ul>
         </div>
 
         <div>
-          <h4 className={titulo}>O hotel</h4>
-          <ul className="space-y-4 text-[14px]">
-            <li className="flex gap-3">
+          <h2 className={titulo}>O hotel</h2>
+          <ul className="space-y-1.5 text-[14px]">
+            <li className="flex min-h-9 items-start gap-3">
               <IconeLocal className="mt-0.5 size-[18px] shrink-0 text-dourado" />
               <span>{HOTEL.endereco}<br />{HOTEL.cidade}, {HOTEL.uf} · a {HOTEL.distancia}</span>
             </li>
-            <li className="flex gap-3">
+            <li className="flex min-h-9 items-start gap-3">
               <IconeWhatsApp className="mt-0.5 size-[18px] shrink-0 text-dourado" />
-              <a href={waLink(`Olá! Vi o site do ${HOTEL.nome} e gostaria de informações.`)} target="_blank" rel="noopener" className="hover:text-marfim">{HOTEL.whatsappExibicao}</a>
+              <a href={waLink(`Olá! Vi o site do ${HOTEL.nome} e gostaria de informações.`)} target="_blank" rel="noopener" className="pb-3 hover:text-marfim">{HOTEL.whatsappExibicao}</a>
             </li>
-            <li className="flex gap-3">
+            <li className="flex min-h-9 items-start gap-3">
               <span aria-hidden className="mt-0.5 w-[18px] shrink-0 text-center text-dourado">@</span>
-              <a href={`mailto:${HOTEL.email}`} className="break-all hover:text-marfim">{HOTEL.email}</a>
+              <a href={`mailto:${HOTEL.email}`} className="pb-3 break-all hover:text-marfim">{HOTEL.email}</a>
             </li>
-            <li className="flex gap-3">
+            <li className="flex min-h-9 items-start gap-3">
               <IconeInstagram className="mt-0.5 size-[18px] shrink-0 text-dourado" />
-              <a href={HOTEL.instagramHotel} target="_blank" rel="noopener" className="hover:text-marfim">{HOTEL.instagramUsuario}</a>
+              <a href={HOTEL.instagramHotel} target="_blank" rel="noopener" className="pb-3 hover:text-marfim">{HOTEL.instagramUsuario}</a>
             </li>
-            <li className="flex gap-3">
+            <li className="flex min-h-9 items-start gap-3">
               <IconePesca className="mt-0.5 size-[18px] shrink-0 text-dourado" />
-              <a href={HOTEL.instagramPesqueiro} target="_blank" rel="noopener" className="hover:text-marfim">Recanto do Pirarucu</a>
+              <a href={HOTEL.instagramPesqueiro} target="_blank" rel="noopener" className="pb-3 hover:text-marfim">Recanto do Pirarucu</a>
             </li>
           </ul>
         </div>
 
         <div>
-          <h4 className={titulo}>Horários</h4>
+          <h2 className={titulo}>Horários</h2>
           <dl className="space-y-3 text-[14px]">
             <div><dt className="text-marfim">Check-in</dt><dd>a partir das {HOTEL.checkin}</dd></div>
             <div><dt className="text-marfim">Check-out</dt><dd>até as {HOTEL.checkout}</dd></div>
@@ -88,7 +88,7 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className={titulo}>Fale com a gente</h4>
+          <h2 className={titulo}>Fale com a gente</h2>
           <p className="text-[14px] leading-relaxed">Tire dúvidas, peça condições especiais e confirme sua reserva pelo WhatsApp.</p>
           <a
             href={waLink(`Olá! Vi o site do ${HOTEL.nome} e gostaria de informações sobre hospedagem.`)}
@@ -101,7 +101,7 @@ export function Footer() {
         </div>
       </div>
       <div className="relative border-t border-marfim/10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-6 text-[12px] text-marfim/50 sm:flex-row sm:items-center sm:justify-between md:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 pt-6 pb-24 text-[12px] sm:pb-6 sm:pr-24 text-marfim/75 sm:flex-row sm:items-center sm:justify-between md:px-8">
           <p>© {new Date().getFullYear()} {HOTEL.nome}. Todos os direitos reservados.</p>
           <p>Valores sujeitos a confirmação no momento da reserva.</p>
         </div>

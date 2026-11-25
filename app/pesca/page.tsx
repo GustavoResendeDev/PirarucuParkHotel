@@ -33,11 +33,11 @@ export default function Page() {
           <div>
             <TituloMarca as="h1" texto="PESCA" letra={1} className="text-[clamp(3rem,9vw,6.5rem)] text-dourado" corTraco="#e9dfcb" />
             <p className="font-display mt-10 max-w-xl text-3xl leading-snug md:text-4xl">O lago fica a poucos passos do quarto, e a pesca funciona a qualquer hora para quem está hospedado.</p>
-            <Link href="/reservar" className="pressionavel mt-10 inline-flex h-14 items-center rounded-md bg-dourado px-9 text-[15px] font-medium text-verde-noite hover:bg-dourado-claro">
+            <Link href="/reservar" className="pressionavel mt-10 inline-flex h-14 items-center rounded-md bg-dourado px-8 text-[13px] font-medium tracking-[0.14em] uppercase text-verde-noite hover:bg-dourado-claro">
               Incluir pesca no orçamento
             </Link>
           </div>
-          <div className="flex flex-col items-center gap-5 rounded-[28px] border border-dourado/30 bg-verde-noite/40 p-10 text-center backdrop-blur md:p-14">
+          <div className="flex flex-col items-center gap-5 rounded-2xl border border-dourado/30 bg-verde-noite/40 p-10 text-center backdrop-blur md:p-14">
             <Logo somentePeixe className="w-44 md:w-56" />
             <p className="font-display text-7xl text-dourado-claro md:text-8xl">{brl(PESCA.preco)}</p>
             <p className="text-marfim/75">por pessoa, por diária, com direito a pescar 24 horas</p>

@@ -41,7 +41,7 @@ export function Header() {
         }`}
       >
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">
-          <Link href="/" aria-label="Pirarucu Park Hotel, início" className="relative z-10 block w-24 md:w-28" onClick={() => setAberto(false)}>
+          <Link href="/" aria-label="Pirarucu Park Hotel, início" className="relative z-10 block w-20 md:w-24" onClick={() => setAberto(false)}>
             <Logo cor={sobreVerde ? "dourado" : "verde"} className="w-full" />
           </Link>
           <nav className="hidden items-center gap-8 text-[12px] font-medium tracking-[0.16em] uppercase lg:flex xl:gap-10" aria-label="Principal">

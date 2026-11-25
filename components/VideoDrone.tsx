@@ -73,18 +73,17 @@ export function VideoDrone() {
           // eslint-disable-next-line @next/next/no-img-element
           <img src={CAPA} alt="" loading="lazy" className="size-full object-cover" />
         )}
-        <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_50%,rgba(27,34,29,.35)_0%,rgba(27,34,29,.78)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_50%,rgba(27,34,29,.6)_0%,rgba(27,34,29,.78)_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-verde-noite/80 to-transparent" />
       </div>
 
       <div className="mx-auto flex min-h-[78svh] max-w-7xl flex-col items-center justify-center px-5 py-24 text-center md:min-h-[86svh] md:px-8">
         <Reveal y={24} className="flex flex-col items-center">
-          <p className="text-[12px] font-medium tracking-[0.26em] text-dourado uppercase">Visto do alto</p>
-          <h2 id="titulo-drone" className="font-display mt-3 max-w-3xl text-[clamp(2.2rem,5vw,4.2rem)] leading-[1.06] text-balance">
+          <h2 id="titulo-drone" className="font-display max-w-3xl text-[clamp(2.2rem,5vw,4.2rem)] leading-[1.06] text-balance">
             <TextoFluido texto="Entre lagos, verde e céu aberto" />
           </h2>
           <Ornamento className="mt-5 text-dourado" />
-          <p className="mt-5 max-w-xl text-marfim/80">
+          <p className="mt-5 max-w-xl text-marfim">
             O hotel fica às margens dos lagos de pesca, cercado de natureza, com piscinas e o pôr do sol de Itapuranga.
           </p>
           <button
