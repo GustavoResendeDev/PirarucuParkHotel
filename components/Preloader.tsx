@@ -2,10 +2,12 @@
 import { useEffect, useRef, useState } from "react";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const MP4 = `${BASE}/video/abertura.mp4`;
-const WEBM = `${BASE}/video/abertura.webm`;
-const INICIO = `${BASE}/video/abertura-inicio.webp`; // 1º quadro do vídeo (peixe), evita piscar antes de tocar
-const LOGO = `${BASE}/video/abertura-logo.webp`; // último quadro (logo), usado quando o vídeo não toca
+// Duas versões: paisagem 1280×720 (computador) e retrato 720×1280 (celular em pé), cada uma em webm e mp4.
+// A vertical tem o vídeo no centro e o fundo da água desfocado em cima e embaixo, para cobrir a tela sem cortar o logo.
+const V = `${BASE}/video/abertura`;
+const INICIO = `${V}-inicio.webp`; // 1º quadro do vídeo (peixe), evita piscar antes de tocar
+const LOGO = `${V}-logo.webp`; // último quadro (logo), usado quando o vídeo não toca
+const VERTICAL = "(max-aspect-ratio: 1/1)";
 
 const SAIDA_MS = 700; // duração do fade de saída
 const ESTATICO_MIN_MS = 900; // tempo mínimo do logo parado (reduzir movimento, economia de dados, falha)
@@ -26,7 +28,9 @@ var c=navigator.connection,economia=c&&(c.saveData||/2g/.test(c.effectiveType||"
 if(reduz||economia){el.setAttribute("data-modo","estatico");return}
 var v=el.querySelector("video");if(!v)return;
 v.muted=true;v.defaultMuted=true;
-v.src=v.canPlayType('video/webm; codecs="vp9"')?${JSON.stringify(WEBM)}:${JSON.stringify(MP4)};
+var vert=window.matchMedia&&matchMedia(${JSON.stringify(VERTICAL)}).matches,nome=${JSON.stringify(V)}+(vert?"-vertical":"-1280");
+if(vert)v.poster=${JSON.stringify(V)}+"-vertical-inicio.webp";
+v.src=nome+(v.canPlayType('video/webm; codecs="vp9"')?".webm":".mp4");
 el.setAttribute("data-modo","video");
 var p=v.play();if(p&&p.catch)p.catch(function(){el.setAttribute("data-modo","estatico")});
 })();`;
@@ -159,7 +163,10 @@ export function Preloader() {
           suppressHydrationWarning
         />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="pph-pre-logo" src={LOGO} alt="" aria-hidden width={848} height={480} decoding="async" />
+        <picture>
+          <source media={VERTICAL} srcSet={`${V}-vertical-logo.webp`} />
+          <img className="pph-pre-logo" src={LOGO} alt="" aria-hidden decoding="async" />
+        </picture>
         <button type="button" data-pular className="pph-pre-pular">
           Pular
         </button>
