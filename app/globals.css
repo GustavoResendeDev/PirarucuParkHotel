@@ -84,6 +84,38 @@ html.lenis body {
   overflow: hidden;
 }
 
+/* ---------- Letras fluidas (components/TextoFluido.tsx) ---------- */
+.fluido-letra {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(14px);
+  transform: translate3d(0, 0.42em, 0);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms),
+    filter 1.1s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms),
+    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms);
+}
+.fluido[data-on] .fluido-letra { opacity: 1; filter: blur(0); transform: none; }
+.fluido-linha {
+  display: block;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translate3d(0, 0.3em, 0);
+  -webkit-mask: linear-gradient(100deg, #000 40%, transparent 60%) 100% 0 / 300% 100% no-repeat;
+  mask: linear-gradient(100deg, #000 40%, transparent 60%) 100% 0 / 300% 100% no-repeat;
+  transition:
+    opacity 0.9s ease var(--d, 0ms),
+    filter 1.2s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms),
+    transform 1.5s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms),
+    -webkit-mask-position 1.8s cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0ms),
+    mask-position 1.8s cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0ms);
+}
+.fluido-linha[data-on] { opacity: 1; filter: blur(0); transform: none; -webkit-mask-position: 0 0; mask-position: 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fluido-letra, .fluido-linha { opacity: 1; filter: none; transform: none; transition: none; -webkit-mask: none; mask: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

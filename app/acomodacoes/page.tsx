@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Foto } from "@/components/Foto";
 import { Reveal } from "@/components/Motion";
 import { BuscaRapida } from "@/components/BuscaRapida";
+import { Padrao } from "@/components/Padrao";
 import { TituloMarca } from "@/components/TituloMarca";
 import { TabelaPrecos } from "@/components/TabelaPrecos";
 import { ACOMODACOES } from "@/lib/data";
@@ -14,15 +15,20 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="bg-areia-clara pt-36 pb-28 md:pt-44">
-      <div className="mx-auto max-w-7xl px-5 md:px-8">
-        <TituloMarca as="h1" texto="ACOMODAÇÕES" letra={6} className="text-[clamp(2.6rem,7vw,5.4rem)] text-salvia" />
-        <p className="mt-8 max-w-xl text-lg text-verde/80">Todos os quartos têm vista para o lago, e as diárias incluem café da manhã, piscinas aquecidas abertas 24 horas e estacionamento. Escolha as datas para ver o valor da sua estadia.</p>
+    <div className="bg-marfim">
+      <div className="relative overflow-hidden bg-verde pt-36 pb-20 text-marfim md:pt-44">
+        <Padrao cor="#c8b28a" opacidade={0.08} className="absolute inset-0" />
+        <div className="relative mx-auto max-w-7xl px-5 md:px-8">
+        <TituloMarca as="h1" texto="ACOMODAÇÕES" letra={6} className="text-[clamp(2.6rem,7vw,5.4rem)] text-dourado" corTraco="#e9dfcb" />
+        <p className="mt-8 max-w-xl text-lg text-marfim/85">Todos os quartos têm vista para o lago, e as diárias incluem café da manhã, piscinas aquecidas abertas 24 horas e estacionamento. Escolha as datas para ver o valor da sua estadia.</p>
         <Reveal delay={0.15} className="mt-10">
-          <BuscaRapida variante="claro" />
+          <BuscaRapida />
         </Reveal>
+        </div>
+      </div>
+      <div className="mx-auto max-w-7xl px-5 pb-28 md:px-8">
 
-        <div className="mt-20 space-y-24 md:space-y-32">
+        <div className="pt-20 space-y-24 md:space-y-32">
           {ACOMODACOES.map((ac, i) => (
             <Reveal key={ac.slug}>
               <article className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${i % 2 ? "lg:[&>*:first-child]:order-2" : ""}`}>
@@ -35,7 +41,7 @@ export default function Page() {
                   <p className="mt-5 max-w-lg leading-relaxed text-verde/80">{ac.descricao}</p>
                   <ul className="mt-6 flex max-w-lg flex-wrap gap-2">
                     {ac.destaques.map((c) => (
-                      <li key={c} className="rounded-full border border-verde/15 px-3 py-1.5 text-sm text-verde">{c}</li>
+                      <li key={c} className="rounded-full bg-verde px-3 py-1.5 text-sm text-marfim">{c}</li>
                     ))}
                   </ul>
                   <div className="mt-8 max-w-md">

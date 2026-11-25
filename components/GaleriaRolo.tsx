@@ -1,4 +1,5 @@
 "use client";
+import { TextoFluido } from "./TextoFluido";
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { ALVO, GRUPOS, MESA, ROLO, SEQUENCIA, type FotoGaleria, type Grupo } from "@/lib/galeria";
 import { HOTEL } from "@/lib/data";
@@ -305,7 +306,7 @@ function RoloCompleto() {
         <div className="flex flex-wrap items-end justify-between gap-8">
           <div>
             <p className="text-[12px] font-medium tracking-[0.26em] text-dourado uppercase">Rolo completo</p>
-            <h2 className="font-display mt-3 text-[clamp(2rem,4.2vw,3.2rem)] leading-[1.1]">Todas as fotos do hotel</h2>
+            <h2 className="font-display mt-3 text-[clamp(2rem,4.2vw,3.2rem)] leading-[1.1]"><TextoFluido texto="Todas as fotos do hotel" /></h2>
             <p className="mt-3 text-marfim/70">
               Mais no{" "}
               <a href={HOTEL.instagramHotel} target="_blank" rel="noopener" className="text-marfim underline decoration-dourado underline-offset-4 hover:decoration-2">@pirarucuparkhotel</a>

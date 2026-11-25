@@ -4,6 +4,7 @@ import { Foto } from "@/components/Foto";
 import { Logo } from "@/components/Logo";
 import { Padrao } from "@/components/Padrao";
 import { Reveal } from "@/components/Motion";
+import { TextoFluido } from "@/components/TextoFluido";
 import { TituloMarca } from "@/components/TituloMarca";
 import { IconeLago, IconePesca, IconeRelogio, IconePessoa } from "@/components/Icones";
 import { HOTEL, PESCA, REGRAS_PESCA } from "@/lib/data";
@@ -46,7 +47,7 @@ export default function Page() {
 
       <section className="bg-verde-escuro py-24 md:py-32">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <h2 className="font-display text-4xl md:text-5xl">Como funciona</h2>
+          <h2 className="font-display text-4xl md:text-5xl"><TextoFluido texto="Como funciona" /></h2>
           <ul className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-dourado/15 bg-dourado/15 sm:grid-cols-2 lg:grid-cols-4">
             {COMO.map(({ Icone, titulo, texto }) => (
               <li key={titulo} className="bg-verde-escuro p-8">
@@ -66,7 +67,7 @@ export default function Page() {
 
       <section className="py-24 md:py-28">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <h2 className="font-display text-4xl md:text-5xl">Regras da pesca</h2>
+          <h2 className="font-display text-4xl md:text-5xl"><TextoFluido texto="Regras da pesca" /></h2>
           <div className="mt-12 grid gap-10 md:grid-cols-3">
             <div>
               <h3 className="text-[15px] text-dourado">Iscas permitidas</h3>

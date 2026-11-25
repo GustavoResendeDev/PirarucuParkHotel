@@ -40,7 +40,7 @@ export function BuscaRapida({ variante = "escuro" }: { variante?: "escuro" | "cl
         router.push(`/reservar?${q}`);
       }}
       className={`grid grid-cols-2 gap-x-5 gap-y-5 rounded-2xl p-5 text-left shadow-[0_24px_60px_-20px_rgba(0,0,0,.45)] md:p-6 lg:grid-cols-[1fr_1fr_1.15fr_1.15fr_auto] lg:items-end lg:gap-x-7 ${
-        escuro ? "border border-dourado/25 bg-verde-noite/80 backdrop-blur-xl" : "border border-verde/15 bg-areia-clara"
+        escuro ? "border border-dourado/25 bg-verde/85 backdrop-blur-xl" : "border border-verde/15 bg-areia-clara"
       }`}
       aria-label="Consultar disponibilidade"
     >

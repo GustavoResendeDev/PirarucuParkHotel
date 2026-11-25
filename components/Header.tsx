@@ -21,7 +21,7 @@ export function Header() {
   const [solido, setSolido] = useState(false);
   const [aberto, setAberto] = useState(false);
   const path = usePathname();
-  const escuroNoTopo = path === "/" || !!path?.startsWith("/pesca") || /^\/acomodacoes\/[^/]+/.test(path ?? "");
+  const escuroNoTopo = path === "/" || !!path?.startsWith("/pesca") || !!path?.startsWith("/acomodacoes");
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
@@ -29,7 +29,7 @@ export function Header() {
     setSolido(y > 40);
   });
 
-  const sobreVerde = (escuroNoTopo && !solido) || aberto;
+  const sobreVerde = escuroNoTopo || solido || aberto;
 
   return (
     <>
@@ -37,7 +37,7 @@ export function Header() {
         animate={{ y: oculto ? "-110%" : "0%" }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${sobreVerde ? "text-marfim" : "text-verde"} ${
-          solido && !aberto ? "bg-areia/85 shadow-[0_1px_0_rgba(54,67,57,.12)] backdrop-blur-xl" : ""
+          solido && !aberto ? "bg-verde/90 shadow-[0_1px_0_rgba(200,178,138,.2)] backdrop-blur-xl" : ""
         }`}
       >
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">

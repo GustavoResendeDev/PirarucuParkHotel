@@ -1,4 +1,5 @@
 "use client";
+import { TextoFluido } from "./TextoFluido";
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "./Motion";
 import { Ornamento } from "./Secao";
@@ -80,7 +81,7 @@ export function VideoDrone() {
         <Reveal y={24} className="flex flex-col items-center">
           <p className="text-[12px] font-medium tracking-[0.26em] text-dourado uppercase">Visto do alto</p>
           <h2 id="titulo-drone" className="font-display mt-3 max-w-3xl text-[clamp(2.2rem,5vw,4.2rem)] leading-[1.06] text-balance">
-            Entre lagos, verde e céu aberto
+            <TextoFluido texto="Entre lagos, verde e céu aberto" />
           </h2>
           <Ornamento className="mt-5 text-dourado" />
           <p className="mt-5 max-w-xl text-marfim/80">

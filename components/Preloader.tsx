@@ -10,12 +10,23 @@ export function Preloader() {
     let visto = false;
     try {
       visto = sessionStorage.getItem("pph-intro") === "1";
-      sessionStorage.setItem("pph-intro", "1");
     } catch {}
     if (visto || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const raiz = document.documentElement;
+    raiz.dataset.intro = "1"; // o hero espera este sinal para revelar o título
     setVis(true);
-    const t = setTimeout(() => setVis(false), 1900);
-    return () => clearTimeout(t);
+    const t = setTimeout(() => {
+      try {
+        sessionStorage.setItem("pph-intro", "1");
+      } catch {}
+      delete raiz.dataset.intro;
+      window.dispatchEvent(new Event("pph-intro-fim"));
+      setVis(false);
+    }, 1900);
+    return () => {
+      clearTimeout(t);
+      delete raiz.dataset.intro;
+    };
   }, []);
   return (
     <AnimatePresence>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Foto } from "@/components/Foto";
 import { Parallax, Reveal } from "@/components/Motion";
+import { TextoFluido } from "@/components/TextoFluido";
 import { TabelaPrecos } from "@/components/TabelaPrecos";
 import { ACOMODACOES, HOTEL, INCLUSOS, PESCA } from "@/lib/data";
 import { brl } from "@/lib/reserva";
@@ -25,7 +26,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const prox = ACOMODACOES[(i + 1) % ACOMODACOES.length];
   const [capa, ...demais] = ac.fotos;
   return (
-    <div className="bg-areia-clara">
+    <div className="bg-marfim">
       <section className="relative h-[80svh] min-h-[520px] overflow-hidden text-marfim">
         <Parallax className="absolute inset-0" distancia={80}>
           <Foto src={capa} alt={`${ac.nome}: ${ac.subtitulo.toLowerCase()}`} paleta={ac.paleta} className="size-full" prioridade />
@@ -34,7 +35,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-end px-5 pb-14 md:px-8">
           <Link href="/acomodacoes" className="mb-6 inline-flex min-h-11 w-fit items-center text-[15px] text-marfim/75 hover:text-marfim">Todas as acomodações</Link>
           <p className="text-dourado-claro">{ac.subtitulo}</p>
-          <h1 className="font-display mt-2 text-5xl leading-none md:text-8xl">{ac.nome}</h1>
+          <h1 className="font-display mt-2 text-5xl leading-none md:text-8xl"><TextoFluido texto={ac.nome} passo={34} /></h1>
         </div>
       </section>
 
@@ -43,7 +44,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <p className="font-display text-3xl leading-snug text-verde md:text-4xl">{ac.descricao}</p>
           <ul className="mt-10 flex flex-wrap gap-2">
             {ac.destaques.map((c) => (
-              <li key={c} className="rounded-full border border-verde/15 px-4 py-2 text-[15px] text-verde">{c}</li>
+              <li key={c} className="rounded-full bg-verde px-4 py-2 text-[15px] text-marfim">{c}</li>
             ))}
           </ul>
           <div className="mt-12 grid gap-10 sm:grid-cols-2">
@@ -88,9 +89,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         </aside>
       </section>
 
-      <Link href={`/acomodacoes/${prox.slug}`} className="group block border-t border-verde/10 py-20 text-center">
-        <span className="text-[15px] text-salvia-escura">Próxima acomodação</span>
-        <span className="font-display mt-3 block text-5xl text-verde transition-transform duration-500 ease-[var(--ease-premium)] group-hover:translate-x-3 md:text-7xl">{prox.nome}</span>
+      <Link href={`/acomodacoes/${prox.slug}`} className="group block bg-verde py-20 text-center">
+        <span className="text-[15px] text-dourado">Próxima acomodação</span>
+        <span className="font-display mt-3 block text-5xl text-marfim transition-transform duration-500 ease-[var(--ease-premium)] group-hover:translate-x-3 md:text-7xl">{prox.nome}</span>
       </Link>
     </div>
   );

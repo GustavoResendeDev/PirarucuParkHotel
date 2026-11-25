@@ -20,7 +20,11 @@ void main(){
 }`;
 
 const FRAG = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
 precision mediump float;
+#endif
 uniform sampler2D uTex;
 uniform vec2 uRes;
 uniform vec2 uImg;
@@ -32,6 +36,8 @@ uniform float uAgua;
 uniform float uScroll;
 uniform float uZoom;
 uniform float uBrilho;
+uniform float uLiquido;
+uniform vec4 uGotas[10]; // x, y, nascimento (s), força
 varying vec2 vUv;
 
 float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -67,7 +73,33 @@ void main(){
   float anel = sin(dist * 70.0 - t * 6.0) * exp(-dist * 9.0) * uMouseForca;
   desl += normalize(dm + 1e-5) * anel * 0.006 * (0.35 + naAgua);
 
-  vec3 cor = texture2D(uTex, uv + desl).rgb;
+  // líquido: corrente lenta na cena toda (mais forte na água) e gotas que se expandem
+  float luz = 0.0;
+  if (uLiquido > 0.0) {
+    vec2 p = vec2(tela.x * rt, tela.y) * 2.4;
+    vec2 q = vec2(ruido(p + vec2(t * 0.16, -t * 0.11)), ruido(p + vec2(5.2 - t * 0.13, 1.3 + t * 0.15)));
+    vec2 w = vec2(ruido(p * 1.5 + q * 2.6 + t * 0.12), ruido(p * 1.5 + q * 2.6 + vec2(8.3, 2.8) - t * 0.1)) - 0.5;
+    float base = mix(0.010, 0.034, naAgua);
+    desl += w * base * uLiquido;
+    luz += (w.x + w.y) * naAgua * 0.30;
+    vec2 pos = vec2(tela.x * rt, tela.y);
+    for (int i = 0; i < 10; i++) {
+      float idade = t - uGotas[i].z;
+      if (uGotas[i].w <= 0.0 || idade < 0.0 || idade > 3.2) continue;
+      vec2 d = pos - vec2(uGotas[i].x * rt, uGotas[i].y);
+      float r = length(d);
+      float frente = r - idade * 0.24;
+      float onda = sin(frente * 46.0) * exp(-frente * frente * 110.0) * uGotas[i].w * exp(-idade * 1.35) * smoothstep(0.0, 0.12, idade);
+      vec2 dir = d / (r + 1e-4);
+      desl += dir * onda * mix(0.008, 0.02, naAgua) * uLiquido;
+      luz += dot(dir, vec2(-0.6, -0.8)) * onda * 0.5;
+    }
+  }
+
+  // leve separação de cor nas cristas, como refração
+  vec2 ab = desl * 0.10 * uLiquido;
+  vec3 cor = vec3(texture2D(uTex, uv + desl + ab).r, texture2D(uTex, uv + desl).g, texture2D(uTex, uv + desl - ab).b);
+  cor += (luz > 0.0 ? vec3(0.91, 0.87, 0.74) * luz * 0.55 : vec3(luz * 0.22)) * uLiquido;
 
   // reflexos dourados na água
   float cintila = ruido(vec2(uv.x * 220.0, uv.y * 60.0 - t * 0.8)) * ruido(vec2(uv.x * 90.0 + t * 0.3, uv.y * 180.0));
@@ -76,6 +108,10 @@ void main(){
   // feixe de luz dourada (tom #c8b28a da marca)
   float feixe = smoothstep(0.32, 0.0, abs(tela.x * 0.8 + tela.y * 0.45 - fract(t * 0.035) * 2.4 + 0.5));
   cor += vec3(0.78, 0.70, 0.54) * feixe * 0.09 * uBrilho;
+
+  // banho de verde da marca (#364339 / #70826a) nas sombras
+  float lum = dot(cor, vec3(0.299, 0.587, 0.114));
+  cor = mix(cor, mix(vec3(0.10, 0.135, 0.11), vec3(0.72, 0.80, 0.66), lum), 0.30 * uLiquido * (1.0 - smoothstep(0.35, 0.8, lum)));
 
   // tom quente/verde da identidade e vinheta
   cor = mix(cor, cor * vec3(1.04, 1.01, 0.94), 0.6);
@@ -99,10 +135,12 @@ type Props = {
   /** força do parallax pela rolagem */
   parallax?: number;
   brilho?: number;
+  /** intensidade do efeito líquido na cena toda (0 desliga) */
+  liquido?: number;
   prioridade?: boolean;
 };
 
-export function ShaderFoto({ src, alt, className = "", foco = [0.5, 0.5], linhaAgua = 2, parallax = 0.5, brilho = 1, prioridade = false }: Props) {
+export function ShaderFoto({ src, alt, className = "", foco = [0.5, 0.5], linhaAgua = 2, parallax = 0.5, brilho = 1, liquido = 0, prioridade = false }: Props) {
   const caixa = useRef<HTMLDivElement>(null);
   const tela = useRef<HTMLCanvasElement>(null);
   const [pronto, setPronto] = useState(false);
@@ -145,11 +183,12 @@ export function ShaderFoto({ src, alt, className = "", foco = [0.5, 0.5], linhaA
     const u = (n: string) => gl.getUniformLocation(prog, n);
     const U = {
       res: u("uRes"), img: u("uImg"), foco: u("uFoco"), mouse: u("uMouse"), mouseForca: u("uMouseForca"),
-      tempo: u("uTempo"), agua: u("uAgua"), scroll: u("uScroll"), zoom: u("uZoom"), brilho: u("uBrilho"),
+      tempo: u("uTempo"), agua: u("uAgua"), scroll: u("uScroll"), zoom: u("uZoom"), brilho: u("uBrilho"), liquido: u("uLiquido"), gotas: u("uGotas[0]"),
     };
     gl.uniform2f(U.foco, foco[0], foco[1]);
     gl.uniform1f(U.agua, linhaAgua);
     gl.uniform1f(U.brilho, brilho);
+    gl.uniform1f(U.liquido, liquido);
 
     const tex = gl.createTexture();
     let imgW = 1;
@@ -189,6 +228,16 @@ export function ShaderFoto({ src, alt, className = "", foco = [0.5, 0.5], linhaA
     ro.observe(el);
 
     const mouse = { x: 0.5, y: 0.75, alvoX: 0.5, alvoY: 0.75, forca: 0, alvoForca: 0 };
+    // gotas: nascem no rastro do cursor, no toque e, de tempos em tempos, sozinhas na água
+    const t0 = performance.now();
+    const gotas = new Float32Array(40);
+    let proxima = 0;
+    let ultima = { x: -1, y: -1, t: 0 };
+    let chuva = 0;
+    const pingar = (x: number, y: number, forca: number) => {
+      gotas.set([x, y, (performance.now() - t0) / 1000, forca], proxima * 4);
+      proxima = (proxima + 1) % 10;
+    };
     // ouvido na janela: o texto por cima da foto não bloqueia a onda
     const mover = (e: PointerEvent) => {
       const r = el.getBoundingClientRect();
@@ -198,6 +247,15 @@ export function ShaderFoto({ src, alt, className = "", foco = [0.5, 0.5], linhaA
       mouse.alvoX = x;
       mouse.alvoY = y;
       mouse.alvoForca = 1;
+      if (liquido > 0) {
+        const agora = performance.now();
+        const anda = Math.hypot((x - ultima.x) * (r.width / r.height), y - ultima.y);
+        if (e.type === "pointerdown") pingar(x, y, 1.5);
+        else if (anda > 0.06 && agora - ultima.t > 110) {
+          pingar(x, y, Math.min(1, 0.45 + anda * 2));
+          ultima = { x, y, t: agora };
+        }
+      }
     };
     window.addEventListener("pointermove", mover, { passive: true });
     window.addEventListener("pointerdown", mover, { passive: true });
@@ -211,7 +269,6 @@ export function ShaderFoto({ src, alt, className = "", foco = [0.5, 0.5], linhaA
 
     let raf = 0;
     let mostrou = false;
-    const t0 = performance.now();
     const quadro = (agora: number) => {
       raf = 0;
       if (!visivel) return;
@@ -224,6 +281,13 @@ export function ShaderFoto({ src, alt, className = "", foco = [0.5, 0.5], linhaA
         mouse.y += (mouse.alvoY - mouse.y) * 0.08;
         mouse.forca += (mouse.alvoForca - mouse.forca) * 0.04;
         if (mouse.alvoForca > 0) mouse.alvoForca *= 0.985;
+        if (liquido > 0) {
+          if (agora > chuva) {
+            pingar(0.3 + Math.random() * 0.65, 0.68 + Math.random() * 0.25, 0.8);
+            chuva = agora + 1300 + Math.random() * 1200;
+          }
+          gl.uniform4fv(U.gotas, gotas);
+        }
         gl.uniform1f(U.tempo, (agora - t0) / 1000);
         gl.uniform1f(U.scroll, prog * parallax * 0.5);
         gl.uniform1f(U.zoom, 1.08 + Math.max(0, prog) * 0.06 * parallax);
