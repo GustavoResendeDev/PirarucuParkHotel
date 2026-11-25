@@ -32,7 +32,7 @@ export function WhatsAppFlutuante() {
       transition={{ delay: 2.4, type: "spring", stiffness: 260, damping: 18 }}
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.95 }}
-      className="fixed right-5 bottom-5 z-40 grid size-14 cursor-pointer place-items-center rounded-full bg-[#1f9d55] text-white shadow-[0_10px_30px_rgba(0,0,0,.3)]"
+      className="fixed right-5 bottom-5 z-40 grid size-14 cursor-pointer place-items-center rounded-xl bg-[#1f9d55] text-white shadow-[0_10px_30px_rgba(0,0,0,.3)]"
     >
       <IconeWhatsApp className="relative size-7" />
     </motion.a>

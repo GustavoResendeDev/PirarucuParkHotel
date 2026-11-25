@@ -79,10 +79,10 @@ export function Hero() {
             transition={{ delay: 1.2, duration: 0.8, ease: EASE }}
             className="mt-9 flex flex-wrap gap-3"
           >
-            <Link href="/acomodacoes" className="pressionavel inline-flex h-12 items-center rounded-lg bg-dourado px-7 text-[13px] font-medium tracking-[0.14em] text-verde-noite uppercase hover:bg-dourado-claro">
+            <Link href="/acomodacoes" className="pressionavel inline-flex h-12 items-center rounded-md bg-dourado px-7 text-[13px] font-medium tracking-[0.14em] text-verde-noite uppercase hover:bg-dourado-claro">
               Conhecer o hotel
             </Link>
-            <Link href="/pesca" className="pressionavel group inline-flex h-12 items-center gap-3 rounded-lg border border-marfim/40 pr-6 pl-2 text-[13px] tracking-[0.14em] uppercase backdrop-blur-sm hover:border-dourado hover:bg-marfim/10">
+            <Link href="/pesca" className="pressionavel group inline-flex h-12 items-center gap-3 rounded-md border border-marfim/40 pr-6 pl-2 text-[13px] tracking-[0.14em] uppercase backdrop-blur-sm hover:border-dourado hover:bg-marfim/10">
               <span className="grid size-8 place-items-center rounded-full bg-marfim/15 transition-colors group-hover:bg-dourado group-hover:text-verde-noite">
                 <IconePesca className="size-5" />
               </span>

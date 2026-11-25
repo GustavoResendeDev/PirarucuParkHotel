@@ -12,7 +12,7 @@ export function DayUse() {
   const [hoje, setHoje] = useState("");
   useEffect(() => setHoje(toISO(new Date())), []);
 
-  const botao = "pressionavel grid size-11 cursor-pointer place-items-center rounded-full border border-marfim/25 text-lg hover:bg-marfim/10 disabled:cursor-not-allowed disabled:opacity-30";
+  const botao = "pressionavel grid size-11 cursor-pointer place-items-center rounded-md border border-marfim/25 text-lg hover:bg-marfim/10 disabled:cursor-not-allowed disabled:opacity-30";
   return (
     <section id="day-use" className="scroll-mt-28 bg-verde text-marfim">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 md:px-8 md:py-24 lg:grid-cols-[1fr_1.1fr]">
@@ -52,7 +52,7 @@ export function DayUse() {
             href={waLink(mensagemDayUse(data, pessoas))}
             target="_blank"
             rel="noopener"
-            className="pressionavel mt-7 flex h-14 items-center justify-center gap-2 rounded-full bg-[#1f7a46] text-[15px] font-medium text-white hover:bg-[#1a6b3d]"
+            className="pressionavel mt-7 flex h-14 items-center justify-center gap-2 rounded-md bg-[#1f7a46] text-[15px] font-medium text-white hover:bg-[#1a6b3d]"
           >
             <IconeWhatsApp className="size-5" /> Consultar day use pelo WhatsApp
           </a>

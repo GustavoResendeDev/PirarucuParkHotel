@@ -212,8 +212,8 @@ html.lenis body {
     radial-gradient(80% 60% at 50% 42%, #f6f2e6 0%, #ebe5d1 55%, #ddd5bb 100%);
 }
 .livro-palco {
-  --lw: min(1160px, 94vw);
-  --lh: clamp(540px, calc(100svh - 250px), 740px);
+  --lw: min(1160px, calc(100vw - 180px));
+  --lh: clamp(500px, calc(100svh - 172px), 780px);
   position: relative;
   width: var(--lw);
   height: var(--lh);
@@ -222,8 +222,8 @@ html.lenis body {
   perspective-origin: 50% 40%;
 }
 .livro-palco[data-modo="unico"] {
-  --lw: min(560px, calc(100vw - 32px));
-  --lh: clamp(560px, calc(100svh - 210px), 860px);
+  --lw: min(560px, calc(100vw - 28px));
+  --lh: clamp(440px, calc(100svh - 156px), 860px);
   perspective: 1800px;
 }
 .livro {
@@ -305,7 +305,6 @@ html.lenis body {
   animation: livro-sombra 1.05s ease-in-out both;
 }
 .livro-folha[data-girando="1"] .livro-verso::after { background: linear-gradient(to left, rgba(27, 34, 29, .38), rgba(27, 34, 29, .06) 60%, rgba(255, 255, 255, .08)); }
-.livro-folha[data-girando="1"] .livro-rolagem { overflow: hidden; }
 @keyframes livro-sombra {
   0%, 100% { opacity: 0; }
   50% { opacity: 1; }
@@ -339,19 +338,17 @@ html.lenis body {
 .livro-esq::after { background: linear-gradient(to left, rgba(54, 67, 57, .26) 0, rgba(54, 67, 57, .09) 2.5%, rgba(54, 67, 57, .03) 8%, transparent 15%), radial-gradient(130% 110% at 50% 45%, transparent 60%, rgba(112, 130, 106, .14) 100%); }
 .livro-dir::after { background: linear-gradient(to right, rgba(54, 67, 57, .26) 0, rgba(255, 255, 255, .25) 1%, rgba(54, 67, 57, .08) 3%, rgba(54, 67, 57, .03) 8%, transparent 15%), radial-gradient(130% 110% at 50% 45%, transparent 60%, rgba(112, 130, 106, .14) 100%); }
 .livro-unica::after { background: linear-gradient(to right, rgba(54, 67, 57, .22), rgba(54, 67, 57, .05) 4%, transparent 9%), radial-gradient(130% 110% at 50% 45%, transparent 60%, rgba(112, 130, 106, .12) 100%); }
-.livro-rolagem {
+.livro-miolo {
   position: absolute;
-  inset: 42px 0 44px;
+  inset: 44px clamp(28px, 9%, 64px) 46px;
   z-index: 1;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(54, 67, 57, .25) transparent;
-  padding: 8px clamp(28px, 9%, 64px) 20px;
+  overflow: hidden;
 }
-.livro-dir .livro-rolagem { padding-left: clamp(32px, 10%, 72px); }
-.livro-esq .livro-rolagem { padding-right: clamp(32px, 10%, 72px); }
-.livro-unica .livro-rolagem { padding: 6px 22px 20px 28px; }
+.livro-dir .livro-miolo { left: clamp(32px, 10%, 72px); }
+.livro-esq .livro-miolo { right: clamp(32px, 10%, 72px); }
+.livro-unica .livro-miolo { inset: 20px 18px 38px 24px; }
+.livro-dia { height: clamp(30px, 5.2svh, 46px); }
+.livro-palco[data-modo="unico"] .livro-dia { height: clamp(28px, 4.6svh, 42px); }
 .livro-folio, .livro-cabeca {
   position: absolute;
   z-index: 3;
@@ -365,7 +362,7 @@ html.lenis body {
 .livro-cabeca { top: 18px; }
 .livro-esq .livro-folio, .livro-esq .livro-cabeca { left: clamp(28px, 9%, 64px); }
 .livro-dir .livro-folio, .livro-dir .livro-cabeca { right: clamp(28px, 9%, 64px); }
-.livro-unica .livro-folio { right: 24px; }
+.livro-unica .livro-folio { right: 20px; bottom: 12px; }
 .livro-unica .livro-cabeca { left: 30px; }
 
 /* capa em tecido verde com o logo em dourado */
@@ -420,4 +417,3 @@ html.lenis body {
 .livro-leader { flex: 1; border-bottom: 1px dotted rgba(54, 67, 57, .35); transform: translateY(-5px); min-width: 16px; }
 .livro-prancha { padding: 8px; background: #fbfaf4; box-shadow: 0 1px 0 rgba(54, 67, 57, .08), 0 10px 24px -14px rgba(27, 34, 29, .45); }
 
-.livro-rodape { position: sticky; bottom: -20px; margin-bottom: -20px; padding-bottom: 20px; background: linear-gradient(to bottom, transparent, var(--papel) 22px); }

@@ -58,7 +58,7 @@ export function Header() {
           <div className="relative z-10 flex items-center gap-3">
             <Link
               href="/reservar"
-              className={`pressionavel hidden h-11 items-center rounded-lg px-6 text-[12px] font-medium tracking-[0.16em] uppercase sm:inline-flex ${
+              className={`pressionavel hidden h-11 items-center rounded-md px-6 text-[12px] font-medium tracking-[0.16em] uppercase sm:inline-flex ${
                 sobreVerde ? "bg-dourado text-verde-noite hover:bg-dourado-claro" : "bg-verde text-marfim hover:bg-verde-claro"
               }`}
             >
@@ -69,7 +69,7 @@ export function Header() {
               aria-label={aberto ? "Fechar menu" : "Abrir menu"}
               aria-expanded={aberto}
               onClick={() => setAberto((v) => !v)}
-              className="pressionavel grid size-11 cursor-pointer place-items-center rounded-full border border-current/30 lg:hidden"
+              className="pressionavel grid size-11 cursor-pointer place-items-center rounded-md border border-current/30 lg:hidden"
             >
               <span className="relative block h-3 w-5">
                 <span className={`absolute left-0 h-px w-5 bg-current transition-transform duration-300 ${aberto ? "top-1.5 rotate-45" : "top-0"}`} />

@@ -43,7 +43,7 @@ export default function Page() {
                     <p className="mt-2 text-sm text-verde/60">Valores por diária.</p>
                   </div>
                   <div className="mt-8 flex flex-wrap items-center gap-6">
-                    <Link href={`/reservar?acomodacao=${ac.slug}`} className="pressionavel inline-flex h-12 items-center rounded-full bg-verde px-7 text-[15px] text-marfim hover:bg-verde-claro">
+                    <Link href={`/reservar?acomodacao=${ac.slug}`} className="pressionavel inline-flex h-12 items-center rounded-md bg-verde px-7 text-[15px] text-marfim hover:bg-verde-claro">
                       Fazer orçamento
                     </Link>
                     <Link href={`/acomodacoes/${ac.slug}`} className="text-[15px] text-verde underline decoration-dourado underline-offset-8 hover:decoration-2">
