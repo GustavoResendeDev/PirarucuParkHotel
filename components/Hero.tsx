@@ -53,7 +53,7 @@ export function Hero() {
             initial={{ opacity: 0, x: -12 }}
             animate={ativo ? { opacity: 1, x: 0 } : undefined}
             transition={{ delay: 0.1, duration: 0.6, ease: EASE }}
-            className="flex items-center gap-3 text-[12px] font-medium tracking-[0.28em] text-dourado uppercase"
+            className="flex items-center gap-3 text-[12px] font-medium tracking-[0.2em] whitespace-nowrap text-dourado uppercase sm:tracking-[0.28em]"
           >
             <span className="h-px w-8 bg-dourado/70" />
             Descanse · Pesque · Recarregue

@@ -17,9 +17,15 @@
   --color-marfim: #f1f5ef;
 
   --font-display: var(--font-marcellus), "Marcellus", Georgia, serif;
-  --font-sans: var(--font-jost), "Jost", system-ui, sans-serif;
+  --font-sans: var(--font-sf);
 
   --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* SF da Apple pela fonte do sistema (a licença não permite hospedar os arquivos):
+   SF Pro em iPhone, iPad e Mac; Segoe UI no Windows; Roboto no Android. */
+:root {
+  --font-sf: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 @layer base {
@@ -517,7 +523,7 @@ html[data-intro] { overflow: hidden; }
   right: max(16px, env(safe-area-inset-right));
   bottom: max(20px, env(safe-area-inset-bottom));
   padding: .7rem 1.1rem;
-  font: 500 .72rem/1 var(--font-jost), system-ui, sans-serif;
+  font: 500 .72rem/1 var(--font-sf);
   letter-spacing: .28em;
   text-transform: uppercase;
   color: var(--color-creme);

@@ -39,7 +39,7 @@ export function BuscaRapida({ variante = "escuro" }: { variante?: "escuro" | "cl
         if (acomodacao) q.set("acomodacao", acomodacao);
         router.push(`/reservar?${q}`);
       }}
-      className={`grid grid-cols-2 gap-x-5 gap-y-5 rounded-2xl p-5 text-left shadow-[0_24px_60px_-20px_rgba(0,0,0,.45)] md:p-6 lg:grid-cols-[1fr_1fr_1.15fr_1.15fr_auto] lg:items-end lg:gap-x-7 ${
+      className={`grid grid-cols-2 gap-x-5 gap-y-5 rounded-2xl p-5 text-left shadow-[0_24px_60px_-20px_rgba(0,0,0,.45)] md:p-6 lg:grid-cols-[1fr_1fr_1.15fr_1.15fr_auto] lg:items-end lg:gap-x-5 xl:gap-x-7 ${
         escuro ? "border border-dourado/25 bg-verde/85 backdrop-blur-xl" : "border border-verde/15 bg-areia-clara"
       }`}
       aria-label="Consultar disponibilidade"
@@ -107,7 +107,7 @@ export function BuscaRapida({ variante = "escuro" }: { variante?: "escuro" | "cl
       </label>
       <button
         type="submit"
-        className="pressionavel col-span-2 h-12 cursor-pointer rounded-md bg-dourado px-7 text-[13px] font-medium tracking-[0.14em] text-verde-noite uppercase hover:bg-dourado-claro lg:col-span-1"
+        className="pressionavel col-span-2 h-12 cursor-pointer rounded-md bg-dourado px-5 text-[13px] font-medium tracking-[0.1em] whitespace-nowrap text-verde-noite uppercase xl:px-7 xl:tracking-[0.14em] hover:bg-dourado-claro lg:col-span-1"
       >
         Ver disponibilidade
       </button>

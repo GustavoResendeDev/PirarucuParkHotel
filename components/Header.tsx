@@ -44,7 +44,7 @@ export function Header() {
           <Link href="/" aria-label="Pirarucu Park Hotel, início" className="relative z-10 block w-20 md:w-24" onClick={() => setAberto(false)}>
             <Logo cor={sobreVerde ? "dourado" : "verde"} className="w-full" />
           </Link>
-          <nav className="hidden items-center gap-8 text-[12px] font-medium tracking-[0.16em] uppercase lg:flex xl:gap-10" aria-label="Principal">
+          <nav className="hidden items-center gap-6 text-[12px] font-medium tracking-[0.12em] uppercase lg:flex xl:gap-9 xl:tracking-[0.16em]" aria-label="Principal">
             {LINKS.map((l) => {
               const ativo = l.href === path || (l.href !== "/" && !l.href.includes("#") && !!path?.startsWith(l.href));
               return (
@@ -58,7 +58,7 @@ export function Header() {
           <div className="relative z-10 flex items-center gap-3">
             <Link
               href="/reservar"
-              className={`pressionavel hidden h-11 items-center rounded-md px-6 text-[12px] font-medium tracking-[0.16em] uppercase sm:inline-flex ${
+              className={`pressionavel hidden h-11 items-center rounded-md px-5 text-[12px] font-medium tracking-[0.12em] whitespace-nowrap uppercase sm:inline-flex xl:px-6 xl:tracking-[0.16em] ${
                 sobreVerde ? "bg-dourado text-verde-noite hover:bg-dourado-claro" : "bg-verde text-marfim hover:bg-verde-claro"
               }`}
             >

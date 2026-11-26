@@ -71,7 +71,7 @@ export async function desenharTicket(p: Pedido, emitidoEm = new Date()): Promise
   const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   const logo = await carregar(`${base}/marca/logo-dourado.webp`);
   const serif = familia("--font-marcellus", "Georgia, serif");
-  const sans = familia("--font-jost", "system-ui, sans-serif");
+  const sans = familia("--font-sf", "system-ui, sans-serif");
 
   const R_RODAPE = 250;
   const pintar = (A: number) => {

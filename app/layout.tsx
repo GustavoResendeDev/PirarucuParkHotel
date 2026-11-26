@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Jost, Marcellus } from "next/font/google";
+import { Marcellus } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Header } from "@/components/Header";
@@ -10,7 +10,6 @@ import { Movimento } from "@/components/Movimento";
 import { HOTEL } from "@/lib/data";
 
 const marcellus = Marcellus({ subsets: ["latin"], weight: "400", variable: "--font-marcellus", display: "swap" });
-const jost = Jost({ subsets: ["latin"], weight: ["300", "400", "500"], variable: "--font-jost", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://gustavoresendedev.github.io"), // trocar quando houver domínio próprio
@@ -40,7 +39,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${marcellus.variable} ${jost.variable}`} suppressHydrationWarning>
+    <html lang="pt-BR" className={marcellus.variable} suppressHydrationWarning>
       <head>
         {/* marca que o JavaScript rodou: só então o conteúdo pode começar escondido para animar */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
