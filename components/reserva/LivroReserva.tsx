@@ -168,6 +168,8 @@ export function LivroReserva() {
       return n;
     });
     const veio = !!(params.get("entrada") || params.get("acomodacao"));
+    // link para outra seção da página (ex.: /reservar#day-use): não abre o livro, que rolaria a tela de volta
+    if (window.location.hash && !veio) return;
     let id = 0;
     const tentar = () => {
       id = document.querySelector("[data-preloader]") ? window.setTimeout(tentar, 200) : window.setTimeout(() => irPara(veio ? 2 : 1, false), 900);

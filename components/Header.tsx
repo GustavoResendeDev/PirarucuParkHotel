@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Logo } from "./Logo";
 import { HOTEL } from "@/lib/data";
 
@@ -20,6 +20,22 @@ export function Header() {
   const [oculto, setOculto] = useState(false);
   const [solido, setSolido] = useState(false);
   const [aberto, setAberto] = useState(false);
+
+  // menu aberto no celular: a página de trás não rola (nem pela rolagem suave)
+  useEffect(() => {
+    if (!aberto) return;
+    const html = document.documentElement;
+    const lenis = (window as unknown as { __lenis?: { stop: () => void; start: () => void } }).__lenis;
+    html.style.overflow = "hidden";
+    lenis?.stop();
+    const esc = (e: KeyboardEvent) => e.key === "Escape" && setAberto(false);
+    window.addEventListener("keydown", esc);
+    return () => {
+      html.style.overflow = "";
+      lenis?.start();
+      window.removeEventListener("keydown", esc);
+    };
+  }, [aberto]);
   const path = usePathname();
   const escuroNoTopo = path === "/" || !!path?.startsWith("/pesca") || !!path?.startsWith("/acomodacoes");
 
