@@ -40,6 +40,10 @@ const jsonLd = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className={`${marcellus.variable} ${jost.variable}`} suppressHydrationWarning>
+      <head>
+        {/* marca que o JavaScript rodou: só então o conteúdo pode começar escondido para animar */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body className="min-h-dvh overflow-x-clip">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <Preloader />

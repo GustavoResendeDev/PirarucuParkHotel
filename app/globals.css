@@ -47,6 +47,8 @@
   :focus-visible {
     outline: 2px solid var(--color-dourado);
     outline-offset: 3px;
+    box-shadow: 0 0 0 5px rgba(27, 34, 29, 0.55);
+    transition: none;
     border-radius: 4px;
   }
   input[type="date"]::-webkit-calendar-picker-indicator {
@@ -88,6 +90,21 @@ html.lenis body {
 }
 .lenis.lenis-stopped {
   overflow: hidden;
+}
+
+/* sem JavaScript (bloqueado ou com erro), nada fica escondido à espera de uma animação,
+   e a abertura em vídeo não cobre a página */
+html:not(.js) [data-preloader] { display: none; }
+html:not(.js) .revela,
+html:not(.js) .rolo-queda,
+html:not(.js) [style*="opacity:0"],
+html:not(.js) .fluido-letra,
+html:not(.js) .fluido-linha {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  -webkit-mask: none !important;
+  mask: none !important;
 }
 
 /* ---------- Letras fluidas (components/TextoFluido.tsx) ---------- */
