@@ -52,21 +52,21 @@ export function Hero() {
           <motion.p
             initial={{ opacity: 0, x: -12 }}
             animate={ativo ? { opacity: 1, x: 0 } : undefined}
-            transition={{ delay: 0.1, duration: 0.8, ease: EASE }}
+            transition={{ delay: 0.1, duration: 0.6, ease: EASE }}
             className="flex items-center gap-3 text-[12px] font-medium tracking-[0.28em] text-dourado uppercase"
           >
             <span className="h-px w-8 bg-dourado/70" />
             Descanse · Pesque · Recarregue
           </motion.p>
           <h1 className="font-display mt-6 text-[clamp(2.5rem,6.4vw,5.4rem)] leading-[1.04] text-balance">
-            <TextoFluido texto="Seu refúgio" ativo={ativo} atraso={250} passo={38} className="block" />
-            <TextoFluido texto="à beira do lago" ativo={ativo} atraso={520} passo={38} className="block" />
-            <TextoFluido inteiro texto={`em ${HOTEL.cidade}, Goiás`} ativo={ativo} atraso={1050} className="texto-dourado pt-[0.25em] pb-[0.2em] text-[0.62em] tracking-wide" />
+            <TextoFluido texto="Seu refúgio" ativo={ativo} atraso={150} passo={30} className="block" />
+            <TextoFluido texto="à beira do lago" ativo={ativo} atraso={380} passo={30} className="block" />
+            <TextoFluido inteiro texto={`em ${HOTEL.cidade}, Goiás`} ativo={ativo} atraso={750} className="texto-dourado pt-[0.25em] pb-[0.2em] text-[0.62em] tracking-wide" />
           </h1>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={ativo ? { opacity: 1, y: 0 } : undefined}
-            transition={{ delay: 1.45, duration: 0.8, ease: EASE }}
+            transition={{ delay: 0.55, duration: 0.6, ease: EASE }}
             className="mt-6 max-w-md text-base leading-relaxed text-marfim/85 md:text-lg"
           >
             Café da manhã e piscinas aquecidas inclusos, pesca esportiva 24 horas para hóspedes e o lago a poucos passos do quarto.
@@ -74,7 +74,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={ativo ? { opacity: 1, y: 0 } : undefined}
-            transition={{ delay: 1.6, duration: 0.8, ease: EASE }}
+            transition={{ delay: 0.65, duration: 0.6, ease: EASE }}
             className="mt-9 flex flex-wrap gap-3"
           >
             <Link href="/acomodacoes" className="pressionavel inline-flex h-12 items-center rounded-md bg-dourado px-7 text-[13px] font-medium tracking-[0.14em] text-verde-noite uppercase hover:bg-dourado-claro">
@@ -91,9 +91,9 @@ export function Hero() {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0, y: 28 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={ativo ? { opacity: 1, y: 0 } : undefined}
-        transition={{ delay: 1.2, duration: 0.9, ease: EASE }}
+        transition={{ delay: 0.75, duration: 0.6, ease: EASE }}
         className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-6 md:px-8 lg:absolute lg:inset-x-0 lg:bottom-10 lg:pb-0"
       >
         <BuscaRapida />

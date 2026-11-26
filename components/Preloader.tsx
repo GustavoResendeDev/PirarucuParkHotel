@@ -12,7 +12,7 @@ const VERTICAL = "(max-aspect-ratio: 1/1)";
 const SAIDA_MS = 700; // duração do fade de saída
 const ESTATICO_MIN_MS = 900; // tempo mínimo do logo parado (reduzir movimento, economia de dados, falha)
 const SEM_PLAY_MS = 2500; // se o vídeo não começar nesse tempo, mostra o logo parado
-const TETO_MS = 9000; // nunca segura o visitante mais que isso
+const TETO_MS = 6500; // nunca segura o visitante mais que isso
 
 /**
  * Roda antes do React (vem no HTML estático): decide se a abertura aparece e já dá play no vídeo,

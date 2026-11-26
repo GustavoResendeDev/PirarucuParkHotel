@@ -111,12 +111,12 @@ html:not(.js) .fluido-linha {
 .fluido-letra {
   display: inline-block;
   opacity: 0;
-  filter: blur(14px);
+  filter: blur(8px);
   transform: translate3d(0, 0.42em, 0);
   transition:
-    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms),
-    filter 1.1s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms),
-    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms);
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms),
+    filter 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0ms);
 }
 .fluido[data-on] .fluido-letra { opacity: 1; filter: blur(0); transform: none; }
 .fluido-linha {
@@ -140,12 +140,16 @@ html:not(.js) .fluido-linha {
   .fluido-letra, .fluido-linha { opacity: 1; filter: none; transform: none; transition: none; -webkit-mask: none; mask: none; }
 }
 
+/* menos movimento, não zero: tudo vira um esmaecer curto e nada fica em loop */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
-    transition-duration: 0.001ms !important;
+    animation-duration: 0.18s !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.18s !important;
+    transition-delay: 0s !important;
   }
 }
 
@@ -339,7 +343,7 @@ html:not(.js) .fluido-linha {
   transform-style: preserve-3d;
   transform-origin: 0 50%;
   transform: rotateY(0deg);
-  transition: transform 1.05s cubic-bezier(.6, .05, .28, 1);
+  transition: transform .75s cubic-bezier(.6, .05, .28, 1);
 }
 .livro-folha[data-virada="1"] { transform: rotateY(-180deg); }
 .livro-palco[data-modo="unico"] .livro-folha { left: 0; width: 100%; }
@@ -358,7 +362,7 @@ html:not(.js) .fluido-linha {
   inset: 0;
   pointer-events: none;
   background: linear-gradient(to right, rgba(27, 34, 29, .38), rgba(27, 34, 29, .06) 60%, rgba(255, 255, 255, .08));
-  animation: livro-sombra 1.05s ease-in-out both;
+  animation: livro-sombra .75s ease-in-out both;
 }
 .livro-folha[data-girando="1"] .livro-verso::after { background: linear-gradient(to left, rgba(27, 34, 29, .38), rgba(27, 34, 29, .06) 60%, rgba(255, 255, 255, .08)); }
 @keyframes livro-sombra {

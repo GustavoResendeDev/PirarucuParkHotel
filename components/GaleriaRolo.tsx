@@ -334,7 +334,7 @@ function RoloCompleto() {
               <button type="button" onClick={() => abrir(i)} className="group block w-full cursor-pointer text-left">
                 <span className="rolo-quadro">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={url(r.src)} alt="" loading="lazy" decoding="async" className="transition-transform duration-700 ease-[var(--ease-premium)] group-hover:scale-[1.05]" />
+                  <img src={url(r.src)} alt="" loading="lazy" decoding="async" className="transition-transform duration-500 ease-[var(--ease-premium)] group-hover:scale-[1.03]" />
                 </span>
                 <span className="sr-only">Ampliar: {r.alt}</span>
                 <span aria-hidden="true" className="mt-2 flex items-center justify-between text-[11px] tracking-[0.12em] text-dourado uppercase tabular-nums">

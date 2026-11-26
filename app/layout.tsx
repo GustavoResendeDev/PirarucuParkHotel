@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFlutuante } from "@/components/WhatsAppFlutuante";
 import { Preloader } from "@/components/Preloader";
+import { Movimento } from "@/components/Movimento";
 import { HOTEL } from "@/lib/data";
 
 const marcellus = Marcellus({ subsets: ["latin"], weight: "400", variable: "--font-marcellus", display: "swap" });
@@ -46,12 +47,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-dvh overflow-x-clip">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <Movimento>
         <Preloader />
         <SmoothScroll />
         <Header />
         <main>{children}</main>
         <Footer />
         <WhatsAppFlutuante />
+        </Movimento>
       </body>
     </html>
   );

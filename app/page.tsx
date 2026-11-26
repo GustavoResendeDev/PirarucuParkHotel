@@ -68,7 +68,7 @@ export default function Home() {
                 <article className="group flex h-full flex-col overflow-hidden rounded-xl bg-verde shadow-[0_14px_40px_-22px_rgba(27,34,29,.45)] transition-shadow duration-500 hover:shadow-[0_22px_50px_-20px_rgba(27,34,29,.5)]">
                   <Link href={`/acomodacoes/${ac.slug}`} className="block overflow-hidden" tabIndex={-1} aria-hidden="true">
                     <Parallax distancia={22} className="aspect-[4/3]">
-                      <Foto src={ac.fotos[0]} alt="" paleta={ac.paleta} className="size-full transition-transform duration-[1.2s] ease-[var(--ease-premium)] group-hover:scale-105" />
+                      <Foto src={ac.fotos[0]} alt="" paleta={ac.paleta} className="size-full transition-transform duration-500 ease-[var(--ease-premium)] group-hover:scale-[1.03]" />
                     </Parallax>
                   </Link>
                   <div className="flex flex-1 flex-col items-center px-6 pt-7 pb-8 text-center">
@@ -106,7 +106,7 @@ export default function Home() {
                 <Link href={href} className="group block text-center">
                   <div className="relative">
                     <Parallax distancia={26} className="aspect-[4/3] rounded-xl sm:aspect-[5/4]">
-                      <Foto src={src} alt={alt} className="size-full transition-transform duration-[1.2s] ease-[var(--ease-premium)] group-hover:scale-105" />
+                      <Foto src={src} alt={alt} className="size-full transition-transform duration-500 ease-[var(--ease-premium)] group-hover:scale-[1.03]" />
                     </Parallax>
                     <span className="absolute bottom-0 left-1/2 grid size-16 -translate-x-1/2 translate-y-1/2 place-items-center rounded-full border border-dourado/40 bg-marfim text-verde shadow-[0_8px_24px_-8px_rgba(27,34,29,.4)] transition-colors duration-300 group-hover:bg-verde group-hover:text-dourado">
                       <Icone className="size-8" />

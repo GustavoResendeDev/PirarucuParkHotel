@@ -91,7 +91,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
       <Link href={`/acomodacoes/${prox.slug}`} className="group block bg-verde py-20 text-center">
         <span className="text-[15px] text-dourado">Próxima acomodação</span>
-        <span className="font-display mt-3 block text-5xl text-marfim transition-transform duration-500 ease-[var(--ease-premium)] group-hover:translate-x-3 md:text-7xl">{prox.nome}</span>
+        <span className="font-display mt-3 block text-5xl text-marfim transition-transform duration-300 ease-[var(--ease-premium)] group-hover:translate-x-2 md:text-7xl">{prox.nome}</span>
       </Link>
     </div>
   );

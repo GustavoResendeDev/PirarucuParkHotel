@@ -39,7 +39,7 @@ import { IconeWhatsApp } from "../WhatsAppFlutuante";
  * página (ou página dupla) t-1.
  */
 
-const DURACAO = 1050;
+const DURACAO = 750; // igual ao transition de .livro-folha em globals.css
 const ATRASO = 140;
 
 type PagId = "sumario" | "datas" | "hospedes" | "quarto" | "pesca" | "dados" | "recibo" | "envio";

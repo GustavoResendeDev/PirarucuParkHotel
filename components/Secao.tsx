@@ -1,15 +1,14 @@
 import type { ReactNode } from "react";
-import { Reveal } from "./Motion";
 import { TextoFluido } from "./TextoFluido";
 
 /** Cabeçalho de seção centralizado: título e o ornamento com o peixe da marca. */
 export function CabecalhoSecao({ titulo, texto, claro = false }: { titulo: string; texto?: ReactNode; claro?: boolean }) {
   return (
-    <Reveal y={24} className="mx-auto max-w-2xl text-center">
+    <div className="mx-auto max-w-2xl text-center">
       <h2 className={`font-display text-[clamp(2rem,4.2vw,3.2rem)] leading-[1.1] text-balance ${claro ? "text-marfim" : "text-verde"}`}><TextoFluido texto={titulo} /></h2>
       <Ornamento className={`mx-auto mt-5 ${claro ? "text-dourado" : "text-dourado-escuro"}`} />
       {texto && <p className={`mx-auto mt-5 max-w-xl ${claro ? "text-marfim/75" : "text-verde/75"}`}>{texto}</p>}
-    </Reveal>
+    </div>
   );
 }
 

@@ -35,7 +35,7 @@ export function Header() {
     <>
       <motion.header
         animate={{ y: oculto ? "-110%" : "0%" }}
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${sobreVerde ? "text-marfim" : "text-verde"} ${
           solido && !aberto ? "bg-verde/90 shadow-[0_1px_0_rgba(200,178,138,.2)] backdrop-blur-xl" : ""
         }`}
@@ -72,8 +72,8 @@ export function Header() {
               className="pressionavel grid size-11 cursor-pointer place-items-center rounded-md border border-current/30 lg:hidden"
             >
               <span className="relative block h-3 w-5">
-                <span className={`absolute left-0 h-px w-5 bg-current transition-transform duration-300 ${aberto ? "top-1.5 rotate-45" : "top-0"}`} />
-                <span className={`absolute left-0 h-px w-5 bg-current transition-transform duration-300 ${aberto ? "top-1.5 -rotate-45" : "top-3"}`} />
+                <span className={`absolute left-0 h-px w-5 bg-current top-1.5 transition-transform duration-300 ease-[var(--ease-premium)] ${aberto ? "rotate-45" : "-translate-y-1.5"}`} />
+                <span className={`absolute left-0 h-px w-5 bg-current top-1.5 transition-transform duration-300 ease-[var(--ease-premium)] ${aberto ? "-rotate-45" : "translate-y-1.5"}`} />
               </span>
             </button>
           </div>
@@ -86,12 +86,12 @@ export function Header() {
             initial={{ clipPath: "inset(0 0 100% 0)" }}
             animate={{ clipPath: "inset(0 0 0% 0)" }}
             exit={{ clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
+            transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
             className="fixed inset-0 z-40 flex flex-col justify-end bg-verde px-6 pt-28 pb-10 text-marfim lg:hidden"
           >
             <nav className="flex flex-col gap-3" aria-label="Menu">
               {[...LINKS.slice(1), { href: "/reservar", rotulo: "Reservar" }].map((l, i) => (
-                <motion.div key={l.href} initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.15 + i * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}>
+                <motion.div key={l.href} initial={{ y: 12, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.08 + i * 0.04, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
                   <Link href={l.href} onClick={() => setAberto(false)} className="font-display text-4xl">
                     {l.rotulo}
                   </Link>
